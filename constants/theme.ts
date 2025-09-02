@@ -8,66 +8,66 @@ export const generateTheme = (mode: ThemeMode): Theme => {
   if (mode === 'light') {
     return {
       background: {
-        primary: colors.primary100,      // Light cream background (main content area)
-        secondary: colors.primary200,    // Slightly darker cream (card backgrounds)
-        card: colors.primary200,         // Card backgrounds (grid buttons)
-        tertiary: colors.primary300,     // Medium orange (subtle accents)
-        quaternary: colors.primary400,   // Bright orange (highlights)
+        primary: colors.primary50,       // Deep chocolate brown (main content area)
+        secondary: colors.primary100,    // Rich brown (secondary background)
+        card: colors.primary200,         // Medium brown (card backgrounds)
+        tertiary: colors.secondary100,   // Rich teal (accent areas)
+        quaternary: colors.accent100,    // Goldenrod (highlights and CTAs)
       },
       text: {
-        primary: colors.warmGray900,     // Dark warm gray (main text)
-        secondary: colors.warmGray700,   // Medium warm gray (secondary text)
-        disabled: colors.warmGray400,    // Light warm gray (disabled text)
-        error: colors.red,               // Error text
-        success: colors.green,           // Success text
-        warning: colors.yellow,          // Warning text
-        tertiary: colors.warmGray900,    // Dark text on tertiary backgrounds
-        quaternary: colors.white,        // White text on quaternary backgrounds
+        primary: colors.white,           // White text on deep backgrounds
+        secondary: colors.white,         // White text for better contrast
+        disabled: colors.primary500,     // Very light brown (disabled text)
+        error: colors.maroon200,         // Medium warm red (error text)
+        success: colors.secondary200,    // Medium teal (success text)
+        warning: colors.accent200,       // Medium gold (warning text)
+        tertiary: colors.white,          // White text on dark backgrounds
+        quaternary: colors.white,        // White text on bright backgrounds
       },
       icon: {
-        primary: colors.primary600,      // Vibrant orange (header icons)
-        secondary: colors.primary700,    // Dark orange (secondary icons)
-        tertiary: colors.warmGray700,   // Medium gray (tertiary icons)
+        primary: colors.accent200,       // Medium gold (primary icons)
+        secondary: colors.secondary200,  // Medium teal (secondary icons)
+        tertiary: colors.tertiary200,    // Medium purple (tertiary icons)
         quaternary: colors.white,        // White (quaternary icons)
-        disabled: colors.warmGray400,    // Light gray (disabled icons)
-        error: colors.red,               // Error icons
-        success: colors.green,           // Success icons
-        warning: colors.yellow,          // Warning icons
+        disabled: colors.primary500,     // Very light brown (disabled icons)
+        error: colors.maroon200,         // Medium warm red (error icons)
+        success: colors.secondary200,    // Medium teal (success icons)
+        warning: colors.accent200,       // Medium gold (warning icons)
       },
       border: {
-        primary: colors.primary400,      // Bright orange (primary borders)
-        secondary: colors.primary300,    // Medium orange (secondary borders)
-        error: colors.red,               // Error borders
-        tertiary: colors.warmGray300,    // Light gray (tertiary borders)
-        quaternary: colors.primary500,   // Deep orange (quaternary borders)
+        primary: colors.accent200,       // Medium gold (primary borders)
+        secondary: colors.secondary200,  // Medium teal (secondary borders)
+        error: colors.maroon200,         // Medium warm red (error borders)
+        tertiary: colors.primary300,     // Light brown (tertiary borders)
+        quaternary: colors.accent200,    // Medium gold (quaternary borders)
       },
       button: {
         primary: {
-          background: colors.primary600, // Vibrant orange (main action buttons)
-          text: colors.white,            // White text on orange
+          background: colors.accent100,  // Goldenrod (main action buttons)
+          text: colors.white,            // White text
         },
         secondary: {
-          background: colors.white,      // White background (secondary buttons)
-          text: colors.primary700,       // Dark orange text
+          background: colors.secondary100, // Rich teal (secondary buttons)
+          text: colors.white,            // White text
         },
         tertiary: {
-          background: colors.primary200, // Light cream (grid buttons)
-          text: colors.warmGray900,      // Dark text on cream
+          background: colors.tertiary100, // Rich purple (tertiary buttons)
+          text: colors.white,            // White text
         },
         quaternary: {
-          background: colors.primary400, // Bright orange (highlight buttons)
+          background: colors.quaternary100, // Rich orange (quaternary buttons)
           text: colors.white,            // White text
         },
         disabled: {
-          background: colors.warmGray200, // Light gray (disabled)
-          text: colors.warmGray400,      // Medium gray text
+          background: colors.primary300, // Light brown (disabled)
+          text: colors.primary500,       // Very light brown text
         },
       },
       status: {
-        success: colors.green,           // Success status
-        error: colors.red,               // Error status
-        warning: colors.yellow,          // Warning status
-        info: colors.blue,               // Info status
+        success: colors.secondary200,    // Medium teal (success status)
+        error: colors.maroon200,         // Medium warm red (error status)
+        warning: colors.accent200,       // Medium gold (warning status)
+        info: colors.quaternary200,      // Medium orange (info status)
       },
       data: {
         // Primary data colors (8 colors - perfect for most visualizations)
@@ -109,76 +109,76 @@ export const generateTheme = (mode: ThemeMode): Theme => {
         },
         // Data visualization background colors
         background: {
-          primary: colors.primary100,    // Light cream (matches main theme)
-          secondary: colors.primary200,  // Slightly darker cream
-          grid: colors.warmGray200,      // Light gray grid lines
-          axis: colors.warmGray400,      // Medium gray axis lines
+          primary: colors.primary50,     // Deep chocolate brown (matches main theme)
+          secondary: colors.primary100,  // Rich brown
+          grid: colors.primary300,       // Light brown grid lines
+          axis: colors.primary400,       // Pale brown axis lines
         },
       },
     };
   } else {
     return {
       background: {
-        primary: colors.black900,        // Almost black (main background)
-        secondary: colors.maroon900,     // Dark maroon (secondary background)
-        card: colors.black800,           // Dark gray (card backgrounds)
-        tertiary: colors.coolGray800,    // Cool dark gray (tertiary)
-        quaternary: colors.coolGray700,  // Medium cool gray (quaternary)
+        primary: '#0A0E1A',             // Deep navy blue (main background)
+        secondary: '#1A2332',           // Rich dark blue (secondary background)
+        card: '#2A3441',                // Medium dark blue (card backgrounds)
+        tertiary: '#1E3A5F',            // Deep blue (tertiary)
+        quaternary: '#2563EB',          // Bright blue (quaternary)
       },
       text: {
         primary: colors.white,           // White (main text)
-        secondary: colors.coolGray100,   // Light cool gray (secondary text)
-        disabled: colors.coolGray400,    // Medium cool gray (disabled)
-        error: colors.red,               // Error text
-        success: colors.green,           // Success text
-        warning: colors.yellow,          // Warning text
+        secondary: '#E0E7FF',           // Light blue-white (secondary text)
+        disabled: '#94A3B8',            // Medium blue-gray (disabled)
+        error: '#F87171',               // Light red (error text)
+        success: '#34D399',             // Light green (success text)
+        warning: '#FBBF24',             // Light amber (warning text)
         tertiary: colors.white,          // White (tertiary text)
         quaternary: colors.white,        // White (quaternary text)
       },
       icon: {
-        primary: colors.maroon600,       // Maroon (primary icons)
-        secondary: colors.maroon500,     // Light maroon (secondary icons)
-        tertiary: colors.indigo,         // Indigo (tertiary icons)
-        quaternary: colors.purple,       // Purple (quaternary icons)
-        disabled: colors.coolGray400,    // Medium gray (disabled)
-        error: colors.red,               // Error icons
-        success: colors.green,           // Success icons
-        warning: colors.yellow,          // Warning icons
+        primary: '#60A5FA',             // Light blue (primary icons)
+        secondary: '#34D399',           // Light green (secondary icons)
+        tertiary: '#A78BFA',            // Light purple (tertiary icons)
+        quaternary: colors.white,        // White (quaternary icons)
+        disabled: '#94A3B8',            // Medium blue-gray (disabled)
+        error: '#F87171',               // Light red (error icons)
+        success: '#34D399',             // Light green (success icons)
+        warning: '#FBBF24',             // Light amber (warning icons)
       },
       border: {
-        primary: colors.maroon500,       // Light maroon (primary borders)
-        secondary: colors.maroon600,     // Maroon (secondary borders)
-        error: colors.red,               // Error borders
-        tertiary: colors.indigo,         // Indigo (tertiary borders)
-        quaternary: colors.purple,       // Purple (quaternary borders)
+        primary: '#60A5FA',             // Light blue (primary borders)
+        secondary: '#34D399',           // Light green (secondary borders)
+        error: '#F87171',               // Light red (error borders)
+        tertiary: '#94A3B8',            // Medium blue-gray (tertiary borders)
+        quaternary: '#60A5FA',          // Light blue (quaternary borders)
       },
       button: {
         primary: {
-          background: colors.maroon600,  // Maroon (primary buttons)
+          background: '#2563EB',         // Bright blue (primary buttons)
           text: colors.white,            // White text
         },
         secondary: {
-          background: colors.black800,   // Dark gray (secondary buttons)
-          text: colors.maroon300,        // Light maroon text
+          background: '#059669',         // Dark green (secondary buttons)
+          text: colors.white,            // White text
         },
         tertiary: {
-          background: colors.indigo,     // Indigo (tertiary buttons)
+          background: '#7C3AED',         // Dark purple (tertiary buttons)
           text: colors.white,            // White text
         },
         quaternary: {
-          background: colors.purple,     // Purple (quaternary buttons)
+          background: '#DC2626',         // Dark red (quaternary buttons)
           text: colors.white,            // White text
         },
         disabled: {
-          background: colors.coolGray700, // Medium gray (disabled)
-          text: colors.coolGray400,      // Light gray text
+          background: '#374151',         // Dark gray (disabled)
+          text: '#94A3B8',               // Medium blue-gray text
         },
       },
       status: {
-        success: colors.green,           // Success status
-        error: colors.red,               // Error status
-        warning: colors.yellow,          // Warning status
-        info: colors.blue,               // Info status
+        success: colors.secondary200,    // Medium teal (success status)
+        error: colors.maroon200,         // Medium warm red (error status)
+        warning: colors.accent200,       // Medium gold (warning status)
+        info: colors.quaternary200,      // Medium orange (info status)
       },
       data: {
         // Primary data colors (8 colors - perfect for most visualizations)
@@ -220,10 +220,10 @@ export const generateTheme = (mode: ThemeMode): Theme => {
         },
         // Data visualization background colors
         background: {
-          primary: colors.black900,      // Almost black (matches main theme)
-          secondary: colors.black800,    // Dark gray
-          grid: colors.coolGray700,      // Medium gray grid lines
-          axis: colors.coolGray500,      // Light gray axis lines
+          primary: '#0A0E1A',           // Deep navy blue (matches main theme)
+          secondary: '#1A2332',         // Rich dark blue
+          grid: '#374151',              // Dark gray grid lines
+          axis: '#6B7280',              // Medium gray axis lines
         },
       },
     };

@@ -1,9 +1,11 @@
-import { ThemedText } from '@/components/ui/ThemedText/ThemedText';
+import { ThemedBengaliText } from '@/components/ui/ThemedBengaliText/ThemedBengaliText';
+import { ThemedCard } from '@/components/ui/ThemedCard/ThemedCard';
 import { ThemedView } from '@/components/ui/ThemedView/ThemedView';
+import { SIZES } from '@/constants/sizes';
 import { useTheme } from '@/hooks/useTheme';
 import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 interface Verse {
   verseNumber: string;
@@ -33,54 +35,47 @@ export default function VerseReader({
   return (
     <ThemedView style={styles.container}>
       {/* Verse Display */}
-      <ThemedView style={styles.verseCard}>
+      <ThemedCard variant="card" style={styles.verseCard}>
         <ThemedView style={styles.verseHeader}>
-          <ThemedView style={styles.verseNumberContainer}>
-            <ThemedText style={styles.verseNumber}>
+          <ThemedView style={[styles.verseNumberContainer, { backgroundColor: theme.button.primary.background }]}>
+            <ThemedBengaliText style={{color: theme.button.primary.text}} size="title">
               {verse.verseNumber}
-            </ThemedText>
+            </ThemedBengaliText>
           </ThemedView>
           
           <ThemedView style={styles.speakerContainer}>
-            <Ionicons name="person-outline" size={16} color="#8B4513" />
-            <ThemedText style={styles.speaker}>
+            <Ionicons name="person-outline" size={SIZES.icon.sm} color={theme.icon.secondary} />
+            <ThemedBengaliText fontFamily='mahinSameya' variant="primary" size="small" style={styles.speaker}>
               {verse.speaker}
-            </ThemedText>
+            </ThemedBengaliText>
           </ThemedView>
         </ThemedView>
 
         {showBengali && (
           <ThemedView style={styles.verseSection}>
-            <ThemedView style={styles.sectionHeader}>
-              <ThemedText style={styles.sectionTitle}>
-                বাংলা
-              </ThemedText>
-            </ThemedView>
-            <ThemedText style={styles.bengaliText}>
+        
+            <ThemedBengaliText fontFamily='benSen' variant="primary" size="xxl" style={styles.bengaliText}>
               {verse.bengali}
-            </ThemedText>
+            </ThemedBengaliText>
             
             {/* Audio Button */}
-            <TouchableOpacity style={styles.audioButton}>
-              <Ionicons name="play" size={20} color="#FF6B35" />
-              <Ionicons name="play" size={20} color="#FF6B35" style={{ marginLeft: -8 }} />
-            </TouchableOpacity>
+        
           </ThemedView>
         )}
 
         {showTranslation && (
           <ThemedView style={styles.verseSection}>
             <ThemedView style={styles.sectionHeader}>
-              <ThemedText style={styles.sectionTitle}>
+              <ThemedBengaliText variant="primary" size="title" style={styles.sectionTitle}>
                 অনুবাদ
-              </ThemedText>
+              </ThemedBengaliText>
             </ThemedView>
-            <ThemedText style={styles.translationText}>
+            <ThemedBengaliText fontFamily='benSen' variant="primary" size="large" style={styles.translationText}>
               {verse.translation}
-            </ThemedText>
+            </ThemedBengaliText>
           </ThemedView>
         )}
-      </ThemedView>
+      </ThemedCard>
     </ThemedView>
   );
 }
@@ -90,37 +85,24 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   verseCard: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 12,
-    padding: 20,
-    marginBottom: 16,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    marginBottom: SIZES.spacing.lg,
   },
   verseHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 16,
+    marginBottom: SIZES.spacing.lg,
   },
   verseNumberContainer: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    backgroundColor: '#FF6B35',
+    width: SIZES.icon.xxl,
+    height: SIZES.icon.xxl,
+    borderRadius: SIZES.radius.round,
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 12,
+    marginRight: SIZES.spacing.md,
   },
   verseNumber: {
-    fontSize: 16,
+    fontSize: SIZES.lg,
     fontWeight: 'bold',
-    color: '#FFFFFF',
   },
   speakerContainer: {
     flexDirection: 'row',
@@ -128,42 +110,36 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   speaker: {
-    fontSize: 14,
-    color: '#8B4513',
-    marginLeft: 8,
+    fontSize: SIZES.md,
+    marginLeft: SIZES.spacing.sm,
   },
   verseSection: {
-    marginBottom: 16,
+    marginBottom: SIZES.spacing.lg,
   },
   sectionHeader: {
-    marginBottom: 8,
+    marginBottom: SIZES.spacing.sm,
   },
   sectionTitle: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#8B4513',
+   textAlign: 'center',
   },
   bengaliText: {
-    fontSize: 16,
-    lineHeight: 24,
-    color: '#8B4513',
-    textAlign: 'left',
-    marginBottom: 12,
+   
+    textAlign: 'center',
+    marginBottom: SIZES.spacing.md,
+    alignItems: 'center',
+    alignSelf: 'center',
   },
   translationText: {
-    fontSize: 15,
-    lineHeight: 22,
-    color: '#A0522D',
-    textAlign: 'left',
+  
+    textAlign: 'center',
   },
   audioButton: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    backgroundColor: '#F5E6D3',
-    borderRadius: 8,
+    paddingVertical: SIZES.spacing.sm,
+    paddingHorizontal: SIZES.spacing.lg,
+    borderRadius: SIZES.radius.md,
     alignSelf: 'flex-start',
   },
 });

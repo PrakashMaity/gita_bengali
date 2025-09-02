@@ -1,3 +1,4 @@
+import { ThemedBengaliText } from '@/components/ui/ThemedBengaliText/ThemedBengaliText';
 import { ThemedCard } from '@/components/ui/ThemedCard/ThemedCard';
 import { ThemedView } from '@/components/ui/ThemedView/ThemedView';
 import { MenuItem } from '@/constants/menuData';
@@ -50,7 +51,27 @@ const Home = () => {
         contentContainerStyle={styles.scrollContent}
       >
       <ThemedCard variant='primary' style={styles.heroCard}>
-        <Image source={require('@/assets/images/Home/hero.png')} resizeMode='cover' style={styles.heroImage} />
+        <ThemedView style={styles.heroContainer}>
+          <Image source={require('@/assets/images/Home/hero.png')} resizeMode='cover' style={styles.heroImage} />
+          <ThemedView style={styles.textOverlay}>
+            <ThemedBengaliText 
+              variant="primary" 
+              size="large" 
+              fontFamily="begumZia"
+              style={styles.overlayText}
+            >
+              &ldquo;কর্মণ্যেবাধিকারের্তে মা ফলেষু কদাচন।
+            </ThemedBengaliText>
+            <ThemedBengaliText 
+              variant="primary" 
+              size="large" 
+              fontFamily="begumZia"
+              style={styles.overlayText}
+            >
+              মা কর্মফলহেতুর্ভূর্মা তে সংঘোস্ত্বকর্মণি॥&rdquo;
+            </ThemedBengaliText>
+          </ThemedView>
+        </ThemedView>
       </ThemedCard>
 
      
@@ -111,10 +132,34 @@ const styles = StyleSheet.create({
     margin: 16,
     marginBottom: 8,
   },
+  heroContainer: {
+    position: 'relative',
+    borderRadius: 8,
+    overflow: 'hidden',
+  },
   heroImage: {
     width: '100%',
     height: 200,
-    borderRadius: 8,
+  },
+  textOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  overlayText: {
+    textAlign: 'center',
+    marginBottom: 8,
+    lineHeight: 28,
+    color: '#FFFFFF',
+    textShadowColor: 'rgba(0, 0, 0, 0.8)',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 3,
   },
   scrollView: {
     flex: 1,

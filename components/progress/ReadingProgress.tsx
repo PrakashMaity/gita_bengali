@@ -1,5 +1,7 @@
-import { ThemedText } from '@/components/ui/ThemedText/ThemedText';
+import { ThemedBengaliText } from '@/components/ui/ThemedBengaliText/ThemedBengaliText';
+import { ThemedCard } from '@/components/ui/ThemedCard/ThemedCard';
 import { ThemedView } from '@/components/ui/ThemedView/ThemedView';
+import { SIZES } from '@/constants/sizes';
 import { useTheme } from '@/hooks/useTheme';
 import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -89,7 +91,7 @@ export default function ReadingProgress({
       delete allProgress[chapterNumber];
       await AsyncStorage.setItem(PROGRESS_KEY, JSON.stringify(allProgress));
       setProgress(null);
-      onProgressUpdate?.(null);
+      onProgressUpdate?.(null as unknown as ReadingProgress);
       Alert.alert('প্রগতি রিসেট', 'এই অধ্যায়ের পড়ার প্রগতি রিসেট করা হয়েছে');
     } catch (error) {
       console.error('Error resetting progress:', error);
@@ -102,12 +104,7 @@ export default function ReadingProgress({
     return Math.round((progress.lastReadVerse / progress.totalVerses) * 100);
   };
 
-  const getProgressColor = () => {
-    const percentage = getProgressPercentage();
-    if (percentage >= 100) return theme.icon.success;
-    if (percentage >= 50) return theme.icon.warning;
-    return theme.icon.primary;
-  };
+
 
   const formatLastReadDate = () => {
     if (!progress) return '';
@@ -122,9 +119,9 @@ export default function ReadingProgress({
   if (loading) {
     return (
       <ThemedView style={styles.container}>
-        <ThemedText style={{ ...styles.loadingText, color: theme.text.secondary }}>
+        <ThemedBengaliText variant="secondary" size="small">
           লোড হচ্ছে...
-        </ThemedText>
+        </ThemedBengaliText>
       </ThemedView>
     );
   }
@@ -132,128 +129,111 @@ export default function ReadingProgress({
   if (!progress) {
     return (
       <ThemedView style={styles.container}>
-        <ThemedText style={{ ...styles.noProgressText, color: theme.text.tertiary }}>
+        <ThemedBengaliText variant="tertiary" size="small">
           এখনও পড়া শুরু হয়নি
-        </ThemedText>
+        </ThemedBengaliText>
       </ThemedView>
     );
   }
 
   return (
-    <ThemedView style={styles.container}>
+    <ThemedCard variant="card" style={styles.container}>
       <ThemedView style={styles.progressHeader}>
-        <ThemedText style={styles.progressTitle}>
+        <ThemedBengaliText fontFamily='mahinSameya' variant="primary" size="xl" style={styles.progressTitle}>
           পড়ার প্রগতি
-        </ThemedText>
+        </ThemedBengaliText>
         <TouchableOpacity onPress={resetProgress} style={styles.resetButton}>
-          <Ionicons name="refresh-outline" size={20} color="#8B4513" />
+          <Ionicons name="refresh-outline" size={SIZES.icon.md} color={theme.icon.primary} />
         </TouchableOpacity>
       </ThemedView>
 
-      <ThemedText style={styles.progressSubtitle}>
+      <ThemedBengaliText variant="secondary" size="medium" style={styles.progressSubtitle}>
         শেষ পড়া: {formatLastReadDate()}
-      </ThemedText>
+      </ThemedBengaliText>
 
       <ThemedView style={styles.progressBarContainer}>
-        <ThemedView style={styles.progressBar}>
+        <ThemedView style={[styles.progressBar, { backgroundColor: theme.background.secondary }]}>
           <ThemedView style={[
             styles.progressFill,
-            { width: `${getProgressPercentage()}%` }
+            { 
+              backgroundColor: theme.button.primary.background,
+              width: `${getProgressPercentage()}%` 
+            }
           ]} />
         </ThemedView>
         
-        <ThemedText style={styles.progressText}>
+        <ThemedBengaliText variant="primary" size="small" style={styles.progressText}>
           {progress.lastReadVerse}/{progress.totalVerses} ({getProgressPercentage()}%)
-        </ThemedText>
+        </ThemedBengaliText>
       </ThemedView>
 
       {progress.isCompleted && (
         <ThemedView style={styles.completionBadge}>
-          <Ionicons name="checkmark-circle" size={16} color="#059669" />
-          <ThemedText style={styles.completionText}>
+          <Ionicons name="checkmark-circle" size={SIZES.icon.sm} color={theme.icon.success} />
+          <ThemedBengaliText variant="success" size="small" style={styles.completionText}>
             অধ্যায় সম্পূর্ণ
-          </ThemedText>
+          </ThemedBengaliText>
         </ThemedView>
       )}
-    </ThemedView>
+    </ThemedCard>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#FFFFFF',
-    padding: 16,
-    borderRadius: 12,
-    marginBottom: 16,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    marginBottom: SIZES.spacing.lg,
   },
   loadingText: {
-    fontSize: 12,
+    fontSize: SIZES.sm,
     textAlign: 'center',
-    color: '#8B4513',
   },
   noProgressText: {
-    fontSize: 12,
+    fontSize: SIZES.sm,
     textAlign: 'center',
     fontStyle: 'italic',
-    color: '#A0522D',
   },
   progressHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 8,
+    marginBottom: SIZES.spacing.sm,
   },
   progressTitle: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#8B4513',
+  
   },
   progressSubtitle: {
-    fontSize: 14,
-    color: '#A0522D',
-    marginBottom: 12,
+    fontSize: SIZES.md,
+    marginBottom: SIZES.spacing.md,
   },
   resetButton: {
-    padding: 4,
+    padding: SIZES.spacing.xs,
   },
   progressBarContainer: {
-    marginBottom: 8,
+    marginBottom: SIZES.spacing.sm,
   },
   progressBar: {
-    height: 4,
-    borderRadius: 2,
-    backgroundColor: '#F5E6D3',
+    height: SIZES.spacing.xs,
+    borderRadius: SIZES.radius.xs,
     overflow: 'hidden',
-    marginBottom: 8,
+    marginBottom: SIZES.spacing.sm,
   },
   progressFill: {
     height: '100%',
-    backgroundColor: '#FF6B35',
-    borderRadius: 2,
+    borderRadius: SIZES.radius.xs,
   },
   progressText: {
-    fontSize: 12,
-    color: '#8B4513',
+    fontSize: SIZES.sm,
     textAlign: 'right',
   },
   completionBadge: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 8,
+    marginTop: SIZES.spacing.sm,
   },
   completionText: {
-    fontSize: 12,
+    fontSize: SIZES.sm,
     fontWeight: 'bold',
-    marginLeft: 8,
-    color: '#059669',
+    marginLeft: SIZES.spacing.sm,
   },
 });

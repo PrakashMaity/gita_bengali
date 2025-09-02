@@ -1,9 +1,9 @@
-import ThemedSafeAreaView from '@/components/ui/ThemedSafeAreaView/ThemedSafeAreaView';
-import { ThemedText } from '@/components/ui/ThemedText/ThemedText';
+import { ThemedBengaliText } from '@/components/ui/ThemedBengaliText/ThemedBengaliText';
 import { ThemedView } from '@/components/ui/ThemedView/ThemedView';
 
 import { ReadingProgress } from '@/components/progress';
 import { VerseReader } from '@/components/verseReader';
+import { SIZES } from '@/constants/sizes';
 import { useTheme } from '@/hooks/useTheme';
 import {
   getChapterNumberFromId,
@@ -188,25 +188,21 @@ export default function ChapterDetailScreen() {
 
   if (loading) {
     return (
-      <ThemedSafeAreaView>
-        <ThemedView style={styles.loadingContainer}>
-          <ThemedText style={{ ...styles.loadingText, color: theme.text.secondary }}>
-            অধ্যায় লোড হচ্ছে...
-          </ThemedText>
-        </ThemedView>
-      </ThemedSafeAreaView>
+      <ThemedView style={styles.loadingContainer}>
+        <ThemedBengaliText variant="secondary" size="medium">
+          অধ্যায় লোড হচ্ছে...
+        </ThemedBengaliText>
+      </ThemedView>
     );
   }
 
   if (!chapterData) {
     return (
-      <ThemedSafeAreaView>
-        <ThemedView style={styles.errorContainer}>
-          <ThemedText style={{ ...styles.errorText, color: theme.text.error }}>
-            অধ্যায় পাওয়া যায়নি
-          </ThemedText>
-        </ThemedView>
-      </ThemedSafeAreaView>
+      <ThemedView variant="primary" style={styles.errorContainer}>
+        <ThemedBengaliText variant="error" size="medium">
+          অধ্যায় পাওয়া যায়নি
+        </ThemedBengaliText>
+      </ThemedView>
     );
   }
 
@@ -214,301 +210,214 @@ export default function ChapterDetailScreen() {
   const currentVerseData = verses[currentVerse];
 
   return (
-    <ThemedSafeAreaView>
-      <ThemedView style={styles.container}>
-        {/* Header */}
-        <ThemedView style={styles.header}>
-          <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-            <Ionicons name="arrow-back" size={24} color="#8B4513" />
-          </TouchableOpacity>
-          
-          <ThemedView style={styles.headerContent}>
-            <ThemedText style={styles.chapterTitle}>
-              {chapter.title}
-            </ThemedText>
-            <ThemedText style={styles.chapterSubtitle}>
-              {chapter.subtitle}
-            </ThemedText>
-            <ThemedText style={styles.chapterEnglishTitle}>
-              {chapter.englishTitle}
-            </ThemedText>
-          </ThemedView>
-        </ThemedView>
 
-        {/* Chapter Navigation */}
-        <ThemedView style={styles.chapterNavigation}>
-          <TouchableOpacity 
-            onPress={handlePreviousChapter}
-            disabled={!id || !getPreviousChapterId(id)}
-            style={[
-              styles.navButton,
-              { opacity: (!id || !getPreviousChapterId(id)) ? 0.5 : 1 }
-            ]}
-          >
-            <Ionicons name="chevron-back" size={16} color="#8B4513" />
-            <ThemedText style={styles.navButtonText}>
-              পূর্ববর্তী
-            </ThemedText>
-          </TouchableOpacity>
+    <ThemedView variant="primary" style={styles.container}>
+      {/* Header */}
+      <ThemedView style={styles.header}>
+        <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+          <Ionicons name="arrow-back" size={SIZES.icon.lg} color={theme.icon.primary} />
+        </TouchableOpacity>
 
-          <ThemedView style={styles.chapterInfo}>
-            <ThemedText style={styles.chapterNumber}>
-              অধ্যায় {chapter.number}
-            </ThemedText>
-            <ThemedText style={styles.verseCount}>
-              {currentVerse + 1}/{verses.length}
-            </ThemedText>
-          </ThemedView>
+        <ThemedView style={styles.headerContent}>
+          <ThemedBengaliText variant="primary" size="large" style={styles.chapterTitle}>
+            {chapter.title} - {chapter.subtitle}
+          </ThemedBengaliText>
 
-          <TouchableOpacity 
-            onPress={handleNextChapter}
-            disabled={!id || !getNextChapterId(id)}
-            style={[
-              styles.navButton,
-              { opacity: (!id || !getNextChapterId(id)) ? 0.5 : 1 }
-            ]}
-          >
-            <ThemedText style={styles.navButtonText}>
-              পরবর্তী
-            </ThemedText>
-            <Ionicons name="chevron-forward" size={16} color="#8B4513" />
-          </TouchableOpacity>
-        </ThemedView>
 
-        {/* Language Toggle */}
-        <ThemedView style={styles.languageToggle}>
-          <TouchableOpacity 
-            onPress={toggleBengali}
-            style={[
-              styles.languageButton,
-              { backgroundColor: showBengali ? '#FF6B35' : '#F5E6D3' }
-            ]}
-          >
-            <ThemedText style={{
-              ...styles.languageButtonText,
-              color: showBengali ? '#FFFFFF' : '#8B4513'
-            }}>
-              বাংলা
-            </ThemedText>
-          </TouchableOpacity>
-          
-          <TouchableOpacity 
-            onPress={toggleTranslation}
-            style={[
-              styles.languageButton,
-              { backgroundColor: showTranslation ? '#FF6B35' : '#F5E6D3' }
-            ]}
-          >
-            <ThemedText style={{
-              ...styles.languageButtonText,
-              color: showTranslation ? '#FFFFFF' : '#8B4513'
-            }}>
-              অনুবাদ
-            </ThemedText>
-          </TouchableOpacity>
-        </ThemedView>
-
-        {/* Verse Display */}
-        <ScrollView style={styles.verseContainer} showsVerticalScrollIndicator={false}>
-          <VerseReader
-            verse={currentVerseData}
-            showBengali={showBengali}
-            showTranslation={showTranslation}
-            onToggleBengali={toggleBengali}
-            onToggleTranslation={toggleTranslation}
-          />
-          
-          {/* Reading Progress */}
-          <ReadingProgress
-            chapterNumber={parseInt(chapter.number)}
-            currentVerse={currentVerse + 1}
-            totalVerses={verses.length}
-          />
-        </ScrollView>
-
-        {/* Bottom Navigation */}
-        <ThemedView style={styles.bottomNavigation}>
-          <TouchableOpacity style={styles.bookmarkButton}>
-            <Ionicons name="bookmark-outline" size={20} color="#8B4513" />
-            <ThemedText style={styles.bookmarkText}>বুকমার্ক</ThemedText>
-          </TouchableOpacity>
-          
-          <TouchableOpacity 
-            onPress={handlePreviousVerse}
-            disabled={currentVerse <= 0}
-            style={[
-              styles.verseNavButton,
-              { opacity: currentVerse <= 0 ? 0.5 : 1 }
-            ]}
-          >
-            <Ionicons name="chevron-back" size={16} color="#8B4513" />
-            <ThemedText style={styles.verseNavButtonText}>
-              পূর্ববর্তী
-            </ThemedText>
-          </TouchableOpacity>
-
-          <TouchableOpacity 
-            onPress={handleNextVerse}
-            disabled={currentVerse >= verses.length - 1}
-            style={[
-              styles.verseNavButton,
-              { opacity: currentVerse >= verses.length - 1 ? 0.5 : 1 }
-            ]}
-          >
-            <ThemedText style={styles.verseNavButtonText}>
-              পরবর্তী
-            </ThemedText>
-            <Ionicons name="chevron-forward" size={16} color="#8B4513" />
-          </TouchableOpacity>
         </ThemedView>
       </ThemedView>
-    </ThemedSafeAreaView>
+
+
+
+      {/* Verse Display */}
+      <ScrollView style={styles.verseContainer} showsVerticalScrollIndicator={false}>
+        <VerseReader
+          verse={currentVerseData}
+          showBengali={showBengali}
+          showTranslation={showTranslation}
+          onToggleBengali={toggleBengali}
+          onToggleTranslation={toggleTranslation}
+        />
+
+        {/* Reading Progress */}
+        <ReadingProgress
+          chapterNumber={parseInt(chapter.number)}
+          currentVerse={currentVerse + 1}
+          totalVerses={verses.length}
+        />
+      </ScrollView>
+
+      {/* Bottom Navigation */}
+      <ThemedView style={styles.bottomNavigation}>
+        <TouchableOpacity style={[styles.bookmarkButton, { backgroundColor: theme.button.primary.background }]}>
+          <Ionicons name="bookmark-outline" size={SIZES.icon.md} color={theme.button.primary.text} />
+          <ThemedBengaliText variant="accent" size="small" style={styles.bookmarkText}>বুকমার্ক</ThemedBengaliText>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={handlePreviousVerse}
+          disabled={currentVerse <= 0}
+          style={[
+            styles.verseNavButton,
+            {
+              backgroundColor: theme.background.secondary,
+              opacity: currentVerse <= 0 ? 0.5 : 1
+            }
+          ]}
+        >
+          <Ionicons name="chevron-back" size={SIZES.icon.sm} color={theme.icon.primary} />
+          <ThemedBengaliText variant="primary" size="small">
+            পূর্ববর্তী
+          </ThemedBengaliText>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={handleNextVerse}
+          disabled={currentVerse >= verses.length - 1}
+          style={[
+            styles.verseNavButton,
+            {
+              backgroundColor: theme.background.secondary,
+              opacity: currentVerse >= verses.length - 1 ? 0.5 : 1
+            }
+          ]}
+        >
+          <ThemedBengaliText variant="primary" size="small">
+            পরবর্তী
+          </ThemedBengaliText>
+          <Ionicons name="chevron-forward" size={SIZES.icon.sm} color={theme.icon.primary} />
+        </TouchableOpacity>
+      </ThemedView>
+    </ThemedView>
+
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5E6D3',
   },
   loadingContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5E6D3',
   },
   loadingText: {
-    fontSize: 16,
-    color: '#8B4513',
+    fontSize: SIZES.lg,
   },
   errorContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5E6D3',
   },
   errorText: {
-    fontSize: 16,
-    color: '#8B4513',
+    fontSize: SIZES.lg,
   },
   header: {
     flexDirection: 'row',
     alignItems: 'flex-start',
-    paddingHorizontal: 20,
-    paddingTop: 16,
-    paddingBottom: 8,
+    paddingHorizontal: SIZES.spacing.xl,
+    paddingTop: SIZES.spacing.lg,
+    paddingBottom: SIZES.spacing.sm,
   },
   backButton: {
-    marginRight: 16,
-    marginTop: 4,
+    marginRight: SIZES.spacing.lg,
+    marginTop: SIZES.spacing.xs,
   },
   headerContent: {
     flex: 1,
+    padding: SIZES.spacing.sm,
   },
   chapterTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#8B4513',
-    marginBottom: 4,
+
   },
   chapterSubtitle: {
-    fontSize: 18,
-    color: '#8B4513',
-    marginBottom: 4,
+    fontSize: SIZES.xl,
+    marginBottom: SIZES.spacing.xs,
   },
   chapterEnglishTitle: {
-    fontSize: 16,
+    fontSize: SIZES.lg,
     fontStyle: 'italic',
-    color: '#A0522D',
   },
   chapterNavigation: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    paddingVertical: 16,
+    paddingHorizontal: SIZES.spacing.xl,
+    paddingVertical: SIZES.spacing.lg,
   },
   navButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderRadius: 8,
-    backgroundColor: '#F5E6D3',
+    paddingHorizontal: SIZES.spacing.md,
+    paddingVertical: SIZES.spacing.sm,
+    borderRadius: SIZES.radius.md,
   },
   navButtonText: {
-    fontSize: 14,
-    marginHorizontal: 4,
-    color: '#8B4513',
+    fontSize: SIZES.md,
+    marginHorizontal: SIZES.spacing.xs,
   },
   chapterInfo: {
     alignItems: 'center',
   },
   chapterNumber: {
-    fontSize: 16,
+    fontSize: SIZES.lg,
     fontWeight: 'bold',
-    color: '#8B4513',
   },
   verseCount: {
-    fontSize: 12,
-    marginTop: 2,
-    color: '#A0522D',
+    fontSize: SIZES.sm,
+    marginTop: SIZES.spacing.xs,
   },
   languageToggle: {
     flexDirection: 'row',
     justifyContent: 'center',
-    paddingHorizontal: 20,
-    paddingVertical: 12,
-    gap: 8,
+    paddingHorizontal: SIZES.spacing.xl,
+    paddingVertical: SIZES.spacing.md,
+    gap: SIZES.spacing.sm,
   },
   languageButton: {
     flex: 1,
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    borderRadius: 8,
+    paddingVertical: SIZES.spacing.md,
+    paddingHorizontal: SIZES.spacing.lg,
+    borderRadius: SIZES.radius.md,
     alignItems: 'center',
   },
   languageButtonText: {
-    fontSize: 14,
+    fontSize: SIZES.md,
     fontWeight: '600',
   },
   verseContainer: {
     flex: 1,
-    paddingHorizontal: 20,
+    paddingHorizontal: SIZES.spacing.xl,
   },
   bottomNavigation: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    paddingVertical: 16,
-    backgroundColor: '#F5E6D3',
+    paddingHorizontal: SIZES.spacing.xl,
+    paddingVertical: SIZES.spacing.lg,
   },
   bookmarkButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    borderRadius: 8,
-    backgroundColor: '#FF6B35',
+    paddingHorizontal: SIZES.spacing.lg,
+    paddingVertical: SIZES.spacing.md,
+    borderRadius: SIZES.radius.md,
   },
   bookmarkText: {
-    fontSize: 14,
-    marginLeft: 8,
-    color: '#FFFFFF',
+    fontSize: SIZES.md,
+    marginLeft: SIZES.spacing.sm,
     fontWeight: '600',
   },
   verseNavButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderRadius: 8,
-    backgroundColor: '#F5E6D3',
+    paddingHorizontal: SIZES.spacing.md,
+    paddingVertical: SIZES.spacing.sm,
+    borderRadius: SIZES.radius.md,
   },
   verseNavButtonText: {
-    fontSize: 14,
-    marginHorizontal: 4,
-    color: '#8B4513',
+    fontSize: SIZES.md,
+    marginHorizontal: SIZES.spacing.xs,
   },
 });

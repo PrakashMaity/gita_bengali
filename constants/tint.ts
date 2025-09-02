@@ -5,65 +5,77 @@ export const colors = {
   white200: '#F8F8F8',
   white300: '#F0F0F0',
   
-  // Primary Colors (Orange-based for light, Maroon-based for dark)
-  primary50: '#FFF7ED',
-  primary100: '#FFEDD5',
-  primary200: '#FED7AA',
-  primary300: '#FDBA74',
-  primary400: '#FB923C',
-  primary500: '#F97316',
-  primary600: '#EA580C',
-  primary700: '#C2410C',
-  primary800: '#9A3412',
-  primary900: '#7C2D12',
+  // Primary Colors (Warm Earth Tones - Harmonious browns and golds)
+  primary50: '#3C2415',    // Deep chocolate brown
+  primary100: '#5D4037',   // Rich brown
+  primary200: '#8D6E63',   // Medium brown
+  primary300: '#A1887F',   // Light brown
+  primary400: '#BCAAA4',   // Pale brown
+  primary500: '#D7CCC8',   // Very light brown
+  primary600: '#EFEBE9',   // Cream
+  primary700: '#F5F5F5',   // Off white
+  primary800: '#FAFAFA',   // Light cream
+  primary900: '#FFFFFF',   // Pure white
   
-  // Secondary Colors (Teal-based for light, Indigo-based for dark)
-  secondary50: '#F0FDFA',
-  secondary100: '#CCFBF1',
-  secondary200: '#99F6E4',
-  secondary300: '#5EEAD4',
-  secondary400: '#2DD4BF',
-  secondary500: '#14B8A6',
-  secondary600: '#0D9488',
-  secondary700: '#0F766E',
-  secondary800: '#115E59',
-  secondary900: '#134E4A',
+  // Secondary Colors (Complementary Teal - Harmonious with warm tones)
+  secondary50: '#1B4D3E',  // Deep teal
+  secondary100: '#2E7D5A', // Rich teal
+  secondary200: '#4A9B73', // Medium teal
+  secondary300: '#66B88C', // Light teal
+  secondary400: '#82D5A5', // Pale teal
+  secondary500: '#9EE2BE', // Very light teal
+  secondary600: '#BAEFD7', // Cream teal
+  secondary700: '#D6FCF0', // Off white teal
+  secondary800: '#F0FDF4', // Light cream teal
+  secondary900: '#FFFFFF', // Pure white
   
-  // Tertiary Colors (Amber-based for light, Purple-based for dark)
-  tertiary50: '#FFFBEB',
-  tertiary100: '#FEF3C7',
-  tertiary200: '#FDE68A',
-  tertiary300: '#FCD34D',
-  tertiary400: '#FBBF24',
-  tertiary500: '#F59E0B',
-  tertiary600: '#D97706',
-  tertiary700: '#B45309',
-  tertiary800: '#92400E',
-  tertiary900: '#78350F',
+  // Tertiary Colors (Warm Purple - Harmonious with earth tones)
+  tertiary50: '#4A1A4A',   // Deep purple
+  tertiary100: '#6B2C6B',  // Rich purple
+  tertiary200: '#8C3E8C',  // Medium purple
+  tertiary300: '#AD50AD',  // Light purple
+  tertiary400: '#CE62CE',  // Pale purple
+  tertiary500: '#E174E1',  // Very light purple
+  tertiary600: '#F286F2',  // Cream purple
+  tertiary700: '#F8A8F8',  // Off white purple
+  tertiary800: '#FECAFE',  // Light cream purple
+  tertiary900: '#FFFFFF',  // Pure white
   
-  // Quaternary Colors (Rose-based for light, Emerald-based for dark)
-  quaternary50: '#FFF1F2',
-  quaternary100: '#FFE4E6',
-  quaternary200: '#FECDD3',
-  quaternary300: '#FDA4AF',
-  quaternary400: '#FB7185',
-  quaternary500: '#F43F5E',
-  quaternary600: '#E11D48',
-  quaternary700: '#BE123C',
-  quaternary800: '#9F1239',
-  quaternary900: '#881337',
+  // Quaternary Colors (Warm Orange - Harmonious with earth tones)
+  quaternary50: '#8B4513', // Deep orange
+  quaternary100: '#CD853F', // Rich orange
+  quaternary200: '#DE9A5A', // Medium orange
+  quaternary300: '#EFAF75', // Light orange
+  quaternary400: '#F0C490', // Pale orange
+  quaternary500: '#F1D9AB', // Very light orange
+  quaternary600: '#F2EEC6', // Cream orange
+  quaternary700: '#F3F3E1', // Off white orange
+  quaternary800: '#F8F8F0', // Light cream orange
+  quaternary900: '#FFFFFF', // Pure white
   
-  // Maroon scale (Dark theme primary alternative)
-  maroon50: '#FDF2F8',
-  maroon100: '#FCE7F3',
-  maroon200: '#FBCFE8',
-  maroon300: '#F9A8D4',
-  maroon400: '#F472B6',
-  maroon500: '#EC4899',
-  maroon600: '#DB2777',
-  maroon700: '#BE185D',
-  maroon800: '#9D174D',
-  maroon900: '#831843',
+  // Accent Colors (Warm Gold - Harmonious with earth tones)
+  accent50: '#B8860B',     // Dark goldenrod
+  accent100: '#DAA520',    // Goldenrod
+  accent200: '#F4D03F',    // Medium gold
+  accent300: '#F7DC6F',    // Light gold
+  accent400: '#FAE8A0',    // Pale gold
+  accent500: '#FDF4D1',    // Very light gold
+  accent600: '#FEF9E7',    // Cream gold
+  accent700: '#FEFCF3',    // Off white gold
+  accent800: '#FFFEF9',    // Light cream gold
+  accent900: '#FFFFFF',    // Pure white
+  
+  // Maroon scale (Warm Red - Harmonious with earth tones)
+  maroon50: '#5D1A1A',     // Deep warm red
+  maroon100: '#8B2635',    // Rich warm red
+  maroon200: '#B8324A',    // Medium warm red
+  maroon300: '#D54B5F',    // Light warm red
+  maroon400: '#E56474',    // Pale warm red
+  maroon500: '#F57D89',    // Very light warm red
+  maroon600: '#F8969E',    // Cream warm red
+  maroon700: '#FBAFB3',    // Off white warm red
+  maroon800: '#FEC8C8',    // Light cream warm red
+  maroon900: '#FFFFFF',    // Pure white
   
   // Data Visualization Colors - Light Theme (High contrast, distinct)
   dataLight: {

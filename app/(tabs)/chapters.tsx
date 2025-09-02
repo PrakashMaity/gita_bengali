@@ -1,7 +1,6 @@
 import { ThemedBengaliText } from '@/components/ui/ThemedBengaliText';
 import { ThemedCard } from '@/components/ui/ThemedCard/ThemedCard';
 import ThemedSafeAreaView from '@/components/ui/ThemedSafeAreaView/ThemedSafeAreaView';
-import { ThemedText } from '@/components/ui/ThemedText/ThemedText';
 import { ThemedView } from '@/components/ui/ThemedView/ThemedView';
 import { SIZES } from '@/constants/sizes';
 import { useTheme } from '@/hooks/useTheme';
@@ -11,7 +10,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from 'expo-router';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Dimensions, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
-// import { getChapterIdFromNumber } from '@/utils/chapterUtils';
 
 interface ChapterData {
   chapter: {
@@ -49,10 +47,8 @@ export default function ChaptersScreen() {
 
   const normalizeChapterData = (rawData: any): ChapterData => {
     if (rawData.chapter) {
-      // Already in the correct format
       return rawData as ChapterData;
     } else {
-      // Convert from flat structure to nested structure
       const summaryText = typeof rawData.summary === 'string' ? rawData.summary : rawData.summary?.description || '';
       return {
         chapter: {
@@ -131,7 +127,7 @@ export default function ChaptersScreen() {
         activeOpacity={0.8}
       >
         <ThemedCard style={[styles.chapterCard, { 
-          borderColor: theme.border.primary,
+          // borderColor: theme.border.primary,
           backgroundColor: theme.background.card,
           shadowColor: theme.text.primary,
         }]}>
@@ -159,9 +155,9 @@ export default function ChaptersScreen() {
               style={styles.chapterTitle}
               numberOfLines={2}
             >
-              {chapterInfo.title}
+              {chapterInfo.title} - {chapterInfo.subtitle}
             </ThemedBengaliText>
-            <ThemedBengaliText
+            {/* <ThemedBengaliText
               variant="secondary"
               size="small"
               fontFamily="mahinSameya"
@@ -169,13 +165,8 @@ export default function ChaptersScreen() {
               numberOfLines={1}
             >
               {chapterInfo.subtitle}
-            </ThemedBengaliText>
-            <ThemedText
-              style={{ ...styles.chapterEnglishTitle, color: theme.text.tertiary }}
-              numberOfLines={1}
-            >
-              {chapterInfo.englishTitle}
-            </ThemedText>
+            </ThemedBengaliText> */}
+          
             
             {/* Verse Count and Progress */}
             <ThemedView style={styles.chapterInfo}>
@@ -250,10 +241,10 @@ export default function ChaptersScreen() {
         </ThemedBengaliText>
         <ThemedView style={styles.headerActions}>
           <ThemedView style={[styles.actionButton, { borderColor: theme.border.primary }]}>
-            <Ionicons name="search" size={24} color={theme.icon.primary} />
+            <Ionicons name="search" size={SIZES.icon.lg} color={theme.icon.primary} />
           </ThemedView>
           <ThemedView style={[styles.actionButton, { borderColor: theme.border.primary }]}>
-            <Ionicons name="bookmark" size={24} color={theme.icon.primary} />
+            <Ionicons name="bookmark" size={SIZES.icon.lg} color={theme.icon.primary} />
           </ThemedView>
         </ThemedView>
       </ThemedCard>
@@ -302,8 +293,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    margin: 16,
-    marginBottom: 8,
+    margin: SIZES.spacing.lg,
+    marginBottom: SIZES.spacing.sm,
   },
   title: {
     flex: 1,
@@ -313,12 +304,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    gap: 10,
+    gap: SIZES.spacing.sm,
   },
   actionButton: {
-    borderWidth: 1,
-    padding: 10,
-    borderRadius: 8,
+    borderWidth: SIZES.borderSize.sm,
+    padding: SIZES.spacing.sm,
+    borderRadius: SIZES.radius.md,
   },
   scrollView: {
     flex: 1,
@@ -336,8 +327,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: SIZES.spacing.lg,
   },
   sectionIndicator: {
-    width: 4,
-    height: 24,
+    width: SIZES.borderSize.xxl,
+    height: SIZES.spacing.xxxl,
     borderRadius: SIZES.radius.sm,
     marginRight: SIZES.spacing.md,
   },
@@ -348,20 +339,20 @@ const styles = StyleSheet.create({
     paddingHorizontal: SIZES.spacing.lg,
   },
   chapterCardContainer: {
-    marginBottom: SIZES.spacing.sm,
+   
   },
   chapterCard: {
     flexDirection: 'row',
     alignItems: 'center',
     padding: SIZES.spacing.lg,
     borderRadius: SIZES.radius.xl,
-    borderWidth: 1,
+    borderWidth: SIZES.borderSize.sm,
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: SIZES.shadow.sm,
     },
     shadowOpacity: 0.1,
-    shadowRadius: 4,
+    shadowRadius: SIZES.shadow.md,
     elevation: 3,
   },
   chapterNumber: {
@@ -372,33 +363,33 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   chapterTitle: {
-    marginBottom: SIZES.spacing.xs,
-    lineHeight: 22,
+    // marginBottom: SIZES.spacing.xs,
+    
   },
   chapterSubtitle: {
     marginBottom: SIZES.spacing.xs,
-    lineHeight: 18,
+    lineHeight: SIZES.spacing.xl,
     opacity: 0.8,
   },
   chapterEnglishTitle: {
-    fontSize: 12,
+    fontSize: SIZES.sm,
     fontStyle: 'italic',
     marginBottom: SIZES.spacing.sm,
-    lineHeight: 16,
+    lineHeight: SIZES.spacing.lg,
   },
   iconContainer: {
-    width: 56,
-    height: 56,
+    width: SIZES.avatar.lg,
+    height: SIZES.avatar.lg,
     borderRadius: SIZES.radius.lg,
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: SIZES.spacing.lg,
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: SIZES.shadow.sm,
     },
     shadowOpacity: 0.15,
-    shadowRadius: 3,
+    shadowRadius: SIZES.shadow.sm,
     elevation: 2,
   },
   verseCount: {
@@ -413,8 +404,8 @@ const styles = StyleSheet.create({
     // Font styling handled by ThemedBengaliText component
   },
   arrowContainer: {
-    width: 32,
-    height: 32,
+    width: SIZES.avatar.sm,
+    height: SIZES.avatar.sm,
     borderRadius: SIZES.radius.round,
     alignItems: 'center',
     justifyContent: 'center',
