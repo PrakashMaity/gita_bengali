@@ -1,29 +1,50 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
+import ThemedSafeAreaView from '@/components/ui/ThemedSafeAreaView/ThemedSafeAreaView';
+import { ThemedView } from '@/components/ui/ThemedView/ThemedView';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import 'react-native-reanimated';
-
-import { useColorScheme } from '@/hooks/useColorScheme';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { ThemeProvider } from '../hooks/useTheme';
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+  const isOnboardingComplete = true;
+  const [loaded, error] = useFonts({
+    'BenSenHandwriting': require('../assets/fonts/BenSenHandwriting.ttf'),
+    'MahinDhakaItalic': require('../assets/fonts/MahinDhakaItalic.ttf'),
+    'BegumZiaRegulaCurve': require('../assets/fonts/BegumZiaRegulaCurve.ttf'),
+    'FNMahinSameyaANSI': require('../assets/fonts/FNMahinSameyaANSI.ttf'),
   });
 
-  if (!loaded) {
-    // Async font loading only occurs in development.
-    return null;
+  // Handle font loading errors
+  if (error) {
+    console.error('Font loading error:', error);
+    // You can show an error screen or fallback here
   }
 
+  // Don't render until fonts are loaded
+  if (!loaded) {
+    return null; // or a loading screen
+  }
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+    <ErrorBoundary>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <ThemeProvider>
+          <ThemedSafeAreaView>
+            <ThemedView variant='secondary' style={{ flex: 1 }}>
+              <Stack screenOptions={{
+                headerShown: false,
+              }}>
+                <Stack.Protected guard={isOnboardingComplete} >
+                  <Stack.Screen name="index" />
+                </Stack.Protected>
+                <Stack.Protected guard={!isOnboardingComplete} >
+                  <Stack.Screen name="(tabs)" />
+                </Stack.Protected>
+              </Stack>
+            </ThemedView>
+          </ThemedSafeAreaView>
+        </ThemeProvider>
+      </GestureHandlerRootView>
+    </ErrorBoundary>
   );
 }
