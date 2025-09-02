@@ -10,3 +10,8 @@ export { default as VisibleDots } from './VisibleDots';
 export { default as WavePattern } from './WavePattern';
 export { default as Zigzag } from './zigzag';
 
+// Ancient Indian inspired patterns
+export { default as IndianBorder } from './IndianBorder';
+export { default as LotusPattern } from './LotusPattern';
+export { default as MandalaPattern } from './MandalaPattern';
+

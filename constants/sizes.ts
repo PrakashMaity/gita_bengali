@@ -124,4 +124,15 @@ export const SIZES = {
     xxxl: 2,
     huge: 3,
   },
+  
+  borderRadius: {
+    xs: 2,
+    sm: 4,
+    md: 8,
+    lg: 12,
+    xl: 16,
+    xxl: 20,
+    round: 50,
+    full: 999,
+  },
 } as const;

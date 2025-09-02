@@ -1,10 +1,10 @@
-import Onboarding from '@/components/onboarding/onboarding'
-import React from 'react'
+import Home from '@/components/home/home';
+import React from 'react';
 
-const OnboardingPage = () => {
+const HomeScreen = () => {
   return (
-   <Onboarding />
-  )
-}
+    <Home />
+  );
+};
 
-export default OnboardingPage
+export default HomeScreen;
