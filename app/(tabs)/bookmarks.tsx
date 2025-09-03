@@ -10,7 +10,7 @@ import { Bookmark, useBookmarkStore } from '@/store';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import React from 'react';
-import { Alert, Dimensions, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Alert, Dimensions, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 
 export default function BookmarksScreen() {
   const { theme } = useTheme();
@@ -82,15 +82,15 @@ export default function BookmarksScreen() {
       key={`${bookmark.verseId}-${index}`}
       onPress={() => handleBookmarkPress(bookmark.chapterId, bookmark.verseNumber)}
       style={styles.bookmarkCardContainer}
-      activeOpacity={0.8}
+      
     >
       <ThemedCard style={[styles.bookmarkCard, { 
-        backgroundColor: theme.background.card,
-        shadowColor: theme.text.primary,
+       
+        
       }]}>
         <ThemedView style={[styles.iconContainer, { 
           backgroundColor: theme.background.tertiary,
-          shadowColor: theme.text.primary,
+         
         }]}>
           <ThemedBengaliText 
             variant="primary" 
@@ -160,7 +160,7 @@ export default function BookmarksScreen() {
   if (isLoading) {
     return (
       <ThemedSafeAreaView>
-        <View style={styles.loadingContainer}>
+        <ThemedView style={styles.loadingContainer}>
           <WavePattern width={200} height={200} opacity={0.1} />
           <ThemedBengaliText 
             variant="secondary" 
@@ -170,7 +170,7 @@ export default function BookmarksScreen() {
           >
             বুকমার্ক লোড হচ্ছে...
           </ThemedBengaliText>
-        </View>
+        </ThemedView>
       </ThemedSafeAreaView>
     );
   }
@@ -183,7 +183,7 @@ export default function BookmarksScreen() {
       />
       
       {/* Header Card */}
-      <ThemedCard style={styles.headerCard}>
+      <ThemedCard variant='transparent' style={styles.headerCard}>
         <ThemedBengaliText 
           variant="primary" 
           size="title" 

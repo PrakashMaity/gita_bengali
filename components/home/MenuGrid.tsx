@@ -49,16 +49,12 @@ const MenuGrid: React.FC<MenuGridProps> = ({ onMenuItemPress }) => {
       key={item.id}
       onPress={() => handleItemPress(item)}
       style={styles.menuItemContainer}
-      activeOpacity={0.8}
     >
       <ThemedCard style={[styles.menuItem, { 
         borderColor: theme.border.primary,
-        backgroundColor: theme.background.card,
-        shadowColor: theme.text.primary,
       }]}>
         <ThemedView style={[styles.iconContainer, { 
           backgroundColor: theme.background.tertiary,
-          shadowColor: theme.text.primary,
         }]}>
           {renderIcon(item)}
         </ThemedView>
@@ -148,13 +144,13 @@ const styles = StyleSheet.create({
     padding: SIZES.spacing.lg,
     borderRadius: SIZES.radius.xl,
     borderWidth: 1,
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 2,
+    // },
+    // shadowOpacity: 0.1,
+    // shadowRadius: 4,
+    // elevation: 3,
   },
   iconContainer: {
     width: 60,

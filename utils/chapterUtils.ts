@@ -11,6 +11,13 @@ export const CHAPTER_IDS = {
   'vyC0zjx3': 9,  // Chapter 9
   'u6f4oOoR': 10, // Chapter 10
   'IpasB0Y8': 11, // Chapter 11
+  'BhaktiYoga12': 12, // Chapter 12
+  'PrakritiPurusha13': 13, // Chapter 13
+  'Gunatraya14': 14, // Chapter 14
+  'Purushottama15': 15, // Chapter 15
+  'Daivasura16': 16, // Chapter 16
+  'Shraddhatraya17': 17, // Chapter 17
+  'MokshaSannyasa18': 18, // Chapter 18
 } as const;
 
 // Reverse mapping: chapter number to ID
@@ -26,6 +33,13 @@ export const CHAPTER_NUMBERS_TO_IDS = {
   9: 'vyC0zjx3',
   10: 'u6f4oOoR',
   11: 'IpasB0Y8',
+  12: 'BhaktiYoga12',
+  13: 'PrakritiPurusha13',
+  14: 'Gunatraya14',
+  15: 'Purushottama15',
+  16: 'Daivasura16',
+  17: 'Shraddhatraya17',
+  18: 'MokshaSannyasa18',
 } as const;
 
 export type ChapterId = keyof typeof CHAPTER_IDS;
@@ -71,7 +85,7 @@ export function getAllChapterNumbers(): number[] {
  */
 export function getNextChapterId(currentChapterId: string): string | null {
   const currentNumber = getChapterNumberFromId(currentChapterId);
-  if (currentNumber === null || currentNumber >= 11) {
+  if (currentNumber === null || currentNumber >= 18) {
     return null;
   }
   return getChapterIdFromNumber(currentNumber + 1);

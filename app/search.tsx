@@ -59,6 +59,12 @@ export default function SearchScreen() {
         import('@/Data/chapter9.json').then(module => module.default),
         import('@/Data/chapter10.json').then(module => module.default),
         import('@/Data/chapter11.json').then(module => module.default),
+        import('@/Data/chapter12.json').then(module => module.default),
+        import('@/Data/chapter13.json').then(module => module.default),
+        import('@/Data/chapter14.json').then(module => module.default),
+        import('@/Data/chapter15.json').then(module => module.default),
+        import('@/Data/chapter16.json').then(module => module.default),
+        import('@/Data/chapter17.json').then(module => module.default),
       ];
       const rawChapterData = await Promise.all(chapterPromises);
       const normalizedData = rawChapterData.map(normalizeChapterData);

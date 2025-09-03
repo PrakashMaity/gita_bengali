@@ -32,7 +32,7 @@ const Home = () => {
         height={height} 
       />
       
-      <ThemedCard style={styles.headerCard}>
+      <ThemedCard variant='transparent' style={styles.headerCard}>
         <Image source={require('@/assets/images/Home/logo.png')} style={styles.logo} />
         <ThemedView style={styles.headerActions}>
           <ThemedView style={[styles.actionButton, { borderColor: theme.border.primary }]}>

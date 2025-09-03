@@ -137,7 +137,7 @@ export default function ReadingProgress({
   }
 
   return (
-    <ThemedCard variant="card" style={styles.container}>
+    <ThemedCard variant="primary" style={styles.container}>
       <ThemedView style={styles.progressHeader}>
         <ThemedBengaliText fontFamily='mahinSameya' variant="primary" size="xl" style={styles.progressTitle}>
           পড়ার প্রগতি
@@ -152,7 +152,7 @@ export default function ReadingProgress({
       </ThemedBengaliText>
 
       <ThemedView style={styles.progressBarContainer}>
-        <ThemedView style={[styles.progressBar, { backgroundColor: theme.background.secondary }]}>
+        <ThemedView style={[styles.progressBar, { backgroundColor: theme.background.tertiary }]}>
           <ThemedView style={[
             styles.progressFill,
             { 

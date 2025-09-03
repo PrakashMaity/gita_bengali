@@ -56,25 +56,7 @@ export const AudioControls: React.FC<AudioControlsProps> = ({
     </View>
   );
 
-  const ShuffleIcon = () => (
-    <View style={styles.shuffleIcon}>
-      <View style={[styles.shuffleArrow1, { borderTopColor: isShuffled ? theme.icon.secondary : theme.icon.primary }]} />
-      <View style={[styles.shuffleArrow2, { borderTopColor: isShuffled ? theme.icon.secondary : theme.icon.primary }]} />
-    </View>
-  );
 
-  const RepeatIcon = () => (
-    <View style={styles.repeatIcon}>
-      <View style={[styles.repeatArrow1, { borderTopColor: isRepeated ? theme.icon.secondary : theme.icon.primary }]} />
-      <View style={[styles.repeatArrow2, { borderTopColor: isRepeated ? theme.icon.secondary : theme.icon.primary }]} />
-    </View>
-  );
-
-  const HeartIcon = () => (
-    <View style={[styles.heartIcon, { borderColor: isLiked ? theme.icon.secondary : theme.icon.primary }]}>
-      <View style={[styles.heartTop, { backgroundColor: isLiked ? theme.icon.secondary : theme.icon.primary }]} />
-    </View>
-  );
 
   return (
     <View style={styles.container}>
@@ -93,20 +75,7 @@ export const AudioControls: React.FC<AudioControlsProps> = ({
         </NeumorphicButton>
       </View>
 
-      {/* Bottom controls */}
-      <View style={styles.bottomControls}>
-        <NeumorphicButton onPress={onShuffle} size={40} variant="secondary">
-          <ShuffleIcon />
-        </NeumorphicButton>
-        
-        <NeumorphicButton onPress={onLike} size={40} variant="secondary">
-          <HeartIcon />
-        </NeumorphicButton>
-        
-        <NeumorphicButton onPress={onRepeat} size={40} variant="secondary">
-          <RepeatIcon />
-        </NeumorphicButton>
-      </View>
+     
     </View>
   );
 };

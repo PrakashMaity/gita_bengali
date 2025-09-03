@@ -20,13 +20,13 @@ export const SettingsSection: React.FC<SettingsSectionProps> = ({
   const { theme } = useTheme();
 
   return (
-    <ThemedCard variant="card" style={styles.container}>
+    <ThemedCard  style={styles.container}>
       <View style={[styles.header, { borderBottomColor: theme.border.tertiary }]}>
-        <ThemedText style={[styles.title, { color: theme.text.primary }]}>
+        <ThemedText style={{...styles.title, color: theme.text.primary }}>
           {title}
         </ThemedText>
         {description && (
-          <ThemedText style={[styles.description, { color: theme.text.secondary }]}>
+          <ThemedText style={{...styles.description, color: theme.text.secondary }}>
             {description}
           </ThemedText>
         )}

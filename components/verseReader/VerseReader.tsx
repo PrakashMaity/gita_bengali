@@ -40,7 +40,7 @@ export default function VerseReader({
   return (
     <ThemedView style={styles.container}>
       {/* Verse Display */}
-      <ThemedCard variant="card" style={styles.verseCard}>
+      <ThemedCard variant="primary" style={styles.verseCard}>
         <ThemedView style={styles.verseHeader}>
           <ThemedView style={[styles.verseNumberContainer, { backgroundColor: theme.button.primary.background }]}>
             <ThemedBengaliText style={{color: theme.button.primary.text}} size="title">

@@ -27,7 +27,7 @@ export const PlaylistItem: React.FC<PlaylistItemProps> = ({
       style={[
         styles.container,
         {
-          backgroundColor: theme.background.card,
+          backgroundColor: theme.background.secondary,
           borderColor: isActive ? theme.icon.secondary : theme.border.tertiary,
         }
       ]}
@@ -40,17 +40,15 @@ export const PlaylistItem: React.FC<PlaylistItemProps> = ({
           variant="primary" 
           size="md"
           weight="bold"
-          style={[
-            styles.title,
-            { color: isActive ? theme.icon.secondary : theme.text.primary }
-          ]}
+          style={{...styles.title, color: isActive ? theme.icon.secondary : theme.text.primary }}
+       
         >
           {title}
         </ThemedText>
         <ThemedText 
           variant="secondary" 
           size="sm"
-          style={[styles.artist, { color: theme.text.secondary }]}
+          style={{...styles.artist, color: theme.text.secondary }}
         >
           {artist}
         </ThemedText>

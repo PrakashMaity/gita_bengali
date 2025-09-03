@@ -2,12 +2,10 @@ import {
   AudioPlayerModal,
   PlaylistItem,
 } from '@/components/audio';
-import ThemedSafeAreaView from '@/components/ui/ThemedSafeAreaView/ThemedSafeAreaView';
-import { ThemedText } from '@/components/ui/ThemedText/ThemedText';
 import { ThemedView } from '@/components/ui/ThemedView/ThemedView';
 import { SIZES } from '@/constants/sizes';
 import React, { useState } from 'react';
-import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
 
 // Mock data for demonstration
 const mockSongs = [
@@ -94,22 +92,9 @@ export default function AudioScreen() {
   };
 
   return (
-    <ThemedSafeAreaView>
-      <ThemedView style={styles.container}>
+      <ThemedView variant='primary' style={styles.container}>
         {/* Header */}
-        <View style={styles.header}>
-          <ThemedText variant="primary" size="lg" weight="bold">
-            গীতা অডিও
-          </ThemedText>
-          <View style={styles.headerRight}>
-            <TouchableOpacity style={styles.headerButton}>
-              <ThemedText variant="primary" size="md">👤</ThemedText>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.headerButton}>
-              <ThemedText variant="primary" size="md">🔍</ThemedText>
-            </TouchableOpacity>
-          </View>
-        </View>
+      
 
         {/* Audio List */}
         <ScrollView style={styles.playlistContainer} showsVerticalScrollIndicator={false}>
@@ -143,7 +128,6 @@ export default function AudioScreen() {
           onLike={handleLike}
         />
       </ThemedView>
-    </ThemedSafeAreaView>
   );
 }
 

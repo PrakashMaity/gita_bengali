@@ -132,6 +132,27 @@ export default function ChapterDetailScreen() {
         case 11:
           chapterModule = await import('@/Data/chapter11.json');
           break;
+        case 12:
+          chapterModule = await import('@/Data/chapter12.json');
+          break;
+        case 13:
+          chapterModule = await import('@/Data/chapter13.json');
+          break;
+        case 14:
+          chapterModule = await import('@/Data/chapter14.json');
+          break;
+        case 15:
+          chapterModule = await import('@/Data/chapter15.json');
+          break;
+        case 16:
+          chapterModule = await import('@/Data/chapter16.json');
+          break;
+        case 17:
+          chapterModule = await import('@/Data/chapter17.json');
+          break;
+        case 18:
+          chapterModule = await import('@/Data/chapter18.json');
+          break;
         default:
           throw new Error('Invalid chapter number');
       }

@@ -84,6 +84,13 @@ export default function ChaptersScreen() {
         import('@/Data/chapter9.json').then(module => module.default),
         import('@/Data/chapter10.json').then(module => module.default),
         import('@/Data/chapter11.json').then(module => module.default),
+        import('@/Data/chapter12.json').then(module => module.default),
+        import('@/Data/chapter13.json').then(module => module.default),
+        import('@/Data/chapter14.json').then(module => module.default),
+        import('@/Data/chapter15.json').then(module => module.default),
+        import('@/Data/chapter16.json').then(module => module.default),
+        import('@/Data/chapter17.json').then(module => module.default),
+        import('@/Data/chapter18.json').then(module => module.default),
       ];
       const rawChapterData = await Promise.all(chapterPromises);
       const normalizedData = rawChapterData.map(normalizeChapterData);
@@ -125,15 +132,14 @@ export default function ChaptersScreen() {
         key={chapterInfo.id}
         onPress={() => handleChapterPress(chapterInfo.id)}
         style={styles.chapterCardContainer}
-        activeOpacity={0.8}
+       
       >
         <ThemedCard style={[styles.chapterCard, { 
-          backgroundColor: theme.background.card,
-          shadowColor: theme.text.primary,
+       
         }]}>
           <ThemedView style={[styles.iconContainer, { 
             backgroundColor: theme.background.tertiary,
-            shadowColor: theme.text.primary,
+           
           }]}>
             <ThemedBengaliText 
               variant="primary" 
@@ -229,7 +235,7 @@ export default function ChaptersScreen() {
       />
       
       {/* Header Card */}
-      <ThemedCard style={styles.headerCard}>
+      <ThemedCard variant='transparent' style={styles.headerCard}>
         <ThemedBengaliText 
           variant="primary" 
           size="title" 
@@ -348,7 +354,7 @@ const styles = StyleSheet.create({
     gap: SIZES.spacing.sm,
   },
   chapterCardContainer: {
-    marginBottom: SIZES.spacing.sm,
+    // marginBottom: SIZES.spacing.sm,
   },
   chapterCard: {
     flexDirection: 'row',
