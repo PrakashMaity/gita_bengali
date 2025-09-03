@@ -85,9 +85,9 @@ export const ThemedButton: React.FC<ThemedButtonProps> = ({
     };
 
     const sizeTextStyles: Record<string, TextStyle> = {
-      sm: { fontSize: 14 },
-      md: { fontSize: 16 },
-      lg: { fontSize: 18 },
+      sm: { fontSize: SIZES.sm },
+      md: { fontSize: SIZES.md },
+      lg: { fontSize: SIZES.lg },
     };
 
     const variantTextStyles: Record<string, TextStyle> = {

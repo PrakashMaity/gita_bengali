@@ -154,13 +154,24 @@ export default function ChaptersScreen() {
               style={styles.chapterTitle}
               numberOfLines={2}
             >
-              {chapterInfo.title} - {chapterInfo.subtitle}
+              {chapterInfo.title}
             </ThemedBengaliText>
+            {chapterInfo.subtitle && chapterInfo.subtitle !== chapterInfo.title && (
+              <ThemedBengaliText
+                variant="secondary"
+                size="medium"
+                fontFamily="mahinSameya"
+                style={styles.chapterSubtitle}
+                numberOfLines={1}
+              >
+                {chapterInfo.subtitle}
+              </ThemedBengaliText>
+            )}
 
             <ThemedView style={styles.chapterInfo}>
               <ThemedBengaliText 
                 variant="secondary" 
-                size="xs" 
+                size="small" 
                 fontFamily="mahinSameya"
                 style={styles.verseCount}
               >
@@ -169,11 +180,11 @@ export default function ChaptersScreen() {
               {progress && (
                 <ThemedBengaliText 
                   variant="tertiary" 
-                  size="xs" 
+                  size="small" 
                   fontFamily="spaceMono"
                   style={styles.progressText}
                 >
-                  {progressPercentage}%
+                  {progressPercentage}% সম্পূর্ণ
                 </ThemedBengaliText>
               )}
             </ThemedView>
@@ -183,7 +194,7 @@ export default function ChaptersScreen() {
           <ThemedView style={[styles.arrowContainer, { backgroundColor: theme.background.quaternary }]}>
             <MaterialIcons 
               name="arrow-forward-ios" 
-              size={SIZES.icon.sm} 
+              size={SIZES.icon.md} 
               color={theme.icon.quaternary} 
             />
           </ThemedView>
@@ -231,7 +242,7 @@ export default function ChaptersScreen() {
          
           <ThemedView style={[styles.actionButton, { borderColor: theme.border.primary }]}>
             <BookmarkIcon 
-              size={SIZES.icon.lg} 
+              size={SIZES.icon.xl} 
               color={theme.icon.primary} 
               focused={true}
               showBadge={true}
@@ -252,7 +263,7 @@ export default function ChaptersScreen() {
             <ThemedView style={[styles.sectionIndicator, { backgroundColor: theme.background.quaternary }]} />
             <ThemedBengaliText 
               variant="primary" 
-              size="xl" 
+              size="xxl" 
               fontFamily="benSen"
               style={styles.sectionTitle}
             >
@@ -285,7 +296,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: SIZES.spacing.sm,
+    margin: SIZES.spacing.lg,
+    marginBottom: SIZES.spacing.md,
   },
   title: {
     flex: 1,
@@ -299,8 +311,12 @@ const styles = StyleSheet.create({
   },
   actionButton: {
     borderWidth: SIZES.borderSize.sm,
-    padding: SIZES.spacing.sm,
-    borderRadius: SIZES.radius.md,
+    padding: SIZES.spacing.md,
+    borderRadius: SIZES.radius.lg,
+    minWidth: 44,
+    minHeight: 44,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   scrollView: {
     flex: 1,
@@ -318,33 +334,36 @@ const styles = StyleSheet.create({
     paddingHorizontal: SIZES.spacing.lg,
   },
   sectionIndicator: {
-    width: SIZES.borderSize.xxl,
-    height: SIZES.spacing.xxxl,
-    borderRadius: SIZES.radius.sm,
+    width: 5,
+    height: 32,
+    borderRadius: SIZES.radius.md,
     marginRight: SIZES.spacing.md,
   },
   sectionTitle: {
     flex: 1,
+    fontWeight: '600',
   },
   chaptersContainer: {
     paddingHorizontal: SIZES.spacing.lg,
+    gap: SIZES.spacing.sm,
   },
   chapterCardContainer: {
-   
+    marginBottom: SIZES.spacing.sm,
   },
   chapterCard: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: SIZES.spacing.lg,
+    padding: SIZES.spacing.xl,
     borderRadius: SIZES.radius.xl,
     borderWidth: SIZES.borderSize.sm,
+    marginBottom: SIZES.spacing.md,
     shadowOffset: {
       width: 0,
-      height: SIZES.shadow.sm,
+      height: SIZES.shadow.md,
     },
-    shadowOpacity: 0.1,
-    shadowRadius: SIZES.shadow.md,
-    elevation: 3,
+    shadowOpacity: 0.15,
+    shadowRadius: SIZES.shadow.lg,
+    elevation: 4,
   },
   chapterNumber: {
     // Font styling handled by ThemedBengaliText component
@@ -354,13 +373,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   chapterTitle: {
-    // marginBottom: SIZES.spacing.xs,
-    
+    marginBottom: SIZES.spacing.xs,
+    lineHeight: 26,
   },
   chapterSubtitle: {
-    marginBottom: SIZES.spacing.xs,
-    lineHeight: SIZES.spacing.xl,
-    opacity: 0.8,
+    marginBottom: SIZES.spacing.sm,
+    lineHeight: 20,
+    opacity: 0.85,
   },
   chapterEnglishTitle: {
     fontSize: SIZES.sm,
@@ -369,22 +388,22 @@ const styles = StyleSheet.create({
     lineHeight: SIZES.spacing.lg,
   },
   iconContainer: {
-    width: SIZES.avatar.lg,
-    height: SIZES.avatar.lg,
-    borderRadius: SIZES.radius.lg,
+    width: SIZES.avatar.xl,
+    height: SIZES.avatar.xl,
+    borderRadius: SIZES.radius.xl,
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: SIZES.spacing.lg,
     shadowOffset: {
       width: 0,
-      height: SIZES.shadow.sm,
+      height: SIZES.shadow.md,
     },
-    shadowOpacity: 0.15,
-    shadowRadius: SIZES.shadow.sm,
-    elevation: 2,
+    shadowOpacity: 0.2,
+    shadowRadius: SIZES.shadow.md,
+    elevation: 3,
   },
   verseCount: {
-    // Font styling handled by ThemedBengaliText component
+    opacity: 0.9,
   },
   chapterInfo: {
     flexDirection: 'row',
@@ -392,11 +411,12 @@ const styles = StyleSheet.create({
     gap: SIZES.spacing.md,
   },
   progressText: {
-    // Font styling handled by ThemedBengaliText component
+    opacity: 0.8,
+    fontWeight: '500',
   },
   arrowContainer: {
-    width: SIZES.avatar.sm,
-    height: SIZES.avatar.sm,
+    width: SIZES.avatar.md,
+    height: SIZES.avatar.md,
     borderRadius: SIZES.radius.round,
     alignItems: 'center',
     justifyContent: 'center',

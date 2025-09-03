@@ -11,7 +11,7 @@ export type CardVariant = 'primary' | 'secondary' | 'card' | 'transparent';
 
 
 export const ThemedCard: React.FC<ThemedCardProps> = ({
-  variant = 'transparent',
+  variant = 'primary',
   style,
   children,
   borderVariant = 'none',

@@ -36,10 +36,10 @@ const Home = () => {
         <Image source={require('@/assets/images/Home/logo.png')} style={styles.logo} />
         <ThemedView style={styles.headerActions}>
           <ThemedView style={[styles.actionButton, { borderColor: theme.border.primary }]}>
-            <Feather name="volume-2" size={24} color={theme.icon.primary} />
+            <Feather name="volume-2" size={SIZES.icon.lg} color={theme.icon.primary} />
           </ThemedView>
           <ThemedView style={[styles.actionButton, { borderColor: theme.border.primary }]}>
-            <FontAwesome name="bell-o" size={24} color={theme.icon.primary} />
+            <FontAwesome name="bell-o" size={SIZES.icon.lg} color={theme.icon.primary} />
           </ThemedView>
         </ThemedView>
       </ThemedCard>
@@ -72,23 +72,22 @@ const Home = () => {
         </ThemedView>
       </ThemedCard>
 
-     
-         <ThemedCard style={{flexDirection:'row',gap:SIZES.spacing.md,alignItems:'center',justifyContent:'space-between'}}>
+      <ThemedCard style={styles.quickActionsCard}>
         <ThemedButton
           title="গীতার সারাংশ"
           onPress={() => getNavigationHandler({ id: 'gita-summary' } as MenuItem)()}
           variant="primary"
           size="md"
           fullWidth
-          icon={<FontAwesome6 name="book-bookmark" size={SIZES.icon.xl} color={theme.button.primary.text} />}
+          icon={<FontAwesome6 name="book-bookmark" size={SIZES.icon.lg} color={theme.button.primary.text} />}
         />
         <ThemedButton
           title="গীতা-মাহাত্ম্য"
           onPress={() => getNavigationHandler({ id: 'gita-mahatmya' } as MenuItem)()}
-          variant="primary"
+          variant="secondary"
           size="md"
           fullWidth
-          icon={<FontAwesome5 name="book" size={SIZES.icon.xl} color={theme.button.primary.text} />}
+          icon={<FontAwesome5 name="book" size={SIZES.icon.lg} color={theme.button.secondary.text} />}
         />
       </ThemedCard>
         <MenuGrid onMenuItemPress={handleMenuItemPress} />
@@ -112,8 +111,8 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   logo: {
-    width: 60,
-    height: 60,
+    width: 64,
+    height: 64,
   },
   headerActions: {
     flexDirection: 'row',
@@ -123,8 +122,12 @@ const styles = StyleSheet.create({
   },
   actionButton: {
     borderWidth: 1,
-    padding: 10,
-    borderRadius: 8,
+    padding: SIZES.spacing.md,
+    borderRadius: SIZES.radius.lg,
+    minWidth: 44,
+    minHeight: 44,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   heroCard: {
     margin: 16,
@@ -137,7 +140,7 @@ const styles = StyleSheet.create({
   },
   heroImage: {
     width: '100%',
-    height: 200,
+    height: 220,
   },
   textOverlay: {
     position: 'absolute',
@@ -152,18 +155,28 @@ const styles = StyleSheet.create({
   },
   overlayText: {
     textAlign: 'center',
-    marginBottom: 8,
-    lineHeight: 28,
+    marginBottom: SIZES.spacing.sm,
+    lineHeight: 32,
     color: '#FFFFFF',
     textShadowColor: 'rgba(0, 0, 0, 0.8)',
     textShadowOffset: { width: 1, height: 1 },
-    textShadowRadius: 3,
+    textShadowRadius: 4,
+    fontSize: SIZES.lg,
   },
   scrollView: {
     flex: 1,
   },
   scrollContent: {
     paddingBottom: SIZES.spacing.xl,
+  },
+  quickActionsCard: {
+    flexDirection: 'row',
+    gap: SIZES.spacing.md,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    margin: SIZES.spacing.lg,
+    marginTop: SIZES.spacing.sm,
+    marginBottom: SIZES.spacing.sm,
   },
 });
 

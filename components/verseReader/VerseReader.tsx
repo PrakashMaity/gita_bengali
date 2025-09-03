@@ -49,8 +49,8 @@ export default function VerseReader({
           </ThemedView>
           
           <ThemedView style={styles.speakerContainer}>
-            <Ionicons name="person-outline" size={SIZES.icon.sm} color={theme.icon.secondary} />
-            <ThemedBengaliText fontFamily='mahinSameya' variant="primary" size="small" style={styles.speaker}>
+            <Ionicons name="person-outline" size={SIZES.icon.md} color={theme.icon.secondary} />
+            <ThemedBengaliText fontFamily='mahinSameya' variant="primary" size="medium" style={styles.speaker}>
               {verse.speaker}
             </ThemedBengaliText>
           </ThemedView>
@@ -104,20 +104,35 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   verseCard: {
-    marginBottom: SIZES.spacing.lg,
+    marginBottom: SIZES.spacing.xl,
+    padding: SIZES.spacing.xl,
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 4,
   },
   verseHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: SIZES.spacing.lg,
+    marginBottom: SIZES.spacing.xl,
   },
   verseNumberContainer: {
-    width: SIZES.icon.xxl,
-    height: SIZES.icon.xxl,
+    width: SIZES.icon.huge,
+    height: SIZES.icon.huge,
     borderRadius: SIZES.radius.round,
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: SIZES.spacing.md,
+    marginRight: SIZES.spacing.lg,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.15,
+    shadowRadius: 4,
+    elevation: 3,
   },
   verseNumber: {
     fontSize: SIZES.lg,
@@ -129,14 +144,14 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   speaker: {
-    fontSize: SIZES.md,
     marginLeft: SIZES.spacing.sm,
+    opacity: 0.9,
   },
   verseSection: {
-    marginBottom: SIZES.spacing.lg,
+    marginBottom: SIZES.spacing.xl,
   },
   sectionHeader: {
-    marginBottom: SIZES.spacing.sm,
+    marginBottom: SIZES.spacing.md,
   },
   sectionTitle: {
    textAlign: 'center',
@@ -145,9 +160,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   bengaliText: {
-   
     textAlign: 'center',
-    marginBottom: SIZES.spacing.md,
+    marginBottom: SIZES.spacing.lg,
+    lineHeight: 36,
     alignItems: 'center',
     alignSelf: 'center',
   },
@@ -155,8 +170,9 @@ const styles = StyleSheet.create({
     marginTop: SIZES.spacing.sm,
   },
   translationText: {
-  
     textAlign: 'center',
+    lineHeight: 28,
+    marginTop: SIZES.spacing.sm,
   },
   audioButton: {
     flexDirection: 'row',

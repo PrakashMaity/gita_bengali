@@ -7,8 +7,6 @@ import { SIZES } from '@/constants/sizes';
 import { useTheme } from '@/hooks/useTheme';
 import {
   getChapterNumberFromId,
-  getNextChapterId,
-  getPreviousChapterId,
   isValidChapterId
 } from '@/utils/chapterUtils';
 import { Ionicons } from '@expo/vector-icons';
@@ -165,23 +163,6 @@ export default function ChapterDetailScreen() {
     }
   };
 
-  const handlePreviousChapter = () => {
-    if (id) {
-      const previousChapterId = getPreviousChapterId(id);
-      if (previousChapterId) {
-        router.replace(`/chapter/${previousChapterId}`);
-      }
-    }
-  };
-
-  const handleNextChapter = () => {
-    if (id) {
-      const nextChapterId = getNextChapterId(id);
-      if (nextChapterId) {
-        router.replace(`/chapter/${nextChapterId}`);
-      }
-    }
-  };
 
   const toggleTranslation = () => setShowTranslation(!showTranslation);
   const toggleBengali = () => setShowBengali(!showBengali);
@@ -215,15 +196,18 @@ export default function ChapterDetailScreen() {
       {/* Header */}
       <ThemedView style={styles.header}>
         <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-          <Ionicons name="arrow-back" size={SIZES.icon.lg} color={theme.icon.primary} />
+          <Ionicons name="arrow-back" size={SIZES.icon.xl} color={theme.icon.primary} />
         </TouchableOpacity>
 
         <ThemedView style={styles.headerContent}>
-          <ThemedBengaliText variant="primary" size="large" style={styles.chapterTitle}>
-            {chapter.title} - {chapter.subtitle}
+          <ThemedBengaliText variant="primary" size="title" style={styles.chapterTitle}>
+            {chapter.title}
           </ThemedBengaliText>
-
-
+          {chapter.subtitle && chapter.subtitle !== chapter.title && (
+            <ThemedBengaliText variant="secondary" size="large" style={styles.chapterSubtitle}>
+              {chapter.subtitle}
+            </ThemedBengaliText>
+          )}
         </ThemedView>
       </ThemedView>
 
@@ -270,8 +254,8 @@ export default function ChapterDetailScreen() {
             }
           ]}
         >
-          <Ionicons name="chevron-back" size={SIZES.icon.sm} color={theme.icon.primary} />
-          <ThemedBengaliText variant="primary" size="small">
+          <Ionicons name="chevron-back" size={SIZES.icon.md} color={theme.icon.primary} />
+          <ThemedBengaliText variant="primary" size="medium">
             পূর্ববর্তী
           </ThemedBengaliText>
         </TouchableOpacity>
@@ -287,10 +271,10 @@ export default function ChapterDetailScreen() {
             }
           ]}
         >
-          <ThemedBengaliText variant="primary" size="small">
+          <ThemedBengaliText variant="primary" size="medium">
             পরবর্তী
           </ThemedBengaliText>
-          <Ionicons name="chevron-forward" size={SIZES.icon.sm} color={theme.icon.primary} />
+          <Ionicons name="chevron-forward" size={SIZES.icon.md} color={theme.icon.primary} />
         </TouchableOpacity>
       </ThemedView>
     </ThemedView>
@@ -328,69 +312,27 @@ const styles = StyleSheet.create({
   backButton: {
     marginRight: SIZES.spacing.lg,
     marginTop: SIZES.spacing.xs,
+    padding: SIZES.spacing.sm,
+    borderRadius: SIZES.radius.lg,
+    minWidth: 44,
+    minHeight: 44,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   headerContent: {
     flex: 1,
-    padding: SIZES.spacing.sm,
+    padding: SIZES.spacing.md,
   },
   chapterTitle: {
-
+    marginBottom: SIZES.spacing.xs,
+    lineHeight: 32,
   },
   chapterSubtitle: {
-    fontSize: SIZES.xl,
-    marginBottom: SIZES.spacing.xs,
+    marginBottom: SIZES.spacing.sm,
+    lineHeight: 24,
+    opacity: 0.85,
   },
-  chapterEnglishTitle: {
-    fontSize: SIZES.lg,
-    fontStyle: 'italic',
-  },
-  chapterNavigation: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: SIZES.spacing.xl,
-    paddingVertical: SIZES.spacing.lg,
-  },
-  navButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: SIZES.spacing.md,
-    paddingVertical: SIZES.spacing.sm,
-    borderRadius: SIZES.radius.md,
-  },
-  navButtonText: {
-    fontSize: SIZES.md,
-    marginHorizontal: SIZES.spacing.xs,
-  },
-  chapterInfo: {
-    alignItems: 'center',
-  },
-  chapterNumber: {
-    fontSize: SIZES.lg,
-    fontWeight: 'bold',
-  },
-  verseCount: {
-    fontSize: SIZES.sm,
-    marginTop: SIZES.spacing.xs,
-  },
-  languageToggle: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    paddingHorizontal: SIZES.spacing.xl,
-    paddingVertical: SIZES.spacing.md,
-    gap: SIZES.spacing.sm,
-  },
-  languageButton: {
-    flex: 1,
-    paddingVertical: SIZES.spacing.md,
-    paddingHorizontal: SIZES.spacing.lg,
-    borderRadius: SIZES.radius.md,
-    alignItems: 'center',
-  },
-  languageButtonText: {
-    fontSize: SIZES.md,
-    fontWeight: '600',
-  },
+
   verseContainer: {
     flex: 1,
     paddingHorizontal: SIZES.spacing.xl,
@@ -401,17 +343,17 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: SIZES.spacing.xl,
     paddingVertical: SIZES.spacing.lg,
+    gap: SIZES.spacing.md,
   },
 
   verseNavButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: SIZES.spacing.md,
-    paddingVertical: SIZES.spacing.sm,
-    borderRadius: SIZES.radius.md,
+    paddingHorizontal: SIZES.spacing.lg,
+    paddingVertical: SIZES.spacing.md,
+    borderRadius: SIZES.radius.lg,
+    gap: SIZES.spacing.sm,
+    minHeight: 44,
   },
-  verseNavButtonText: {
-    fontSize: SIZES.md,
-    marginHorizontal: SIZES.spacing.xs,
-  },
+
 });

@@ -18,7 +18,7 @@ const MenuGrid: React.FC<MenuGridProps> = ({ onMenuItemPress }) => {
   const renderIcon = (item: MenuItem) => {
     const iconProps = {
       name: item.iconName as any,
-      size: SIZES.icon.lg,
+      size: SIZES.icon.xl,
       color: theme.icon.primary,
     };
 
@@ -79,7 +79,7 @@ const MenuGrid: React.FC<MenuGridProps> = ({ onMenuItemPress }) => {
         <ThemedView style={[styles.arrowContainer, { backgroundColor: theme.background.quaternary }]}>
           <MaterialIcons 
             name="arrow-forward-ios" 
-            size={SIZES.icon.sm} 
+            size={SIZES.icon.md} 
             color={theme.icon.quaternary} 
           />
         </ThemedView>
@@ -125,15 +125,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: SIZES.spacing.sm,
   },
   sectionIndicator: {
-    width: 4,
-    height: 24,
-    borderRadius: SIZES.radius.sm,
+    width: 5,
+    height: 28,
+    borderRadius: SIZES.radius.md,
     marginRight: SIZES.spacing.md,
   },
   sectionTitle: {
-    fontSize: SIZES.xl,
+    fontSize: SIZES.xxl,
     fontFamily: 'BenSenHandwriting',
     flex: 1,
+    fontWeight: '600',
   },
   menuContainer: {
     // gap: SIZES.spacing.md,
@@ -156,39 +157,39 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   iconContainer: {
-    width: 56,
-    height: 56,
-    borderRadius: SIZES.radius.lg,
+    width: 60,
+    height: 60,
+    borderRadius: SIZES.radius.xl,
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: SIZES.spacing.lg,
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: 3,
     },
-    shadowOpacity: 0.15,
-    shadowRadius: 3,
-    elevation: 2,
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 3,
   },
   textContainer: {
     flex: 1,
     justifyContent: 'center',
   },
   menuItemTitle: {
-    fontSize: SIZES.lg,
+    fontSize: SIZES.xl,
     fontWeight: '600',
     fontFamily: 'BenSenHandwriting',
     marginBottom: SIZES.spacing.xs,
-    lineHeight: 22,
+    lineHeight: 24,
   },
   menuItemDescription: {
-    fontSize: SIZES.sm,
-    lineHeight: 18,
-    opacity: 0.8,
+    fontSize: SIZES.md,
+    lineHeight: 20,
+    opacity: 0.85,
   },
   arrowContainer: {
-    width: 32,
-    height: 32,
+    width: 36,
+    height: 36,
     borderRadius: SIZES.radius.round,
     alignItems: 'center',
     justifyContent: 'center',

@@ -117,7 +117,7 @@ export default function BookmarksScreen() {
           <ThemedView style={styles.bookmarkInfo}>
             <ThemedBengaliText 
               variant="secondary" 
-              size="xs" 
+              size="small" 
               fontFamily="mahinSameya"
               style={styles.bookmarkDate}
             >
@@ -142,13 +142,13 @@ export default function BookmarksScreen() {
             onPress={() => handleRemoveBookmark(bookmark.verseId)}
             style={[styles.removeButton, { backgroundColor: theme.background.quaternary }]}
           >
-            <Ionicons name="trash-outline" size={SIZES.icon.sm} color={theme.icon.error} />
+            <Ionicons name="trash-outline" size={SIZES.icon.md} color={theme.icon.error} />
           </TouchableOpacity>
           
           <ThemedView style={[styles.arrowContainer, { backgroundColor: theme.background.quaternary }]}>
             <MaterialIcons 
               name="arrow-forward-ios" 
-              size={SIZES.icon.sm} 
+              size={SIZES.icon.md} 
               color={theme.icon.quaternary} 
             />
           </ThemedView>
@@ -198,12 +198,12 @@ export default function BookmarksScreen() {
               onPress={handleRemoveAllBookmarks}
               style={[styles.actionButton, { borderColor: theme.border.error }]}
             >
-              <Ionicons name="trash-outline" size={SIZES.icon.lg} color={theme.icon.error} />
+              <Ionicons name="trash-outline" size={SIZES.icon.xl} color={theme.icon.error} />
             </TouchableOpacity>
           )}
           <ThemedView style={[styles.actionButton, { borderColor: theme.border.primary }]}>
             <BookmarkIcon 
-              size={SIZES.icon.lg} 
+              size={SIZES.icon.xl} 
               color={theme.icon.primary} 
               focused={true}
               showBadge={true}
@@ -245,7 +245,7 @@ export default function BookmarksScreen() {
               <ThemedView style={[styles.sectionIndicator, { backgroundColor: theme.background.quaternary }]} />
               <ThemedBengaliText 
                 variant="primary" 
-                size="xl" 
+                size="xxl" 
                 fontFamily="benSen"
                 style={styles.sectionTitle}
               >
@@ -291,7 +291,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: SIZES.spacing.sm,
+    margin: SIZES.spacing.lg,
+    marginBottom: SIZES.spacing.md,
   },
   title: {
     flex: 1,
@@ -305,8 +306,12 @@ const styles = StyleSheet.create({
   },
   actionButton: {
     borderWidth: SIZES.borderSize.sm,
-    padding: SIZES.spacing.sm,
-    borderRadius: SIZES.radius.md,
+    padding: SIZES.spacing.md,
+    borderRadius: SIZES.radius.lg,
+    minWidth: 44,
+    minHeight: 44,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   scrollView: {
     flex: 1,
@@ -324,16 +329,18 @@ const styles = StyleSheet.create({
     paddingHorizontal: SIZES.spacing.lg,
   },
   sectionIndicator: {
-    width: SIZES.borderSize.xxl,
-    height: SIZES.spacing.xxxl,
-    borderRadius: SIZES.radius.sm,
+    width: 5,
+    height: 32,
+    borderRadius: SIZES.radius.md,
     marginRight: SIZES.spacing.md,
   },
   sectionTitle: {
     flex: 1,
+    fontWeight: '600',
   },
   bookmarksContainer: {
     paddingHorizontal: SIZES.spacing.lg,
+    gap: SIZES.spacing.sm,
   },
   bookmarkCardContainer: {
     marginBottom: SIZES.spacing.md,
@@ -341,31 +348,32 @@ const styles = StyleSheet.create({
   bookmarkCard: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: SIZES.spacing.lg,
+    padding: SIZES.spacing.xl,
     borderRadius: SIZES.radius.xl,
     borderWidth: SIZES.borderSize.sm,
+    marginBottom: SIZES.spacing.sm,
     shadowOffset: {
       width: 0,
-      height: SIZES.shadow.sm,
+      height: SIZES.shadow.md,
     },
-    shadowOpacity: 0.1,
-    shadowRadius: SIZES.shadow.md,
-    elevation: 3,
+    shadowOpacity: 0.15,
+    shadowRadius: SIZES.shadow.lg,
+    elevation: 4,
   },
   iconContainer: {
-    width: SIZES.avatar.lg,
-    height: SIZES.avatar.lg,
-    borderRadius: SIZES.radius.lg,
+    width: SIZES.avatar.xl,
+    height: SIZES.avatar.xl,
+    borderRadius: SIZES.radius.xl,
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: SIZES.spacing.lg,
     shadowOffset: {
       width: 0,
-      height: SIZES.shadow.sm,
+      height: SIZES.shadow.md,
     },
-    shadowOpacity: 0.15,
-    shadowRadius: SIZES.shadow.sm,
-    elevation: 2,
+    shadowOpacity: 0.2,
+    shadowRadius: SIZES.shadow.md,
+    elevation: 3,
   },
   chapterNumber: {
     // Font styling handled by ThemedBengaliText component
@@ -384,10 +392,11 @@ const styles = StyleSheet.create({
     marginBottom: SIZES.spacing.sm,
   },
   bookmarkDate: {
-    // Font styling handled by ThemedBengaliText component
+    opacity: 0.9,
   },
   verseText: {
-    lineHeight: SIZES.spacing.lg,
+    lineHeight: 22,
+    opacity: 0.85,
   },
   actionContainer: {
     flexDirection: 'row',
@@ -395,15 +404,15 @@ const styles = StyleSheet.create({
     gap: SIZES.spacing.sm,
   },
   removeButton: {
-    width: SIZES.avatar.sm,
-    height: SIZES.avatar.sm,
+    width: SIZES.avatar.md,
+    height: SIZES.avatar.md,
     borderRadius: SIZES.radius.round,
     alignItems: 'center',
     justifyContent: 'center',
   },
   arrowContainer: {
-    width: SIZES.avatar.sm,
-    height: SIZES.avatar.sm,
+    width: SIZES.avatar.md,
+    height: SIZES.avatar.md,
     borderRadius: SIZES.radius.round,
     alignItems: 'center',
     justifyContent: 'center',
