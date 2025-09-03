@@ -1,17 +1,17 @@
 import { MenuItem } from '@/constants/menuData';
+import { router } from 'expo-router';
 
 // Navigation handlers for different menu items
 export const navigationHandlers = {
   // Prayer and Stotra handlers
   mangalacharan: () => {
     console.log('Navigating to মঙ্গলাচরণ screen');
-    // Add navigation logic here
-    // Example: navigation.navigate('Mangalacharan');
+    router.push('/mangalacharan');
   },
   
   dhyana: () => {
     console.log('Navigating to ধ্যান screen');
-    // Add navigation logic here
+    router.push('/dhyana');
   },
   
   stotra: () => {
@@ -22,7 +22,7 @@ export const navigationHandlers = {
   // Chapter handlers
   allChapters: () => {
     console.log('Navigating to সকল অধ্যায় screen');
-    // Add navigation logic here
+    router.push('/(tabs)/chapters');
   },
   
   chapterList: () => {
@@ -38,12 +38,12 @@ export const navigationHandlers = {
   // Feature handlers
   bookmarks: () => {
     console.log('Navigating to বুকমার্ক screen');
-    // Add navigation logic here
+    router.push('/(tabs)/bookmarks');
   },
   
   favorites: () => {
     console.log('Navigating to প্রিয় শ্লোক screen');
-    // Add navigation logic here
+    router.push('/favorites');
   },
   
   notes: () => {
@@ -92,6 +92,17 @@ export const navigationHandlers = {
     console.log('Navigating to আমাদের সম্পর্কে screen');
     // Add navigation logic here
   },
+  
+  // New handlers for home page buttons
+  gitaSummary: () => {
+    console.log('Navigating to গীতার সারাংশ screen');
+    router.push('/gita-summary');
+  },
+  
+  gitaMahatmya: () => {
+    console.log('Navigating to গীতা-মাহাত্ম্য screen');
+    router.push('/gita-mahatmya');
+  },
 };
 
 // Helper function to get the appropriate handler for a menu item
@@ -114,6 +125,8 @@ export const getNavigationHandler = (item: MenuItem) => {
     'audio-settings': navigationHandlers.audioSettings,
     'help': navigationHandlers.help,
     'about': navigationHandlers.about,
+    'gita-summary': navigationHandlers.gitaSummary,
+    'gita-mahatmya': navigationHandlers.gitaMahatmya,
   };
   
   return handlerMap[item.id] || (() => console.log(`No handler found for ${item.id}`));

@@ -1,3 +1,4 @@
+import { getNavigationHandler } from '@/components/home/navigationHandlers';
 import { FontAwesome6, MaterialIcons } from '@expo/vector-icons';
 
 export interface MenuItem {
@@ -29,7 +30,7 @@ export const menuSections: MenuSection[] = [
         iconName: 'favorite',
         iconFamily: 'MaterialIcons',
         description: 'গীতা পাঠের পূর্বে মঙ্গলাচরণ',
-        action: () => console.log('মঙ্গলাচরণ pressed'),
+        action: () => getNavigationHandler({ id: 'mangalacharan' } as MenuItem)(),
       },
       {
         id: 'dhyana',
@@ -38,7 +39,7 @@ export const menuSections: MenuSection[] = [
         iconName: 'self-improvement',
         iconFamily: 'MaterialIcons',
         description: 'ধ্যান ও চিন্তন',
-        action: () => console.log('ধ্যান pressed'),
+        action: () => getNavigationHandler({ id: 'dhyana' } as MenuItem)(),
       },
     
     ],
@@ -54,7 +55,7 @@ export const menuSections: MenuSection[] = [
         iconName: 'book-bookmark',
         iconFamily: 'FontAwesome6',
         description: 'সমস্ত ১৮টি অধ্যায়',
-        action: () => console.log('সকল অধ্যায় pressed'),
+        action: () => getNavigationHandler({ id: 'all-chapters' } as MenuItem)(),
       },
      
     ],
@@ -63,15 +64,7 @@ export const menuSections: MenuSection[] = [
     id: 'features',
     title: 'বিশেষ বৈশিষ্ট্য',
     items: [
-      {
-        id: 'bookmarks',
-        title: 'বুকমার্ক',
-        icon: MaterialIcons,
-        iconName: 'bookmark',
-        iconFamily: 'MaterialIcons',
-        description: 'সংরক্ষিত শ্লোক ও অধ্যায়',
-        action: () => console.log('বুকমার্ক pressed'),
-      },
+     
       {
         id: 'favorites',
         title: 'প্রিয় শ্লোক',
@@ -79,7 +72,7 @@ export const menuSections: MenuSection[] = [
         iconName: 'favorite',
         iconFamily: 'MaterialIcons',
         description: 'আপনার প্রিয় শ্লোকসমূহ',
-        action: () => console.log('প্রিয় শ্লোক pressed'),
+        action: () => getNavigationHandler({ id: 'favorites' } as MenuItem)(),
       },
       
     ],

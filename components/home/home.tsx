@@ -13,6 +13,7 @@ import React from 'react';
 import { Dimensions, Image, ScrollView, StyleSheet } from 'react-native';
 import { ThemedButton } from '../ui/ThemedButton';
 import MenuGrid from './MenuGrid';
+import { getNavigationHandler } from './navigationHandlers';
 
 
 const Home = () => {
@@ -20,11 +21,8 @@ const Home = () => {
   const { width, height } = Dimensions.get('window');
 
   const handleMenuItemPress = (item: MenuItem) => {
-    console.log(`${item.title} pressed`);
-    // Add navigation logic here
-    if (item.action) {
-      item.action();
-    }
+    const handler = getNavigationHandler(item);
+    handler();
   };
 
   return (
@@ -78,7 +76,7 @@ const Home = () => {
          <ThemedCard style={{flexDirection:'row',gap:SIZES.spacing.md,alignItems:'center',justifyContent:'space-between'}}>
         <ThemedButton
           title="গীতার সারাংশ"
-          onPress={() => console.log('গীতার সারাংশ pressed')}
+          onPress={() => getNavigationHandler({ id: 'gita-summary' } as MenuItem)()}
           variant="primary"
           size="md"
           fullWidth
@@ -86,7 +84,7 @@ const Home = () => {
         />
         <ThemedButton
           title="গীতা-মাহাত্ম্য"
-          onPress={() => console.log('গীতা-মাহাত্ম্য pressed')}
+          onPress={() => getNavigationHandler({ id: 'gita-mahatmya' } as MenuItem)()}
           variant="primary"
           size="md"
           fullWidth

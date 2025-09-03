@@ -1,3 +1,4 @@
+import { FavoriteButton } from '@/components/favorite';
 import { ThemedBengaliText } from '@/components/ui/ThemedBengaliText/ThemedBengaliText';
 import { ThemedCard } from '@/components/ui/ThemedCard/ThemedCard';
 import { ThemedView } from '@/components/ui/ThemedView/ThemedView';
@@ -21,6 +22,8 @@ interface VerseReaderProps {
   showTranslation: boolean;
   onToggleBengali: () => void;
   onToggleTranslation: () => void;
+  chapterId?: string;
+  chapterNumber?: string;
 }
 
 export default function VerseReader({
@@ -29,6 +32,8 @@ export default function VerseReader({
   showTranslation,
   onToggleBengali,
   onToggleTranslation,
+  chapterId,
+  chapterNumber,
 }: VerseReaderProps) {
   const { theme } = useTheme();
 
@@ -53,10 +58,24 @@ export default function VerseReader({
 
         {showBengali && (
           <ThemedView style={styles.verseSection}>
-        
-            <ThemedBengaliText fontFamily='benSen' variant="primary" size="xxl" style={styles.bengaliText}>
-              {verse.bengali}
-            </ThemedBengaliText>
+            <ThemedView style={styles.bengaliContainer}>
+              <ThemedBengaliText fontFamily='benSen' variant="primary" size="xxl" style={styles.bengaliText}>
+                {verse.bengali}
+              </ThemedBengaliText>
+              
+              {/* Favorite Button for Bengali verse */}
+              {chapterId && chapterNumber && (
+                <ThemedView style={styles.favoriteContainer}>
+                  <FavoriteButton
+                    verseId={verse.id}
+                    chapterId={chapterId}
+                    chapterNumber={chapterNumber}
+                    verseNumber={verse.verseNumber}
+                    verseText={verse.bengali}
+                  />
+                </ThemedView>
+              )}
+            </ThemedView>
             
             {/* Audio Button */}
         
@@ -122,12 +141,18 @@ const styles = StyleSheet.create({
   sectionTitle: {
    textAlign: 'center',
   },
+  bengaliContainer: {
+    alignItems: 'center',
+  },
   bengaliText: {
    
     textAlign: 'center',
     marginBottom: SIZES.spacing.md,
     alignItems: 'center',
     alignSelf: 'center',
+  },
+  favoriteContainer: {
+    marginTop: SIZES.spacing.sm,
   },
   translationText: {
   

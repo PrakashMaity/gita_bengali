@@ -237,6 +237,8 @@ export default function ChapterDetailScreen() {
           showTranslation={showTranslation}
           onToggleBengali={toggleBengali}
           onToggleTranslation={toggleTranslation}
+          chapterId={chapter.id}
+          chapterNumber={chapter.number}
         />
 
         {/* Reading Progress */}
