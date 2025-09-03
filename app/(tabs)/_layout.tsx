@@ -1,4 +1,5 @@
-  import { SIZES } from '@/constants/sizes';
+  import { BookmarkIcon } from '@/components/ui/BookmarkIcon';
+import { SIZES } from '@/constants/sizes';
 import { useTheme } from '@/hooks/useTheme';
 import { Ionicons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
@@ -69,10 +70,12 @@ export default function TabLayout() {
         options={{
           title: 'বুকমার্ক',
           tabBarIcon: ({ color, size, focused }) => (
-            <Ionicons 
-              name={focused ? 'bookmark' : 'bookmark-outline'} 
+            <BookmarkIcon 
               size={size} 
               color={color} 
+              focused={focused}
+              showBadge={true}
+              badgeSize="small"
             />
           ),
         }}

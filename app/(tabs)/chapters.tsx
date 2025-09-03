@@ -1,3 +1,4 @@
+import { BookmarkIcon } from '@/components/ui/BookmarkIcon';
 import { ThemedBengaliText } from '@/components/ui/ThemedBengaliText';
 import { ThemedCard } from '@/components/ui/ThemedCard/ThemedCard';
 import ThemedSafeAreaView from '@/components/ui/ThemedSafeAreaView/ThemedSafeAreaView';
@@ -5,7 +6,7 @@ import { ThemedView } from '@/components/ui/ThemedView/ThemedView';
 import { SIZES } from '@/constants/sizes';
 import { useTheme } from '@/hooks/useTheme';
 import { WavePattern } from '@/illustration/cardBackground';
-import { Ionicons, MaterialIcons } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from 'expo-router';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -127,11 +128,9 @@ export default function ChaptersScreen() {
         activeOpacity={0.8}
       >
         <ThemedCard style={[styles.chapterCard, { 
-          // borderColor: theme.border.primary,
           backgroundColor: theme.background.card,
           shadowColor: theme.text.primary,
         }]}>
-          {/* Chapter Number Icon Container */}
           <ThemedView style={[styles.iconContainer, { 
             backgroundColor: theme.background.tertiary,
             shadowColor: theme.text.primary,
@@ -157,18 +156,7 @@ export default function ChaptersScreen() {
             >
               {chapterInfo.title} - {chapterInfo.subtitle}
             </ThemedBengaliText>
-            {/* <ThemedBengaliText
-              variant="secondary"
-              size="small"
-              fontFamily="mahinSameya"
-              style={styles.chapterSubtitle}
-              numberOfLines={1}
-            >
-              {chapterInfo.subtitle}
-            </ThemedBengaliText> */}
-          
-            
-            {/* Verse Count and Progress */}
+
             <ThemedView style={styles.chapterInfo}>
               <ThemedBengaliText 
                 variant="secondary" 
@@ -240,11 +228,15 @@ export default function ChaptersScreen() {
           অধ্যায়সমূহ
         </ThemedBengaliText>
         <ThemedView style={styles.headerActions}>
+         
           <ThemedView style={[styles.actionButton, { borderColor: theme.border.primary }]}>
-            <Ionicons name="search" size={SIZES.icon.lg} color={theme.icon.primary} />
-          </ThemedView>
-          <ThemedView style={[styles.actionButton, { borderColor: theme.border.primary }]}>
-            <Ionicons name="bookmark" size={SIZES.icon.lg} color={theme.icon.primary} />
+            <BookmarkIcon 
+              size={SIZES.icon.lg} 
+              color={theme.icon.primary} 
+              focused={true}
+              showBadge={true}
+              badgeSize="medium"
+            />
           </ThemedView>
         </ThemedView>
       </ThemedCard>
@@ -293,7 +285,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    margin: SIZES.spacing.lg,
     marginBottom: SIZES.spacing.sm,
   },
   title: {

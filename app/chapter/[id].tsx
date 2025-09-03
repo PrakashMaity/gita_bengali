@@ -1,7 +1,7 @@
+import { BookmarkButton } from '@/components/bookmark';
+import { ReadingProgress } from '@/components/progress';
 import { ThemedBengaliText } from '@/components/ui/ThemedBengaliText/ThemedBengaliText';
 import { ThemedView } from '@/components/ui/ThemedView/ThemedView';
-
-import { ReadingProgress } from '@/components/progress';
 import { VerseReader } from '@/components/verseReader';
 import { SIZES } from '@/constants/sizes';
 import { useTheme } from '@/hooks/useTheme';
@@ -249,10 +249,13 @@ export default function ChapterDetailScreen() {
 
       {/* Bottom Navigation */}
       <ThemedView style={styles.bottomNavigation}>
-        <TouchableOpacity style={[styles.bookmarkButton, { backgroundColor: theme.button.primary.background }]}>
-          <Ionicons name="bookmark-outline" size={SIZES.icon.md} color={theme.button.primary.text} />
-          <ThemedBengaliText variant="accent" size="small" style={styles.bookmarkText}>বুকমার্ক</ThemedBengaliText>
-        </TouchableOpacity>
+        <BookmarkButton
+          verseId={currentVerseData.id}
+          chapterId={chapter.id}
+          chapterNumber={chapter.number}
+          verseNumber={currentVerseData.verseNumber}
+          verseText={currentVerseData.bengali}
+        />
 
         <TouchableOpacity
           onPress={handlePreviousVerse}
@@ -397,18 +400,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: SIZES.spacing.xl,
     paddingVertical: SIZES.spacing.lg,
   },
-  bookmarkButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: SIZES.spacing.lg,
-    paddingVertical: SIZES.spacing.md,
-    borderRadius: SIZES.radius.md,
-  },
-  bookmarkText: {
-    fontSize: SIZES.md,
-    marginLeft: SIZES.spacing.sm,
-    fontWeight: '600',
-  },
+
   verseNavButton: {
     flexDirection: 'row',
     alignItems: 'center',

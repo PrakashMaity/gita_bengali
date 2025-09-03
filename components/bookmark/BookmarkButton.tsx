@@ -2,103 +2,64 @@ import { ThemedText } from '@/components/ui/ThemedText/ThemedText';
 import { ThemedView } from '@/components/ui/ThemedView/ThemedView';
 import { SIZES } from '@/constants/sizes';
 import { useTheme } from '@/hooks/useTheme';
+import { useBookmarkStore } from '@/store';
 import { Ionicons } from '@expo/vector-icons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useEffect, useState } from 'react';
 import { Alert, StyleSheet, TouchableOpacity } from 'react-native';
 
 interface BookmarkButtonProps {
-  chapterNumber: number;
-  verseNumber: number;
+  verseId: string;
+  chapterId: string;
+  chapterNumber: string;
+  verseNumber: string;
   verseText: string;
   onBookmarkChange?: (isBookmarked: boolean) => void;
 }
 
-interface Bookmark {
-  chapterNumber: number;
-  verseNumber: number;
-  verseText: string;
-  timestamp: number;
-}
 
-const BOOKMARK_KEY = 'gita_bookmarks';
 
 export default function BookmarkButton({
+  verseId,
+  chapterId,
   chapterNumber,
   verseNumber,
   verseText,
   onBookmarkChange,
 }: BookmarkButtonProps) {
   const { theme } = useTheme();
-  const [isBookmarked, setIsBookmarked] = useState(false);
+  const { 
+    bookmarks,
+    isBookmarked, 
+    addBookmark, 
+    removeBookmark, 
+    isLoading 
+  } = useBookmarkStore();
+
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    checkBookmarkStatus();
-  }, [chapterNumber, verseNumber]);
+    setLoading(false);
+  }, []);
 
-  const checkBookmarkStatus = async () => {
-    try {
-      const bookmarks = await getBookmarks();
-      const bookmarkExists = bookmarks.some(
-        (bookmark) => 
-          bookmark.chapterNumber === chapterNumber && 
-          bookmark.verseNumber === verseNumber
-      );
-      setIsBookmarked(bookmarkExists);
-      onBookmarkChange?.(bookmarkExists);
-    } catch (error) {
-      console.error('Error checking bookmark status:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  // Get current bookmark status - this will re-run when bookmarks change
+  const bookmarkStatus = isBookmarked(verseId);
 
-  const getBookmarks = async (): Promise<Bookmark[]> => {
-    try {
-      const bookmarksJson = await AsyncStorage.getItem(BOOKMARK_KEY);
-      return bookmarksJson ? JSON.parse(bookmarksJson) : [];
-    } catch (error) {
-      console.error('Error getting bookmarks:', error);
-      return [];
-    }
-  };
 
-  const saveBookmarks = async (bookmarks: Bookmark[]) => {
-    try {
-      await AsyncStorage.setItem(BOOKMARK_KEY, JSON.stringify(bookmarks));
-    } catch (error) {
-      console.error('Error saving bookmarks:', error);
-    }
-  };
+
+  // Update parent component when bookmark status changes
+  useEffect(() => {
+    onBookmarkChange?.(bookmarkStatus);
+  }, [bookmarkStatus, onBookmarkChange]);
 
   const handleBookmarkToggle = async () => {
     try {
-      const bookmarks = await getBookmarks();
-      const bookmarkKey = `${chapterNumber}-${verseNumber}`;
-      
-      if (isBookmarked) {
+      if (bookmarkStatus) {
         // Remove bookmark
-        const updatedBookmarks = bookmarks.filter(
-          (bookmark) => 
-            !(bookmark.chapterNumber === chapterNumber && bookmark.verseNumber === verseNumber)
-        );
-        await saveBookmarks(updatedBookmarks);
-        setIsBookmarked(false);
-        onBookmarkChange?.(false);
+        await removeBookmark(verseId);
         Alert.alert('বুকমার্ক সরানো হয়েছে', 'এই শ্লোকটি বুকমার্ক থেকে সরানো হয়েছে');
       } else {
         // Add bookmark
-        const newBookmark: Bookmark = {
-          chapterNumber,
-          verseNumber,
-          verseText,
-          timestamp: Date.now(),
-        };
-        const updatedBookmarks = [...bookmarks, newBookmark];
-        await saveBookmarks(updatedBookmarks);
-        setIsBookmarked(true);
-        onBookmarkChange?.(true);
+        await addBookmark(verseId, chapterId, chapterNumber, verseNumber, verseText);
         Alert.alert('বুকমার্ক যোগ করা হয়েছে', 'এই শ্লোকটি বুকমার্কে যোগ করা হয়েছে');
       }
     } catch (error) {
@@ -107,10 +68,10 @@ export default function BookmarkButton({
     }
   };
 
-  if (loading) {
+  if (loading || isLoading) {
     return (
       <ThemedView style={styles.container}>
-        <ThemedText style={[styles.loadingText, { color: theme.text.secondary }]}>
+        <ThemedText style={{ ...styles.loadingText, color: theme.text.secondary }}>
           লোড হচ্ছে...
         </ThemedText>
       </ThemedView>
@@ -123,21 +84,21 @@ export default function BookmarkButton({
       style={[
         styles.bookmarkButton,
         {
-          backgroundColor: isBookmarked ? theme.button.primary.background : theme.background.secondary,
-          borderColor: isBookmarked ? theme.button.primary.background : theme.border.primary,
+          backgroundColor: bookmarkStatus ? theme.button.primary.background : theme.background.secondary,
+          borderColor: bookmarkStatus ? theme.button.primary.background : theme.border.primary,
         }
       ]}
     >
       <Ionicons 
-        name={isBookmarked ? "bookmark" : "bookmark-outline"} 
+        name={bookmarkStatus ? "checkmark" : "bookmark-outline"} 
         size={20} 
-        color={isBookmarked ? theme.button.primary.text : theme.icon.secondary} 
+        color={bookmarkStatus ? "#4CAF50" : theme.icon.secondary} 
       />
-      <ThemedText style={[
-        styles.bookmarkText,
-        { color: isBookmarked ? theme.button.primary.text : theme.text.primary }
-      ]}>
-        {isBookmarked ? 'বুকমার্ক করা' : 'বুকমার্ক'}
+      <ThemedText style={{
+        ...styles.bookmarkText,
+        color: bookmarkStatus ? theme.button.primary.text : theme.text.primary
+      }}>
+        {bookmarkStatus ? 'বুকমার্ক করা' : 'বুকমার্ক'}
       </ThemedText>
     </TouchableOpacity>
   );
