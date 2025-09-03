@@ -77,25 +77,14 @@ export default function FavoriteButton({
   return (
     <TouchableOpacity
       onPress={handleFavoriteToggle}
-      style={[
-        styles.favoriteButton,
-        {
-          backgroundColor: favoriteStatus ? theme.button.primary.background : theme.background.secondary,
-          borderColor: favoriteStatus ? theme.button.primary.background : theme.border.primary,
-        }
-      ]}
+   
     >
       <Ionicons 
         name={favoriteStatus ? "heart" : "heart-outline"} 
-        size={20} 
+        size={SIZES.icon.xxl} 
         color={favoriteStatus ? "#FF6B6B" : theme.icon.secondary} 
       />
-      <ThemedText style={{
-        ...styles.favoriteText,
-        color: favoriteStatus ? theme.button.primary.text : theme.text.primary
-      }}>
-        {favoriteStatus ? 'প্রিয়' : 'প্রিয়'}
-      </ThemedText>
+   
     </TouchableOpacity>
   );
 }

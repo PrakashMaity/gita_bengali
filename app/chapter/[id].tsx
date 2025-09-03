@@ -256,13 +256,7 @@ export default function ChapterDetailScreen() {
 
       {/* Bottom Navigation */}
       <ThemedView style={styles.bottomNavigation}>
-        <BookmarkButton
-          verseId={currentVerseData.id}
-          chapterId={chapter.id}
-          chapterNumber={chapter.number}
-          verseNumber={currentVerseData.verseNumber}
-          verseText={currentVerseData.bengali}
-        />
+      
 
         <TouchableOpacity
           onPress={handlePreviousVerse}
@@ -280,7 +274,13 @@ export default function ChapterDetailScreen() {
             পূর্ববর্তী
           </ThemedBengaliText>
         </TouchableOpacity>
-
+        <BookmarkButton
+          verseId={currentVerseData.id}
+          chapterId={chapter.id}
+          chapterNumber={chapter.number}
+          verseNumber={currentVerseData.verseNumber}
+          verseText={currentVerseData.bengali}
+        />
         <TouchableOpacity
           onPress={handleNextVerse}
           disabled={currentVerse >= verses.length - 1}

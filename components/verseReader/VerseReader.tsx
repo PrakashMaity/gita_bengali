@@ -1,12 +1,11 @@
-import { FavoriteButton } from '@/components/favorite';
 import { ThemedBengaliText } from '@/components/ui/ThemedBengaliText/ThemedBengaliText';
 import { ThemedCard } from '@/components/ui/ThemedCard/ThemedCard';
 import { ThemedView } from '@/components/ui/ThemedView/ThemedView';
 import { SIZES } from '@/constants/sizes';
 import { useTheme } from '@/hooks/useTheme';
-import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { Image, StyleSheet } from 'react-native';
+import { FavoriteButton } from '../favorite';
 
 interface Verse {
   verseNumber: string;
@@ -36,35 +35,41 @@ export default function VerseReader({
   chapterNumber,
 }: VerseReaderProps) {
   const { theme } = useTheme();
+  const speakerImageMapper = (speaker: string) => {
+    switch (speaker) {
+      case 'ধৃতরাষ্ট্র': return require('@/assets/images/speaker/dhritarystra.png');
+      case 'সঞ্জয়': return require('@/assets/images/speaker/sanjay.png');
+      case 'অর্জুন': return require('@/assets/images/speaker/arjuna.png');
+      case 'পরমেশ্বর': return require('@/assets/images/speaker/shreekrishna.png');
+      case 'দুর্যোধন': return require('@/assets/images/speaker/duryadhona.png');
+    }
+  }
 
   return (
     <ThemedView style={styles.container}>
       {/* Verse Display */}
       <ThemedCard variant="primary" style={styles.verseCard}>
         <ThemedView style={styles.verseHeader}>
-          <ThemedView style={[styles.verseNumberContainer, { backgroundColor: theme.button.primary.background }]}>
-            <ThemedBengaliText style={{color: theme.button.primary.text}} size="title">
-              {verse.verseNumber}
-            </ThemedBengaliText>
-          </ThemedView>
-          
+         
+
           <ThemedView style={styles.speakerContainer}>
-            <Ionicons name="person-outline" size={SIZES.icon.md} color={theme.icon.secondary} />
+            <ThemedView style={{alignItems: 'center', justifyContent: 'center'}}>
+            <Image source={speakerImageMapper(verse.speaker)} style={{width: 80, height: 80, borderRadius: 40,borderWidth: 3,borderColor: theme.border.primary}} />
+            </ThemedView>
             <ThemedBengaliText fontFamily='mahinSameya' variant="primary" size="medium" style={styles.speaker}>
               {verse.speaker}
             </ThemedBengaliText>
           </ThemedView>
-        </ThemedView>
 
-        {showBengali && (
-          <ThemedView style={styles.verseSection}>
-            <ThemedView style={styles.bengaliContainer}>
-              <ThemedBengaliText fontFamily='benSen' variant="primary" size="xxl" style={styles.bengaliText}>
-                {verse.bengali}
-              </ThemedBengaliText>
-              
-              {/* Favorite Button for Bengali verse */}
-              {chapterId && chapterNumber && (
+          <ThemedView style={[styles.verseNumberContainer, ]}>
+            <ThemedBengaliText style={{ color: theme.button.primary.text }} size="xl">
+            শ্লোক - {verse.verseNumber}
+            </ThemedBengaliText>
+          
+          </ThemedView>
+
+           {/* Favorite Button for Bengali verse */}
+           {chapterId && chapterNumber && (
                 <ThemedView style={styles.favoriteContainer}>
                   <FavoriteButton
                     verseId={verse.id}
@@ -75,10 +80,20 @@ export default function VerseReader({
                   />
                 </ThemedView>
               )}
+        </ThemedView>
+
+        {showBengali && (
+          <ThemedView style={styles.verseSection}>
+            <ThemedView style={styles.bengaliContainer}>
+              <ThemedBengaliText fontFamily='benSen' variant="primary" size="xxl" style={styles.bengaliText}>
+                {verse.bengali}
+              </ThemedBengaliText>
+
+             
             </ThemedView>
-            
+
             {/* Audio Button */}
-        
+
           </ThemedView>
         )}
 
@@ -117,31 +132,22 @@ const styles = StyleSheet.create({
   verseHeader: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
     marginBottom: SIZES.spacing.xl,
   },
   verseNumberContainer: {
-    width: SIZES.icon.huge,
-    height: SIZES.icon.huge,
-    borderRadius: SIZES.radius.round,
+   
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: SIZES.spacing.lg,
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.15,
-    shadowRadius: 4,
-    elevation: 3,
+    
   },
   verseNumber: {
     fontSize: SIZES.lg,
     fontWeight: 'bold',
   },
   speakerContainer: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     alignItems: 'center',
-    flex: 1,
   },
   speaker: {
     marginLeft: SIZES.spacing.sm,
@@ -154,7 +160,7 @@ const styles = StyleSheet.create({
     marginBottom: SIZES.spacing.md,
   },
   sectionTitle: {
-   textAlign: 'center',
+    textAlign: 'center',
   },
   bengaliContainer: {
     alignItems: 'center',
