@@ -2,7 +2,7 @@ import { SIZES } from '@/constants/sizes';
 import { useThemeColors } from '@/hooks/useTheme';
 import React from 'react';
 import { TextStyle, TouchableOpacity, ViewStyle } from 'react-native';
-import { ThemedText } from '../ThemedText/ThemedText';
+import { ThemedBengaliText } from '../ThemedBengaliText/ThemedBengaliText';
 
 export interface ThemedButtonProps {
   title: string;
@@ -80,14 +80,12 @@ export const ThemedButton: React.FC<ThemedButtonProps> = ({
   };
 
   const getTextStyle = (): TextStyle => {
-    const baseTextStyle: TextStyle = {
-      fontFamily: 'BegumZiaRegulaCurve',
-    };
+   const letterSpacing = size === 'sm' ? 0.5 : size === 'md' ? 2 : 2.5;
 
     const sizeTextStyles: Record<string, TextStyle> = {
-      sm: { fontSize: SIZES.sm },
-      md: { fontSize: SIZES.md },
-      lg: { fontSize: SIZES.lg },
+      sm: { fontSize: SIZES.md },
+      md: { fontSize: SIZES.lg },
+      lg: { fontSize: SIZES.xl },
     };
 
     const variantTextStyles: Record<string, TextStyle> = {
@@ -103,9 +101,9 @@ export const ThemedButton: React.FC<ThemedButtonProps> = ({
     };
 
     return {
-      ...baseTextStyle,
       ...sizeTextStyles[size],
       ...variantTextStyles[variant],
+      letterSpacing: letterSpacing,
     };
   };
 
@@ -117,9 +115,9 @@ export const ThemedButton: React.FC<ThemedButtonProps> = ({
       activeOpacity={0.7}
     >
       {icon}
-      <ThemedText style={{...getTextStyle(), ...textStyle}}>
+      <ThemedBengaliText fontFamily='mahinSameya' style={{...getTextStyle(), ...textStyle}}>
         {title}
-      </ThemedText>
+      </ThemedBengaliText>
     </TouchableOpacity>
   );
 };

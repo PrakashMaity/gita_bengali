@@ -21,7 +21,9 @@ export default function TabLayout() {
           paddingTop: SIZES.spacing.sm,
         },
         tabBarLabelStyle: {
-          fontSize: SIZES.sm,
+          fontSize: SIZES.lg,
+          fontFamily: 'MahinDhakaItalic',
+          letterSpacing: 1.5,
         },
         headerShown: false,
       }}
@@ -52,6 +54,7 @@ export default function TabLayout() {
           ),
         }}
       />
+  
       <Tabs.Screen
         name="audio"
         options={{

@@ -25,6 +25,12 @@ export const navigationHandlers = {
     router.push('/(tabs)/chapters');
   },
   
+  // Translation handlers
+  allTranslations: () => {
+    console.log('Navigating to বাংলা অনুবাদ screen');
+    router.push('/translations');
+  },
+  
   chapterList: () => {
     console.log('Navigating to অধ্যায় তালিকা screen');
     // Add navigation logic here
@@ -112,6 +118,7 @@ export const getNavigationHandler = (item: MenuItem) => {
     'dhyana': navigationHandlers.dhyana,
     'stotra': navigationHandlers.stotra,
     'all-chapters': navigationHandlers.allChapters,
+    'all-translations': navigationHandlers.allTranslations,
     'chapter-list': navigationHandlers.chapterList,
     'random-chapter': navigationHandlers.randomChapter,
     'bookmarks': navigationHandlers.bookmarks,

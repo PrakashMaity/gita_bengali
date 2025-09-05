@@ -9,4 +9,6 @@ export { useProgressStore } from './progressStore';
 export type { ReadingProgress } from './progressStore';
 export { useSettingsStore } from './settingsStore';
 export type { Settings } from './settingsStore';
+export { useTranslationStore } from './translationStore';
+export type { TranslationData } from './translationStore';
 

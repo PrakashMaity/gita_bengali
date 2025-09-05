@@ -54,16 +54,16 @@ const Home = () => {
           <ThemedView style={styles.textOverlay}>
             <ThemedBengaliText 
               variant="primary" 
-              size="large" 
-              fontFamily="begumZia"
+              size="xxl" 
+              fontFamily="mahinSameya"
               style={styles.overlayText}
             >
               &ldquo;কর্মণ্যেবাধিকারের্তে মা ফলেষু কদাচন।
             </ThemedBengaliText>
             <ThemedBengaliText 
               variant="primary" 
-              size="large" 
-              fontFamily="begumZia"
+              size="xxl" 
+              fontFamily="mahinSameya"
               style={styles.overlayText}
             >
               মা কর্মফলহেতুর্ভূর্মা তে সংঘোস্ত্বকর্মণি॥&rdquo;
@@ -72,7 +72,7 @@ const Home = () => {
         </ThemedView>
       </ThemedCard>
 
-      <ThemedCard style={styles.quickActionsCard}>
+      <ThemedCard variant='transparent' style={styles.quickActionsCard}>
         <ThemedButton
           title="গীতার সারাংশ"
           onPress={() => getNavigationHandler({ id: 'gita-summary' } as MenuItem)()}
@@ -82,7 +82,7 @@ const Home = () => {
           icon={<FontAwesome6 name="book-bookmark" size={SIZES.icon.lg} color={theme.button.primary.text} />}
         />
         <ThemedButton
-          title="গীতা-মাহাত্ম্য"
+          title="গীতার মাহাত্ম্য"
           onPress={() => getNavigationHandler({ id: 'gita-mahatmya' } as MenuItem)()}
           variant="secondary"
           size="md"
@@ -107,8 +107,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    margin: 16,
-    marginBottom: 8,
+  
   },
   logo: {
     width: 64,
@@ -140,7 +139,7 @@ const styles = StyleSheet.create({
   },
   heroImage: {
     width: '100%',
-    height: 220,
+    height: 180,
   },
   textOverlay: {
     position: 'absolute',
@@ -148,7 +147,6 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.4)',
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
@@ -156,12 +154,10 @@ const styles = StyleSheet.create({
   overlayText: {
     textAlign: 'center',
     marginBottom: SIZES.spacing.sm,
-    lineHeight: 32,
-    color: '#FFFFFF',
+
     textShadowColor: 'rgba(0, 0, 0, 0.8)',
     textShadowOffset: { width: 1, height: 1 },
     textShadowRadius: 4,
-    fontSize: SIZES.lg,
   },
   scrollView: {
     flex: 1,

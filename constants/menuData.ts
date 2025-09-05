@@ -57,6 +57,15 @@ export const menuSections: MenuSection[] = [
         description: 'সমস্ত ১৮টি অধ্যায়',
         action: () => getNavigationHandler({ id: 'all-chapters' } as MenuItem)(),
       },
+      {
+        id: 'all-translations',
+        title: 'বাংলা অনুবাদ',
+        icon: FontAwesome6,
+        iconName: 'language',
+        iconFamily: 'FontAwesome6',
+        description: 'সকল অধ্যায়ের বাংলা অনুবাদ',
+        action: () => getNavigationHandler({ id: 'all-translations' } as MenuItem)(),
+      },
      
     ],
   },

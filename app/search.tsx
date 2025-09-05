@@ -38,13 +38,13 @@ export default function SearchScreen() {
     chapters.forEach((chapterData) => {
       const { chapter, verses } = chapterData;
       
-      verses.forEach((verse: any) => {
+      verses?.forEach((verse: any) => {
         const matches: SearchResult[] = [];
 
         // Search in Sanskrit
         if (verse.sanskrit && verse.sanskrit.toLowerCase().includes(searchTerm)) {
           matches.push({
-            chapterNumber: chapter.number,
+            chapterNumber: parseInt(chapter.number),
             verseNumber: verse.verseNumber,
             verseText: verse.sanskrit,
             translation: verse.translation,
@@ -56,7 +56,7 @@ export default function SearchScreen() {
         // Search in Bengali
         if (verse.bengali && verse.bengali.toLowerCase().includes(searchTerm)) {
           matches.push({
-            chapterNumber: chapter.number,
+            chapterNumber: parseInt(chapter.number),
             verseNumber: verse.verseNumber,
             verseText: verse.bengali,
             translation: verse.translation,
@@ -68,7 +68,7 @@ export default function SearchScreen() {
         // Search in Translation
         if (verse.translation && verse.translation.toLowerCase().includes(searchTerm)) {
           matches.push({
-            chapterNumber: chapter.number,
+            chapterNumber: parseInt(chapter.number),
             verseNumber: verse.verseNumber,
             verseText: verse.translation,
             translation: verse.translation,

@@ -1,146 +1,94 @@
-import { BookmarkIcon } from '@/components/ui/BookmarkIcon';
 import { ThemedBengaliText } from '@/components/ui/ThemedBengaliText';
 import { ThemedCard } from '@/components/ui/ThemedCard/ThemedCard';
-import { ThemedLinearProgress } from '@/components/ui/ThemedLinearProgress';
 import ThemedSafeAreaView from '@/components/ui/ThemedSafeAreaView/ThemedSafeAreaView';
-import { ThemedSpacer } from '@/components/ui/ThemedSpacer/ThemedSpacer';
 import { ThemedView } from '@/components/ui/ThemedView/ThemedView';
 import { SIZES } from '@/constants/sizes';
 import { useTheme } from '@/hooks/useTheme';
 import { WavePattern } from '@/illustration/cardBackground';
-import { ChapterData, useChapterStore, useProgressStore } from '@/store';
+import { TranslationData, useTranslationStore } from '@/store';
 import { MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import React, { useEffect } from 'react';
 import { Dimensions, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 
-
-
-export default function ChaptersScreen() {
+export default function TranslationsScreen() {
   const { theme } = useTheme();
   const { width, height } = Dimensions.get('window');
-  const { chapters, isLoading } = useChapterStore();
-  const { 
-    progress, 
-    isLoading: progressLoading, 
-    loadProgress, 
-    getProgressPercentage 
-  } = useProgressStore();
+  const { translations, isLoading, loadAllTranslations } = useTranslationStore();
 
   useEffect(() => {
-    loadProgress();
-  }, [loadProgress]);
+    loadAllTranslations();
+  }, [loadAllTranslations]);
 
-  const handleChapterPress = (chapterId: string) => {
-    router.push(`/chapter/${chapterId}`);
+  const handleTranslationPress = (chapterId: string) => {
+    router.push(`/translation/${chapterId}`);
   };
 
-  const renderChapterCard = (chapter: ChapterData) => {
-    const { chapter: chapterInfo } = chapter;
-    const chapterId = chapterInfo.id;
-    const chapterProgress = progress[chapterId];
-    
-    // Calculate progress percentage based on last read verse
-    let progressPercentage = 0;
-    if (chapterProgress && chapter.verses) {
-      const lastReadVerseIndex = chapter.verses.findIndex(
-        verse => verse.id === chapterProgress.lastReadVerseId
-      );
-      if (lastReadVerseIndex !== -1) {
-        progressPercentage = getProgressPercentage(chapterId, lastReadVerseIndex, chapter.verses.length);
-      }
-    }
+  const renderTranslationCard = (translation: TranslationData) => {
+    const { chapter } = translation;
 
     return (
       <TouchableOpacity
-        key={chapterInfo.id}
-        onPress={() => handleChapterPress(chapterInfo.id)}
-        style={styles.chapterCardContainer}
-
+        key={chapter.id}
+        onPress={() => handleTranslationPress(chapter.id)}
+        style={styles.translationCardContainer}
       >
-        <ThemedCard style={[styles.chapterCard]}>
+        <ThemedCard style={[styles.translationCard]}>
           <ThemedView style={{flexDirection: 'row'}} >
-          <ThemedView style={[styles.iconContainer, {
-            backgroundColor: theme.background.tertiary,
-
-          }]}>
-            <ThemedBengaliText
-              variant="primary"
-              size="large"
-              fontFamily="begumZia"
-              style={styles.chapterNumber}
-            >
-              {chapterInfo.number}
-            </ThemedBengaliText>
-          </ThemedView>
-
-          {/* Text Content */}
-          <ThemedView style={styles.textContainer}>
-          
-            {chapterInfo.subtitle && chapterInfo.subtitle !== chapterInfo.title && (
+            <ThemedView style={[styles.iconContainer, {
+              backgroundColor: theme.background.tertiary,
+            }]}>
               <ThemedBengaliText
-                variant="secondary"
-                size="medium"
-                fontFamily="mahinSameya"
-                style={styles.chapterSubtitle}
-                numberOfLines={1}
+                variant="primary"
+                size="large"
+                fontFamily="begumZia"
+                style={styles.chapterNumber}
               >
-                {chapterInfo.subtitle}
+                {chapter.number}
               </ThemedBengaliText>
-            )}
+            </ThemedView>
 
-            <ThemedView style={styles.chapterInfo}>
-              <ThemedBengaliText
-                variant="secondary"
-                size="small"
-                fontFamily="mahinSameya"
-                style={styles.verseCount}
-              >
-                {chapterInfo.totalVerses} শ্লোক
-              </ThemedBengaliText>
+            {/* Text Content */}
+            <ThemedView style={styles.textContainer}>
+              {chapter.subtitle && chapter.subtitle !== chapter.title && (
+                <ThemedBengaliText
+                  variant="secondary"
+                  size="medium"
+                  fontFamily="mahinSameya"
+                  style={styles.chapterSubtitle}
+                  numberOfLines={1}
+                >
+                  {chapter.subtitle}
+                </ThemedBengaliText>
+              )}
 
+              <ThemedView style={styles.chapterInfo}>
+                <ThemedBengaliText
+                  variant="secondary"
+                  size="small"
+                  fontFamily="mahinSameya"
+                  style={styles.verseCount}
+                >
+                  {chapter.totalVerses} শ্লোকের অনুবাদ
+                </ThemedBengaliText>
+              </ThemedView>
+            </ThemedView>
+
+            {/* Arrow Container */}
+            <ThemedView style={[styles.arrowContainer, { backgroundColor: theme.background.quaternary }]}>
+              <MaterialIcons
+                name="arrow-forward-ios"
+                size={SIZES.icon.md}
+                color={theme.icon.quaternary}
+              />
             </ThemedView>
           </ThemedView>
-
-          {/* Arrow Container */}
-          <ThemedView style={[styles.arrowContainer, { backgroundColor: theme.background.quaternary }]}>
-            <MaterialIcons
-              name="arrow-forward-ios"
-              size={SIZES.icon.md}
-              color={theme.icon.quaternary}
-            />
-          </ThemedView>
-          </ThemedView>
-         
-<ThemedSpacer size='md' />
-          <ThemedView>
-            {chapterProgress && progressPercentage > 0 && (
-              <ThemedLinearProgress
-                progress={progressPercentage / 100}
-                height={20}
-                variant="primary"
-                showPercentage={false}
-              >
-                <ThemedBengaliText
-                  variant="tertiary"
-                  size="xs"
-                  fontFamily="spaceMono"
-                  style={styles.progressText}
-                >
-                  {progressPercentage}%
-                </ThemedBengaliText>
-              </ThemedLinearProgress>
-            )}
-           
-          </ThemedView> 
-
         </ThemedCard>
-
       </TouchableOpacity>
     );
   };
 
-  if (isLoading || progressLoading) {
+  if (isLoading) {
     return (
       <ThemedSafeAreaView>
         <View style={styles.loadingContainer}>
@@ -151,7 +99,7 @@ export default function ChaptersScreen() {
             fontFamily="begumZia"
             style={styles.loadingText}
           >
-            অধ্যায়গুলি লোড হচ্ছে...
+            অনুবাদ লোড হচ্ছে...
           </ThemedBengaliText>
         </View>
       </ThemedSafeAreaView>
@@ -173,23 +121,20 @@ export default function ChaptersScreen() {
           fontFamily="begumZia"
           style={styles.title}
         >
-          অধ্যায়সমূহ
+          বাংলা অনুবাদ
         </ThemedBengaliText>
         <ThemedView style={styles.headerActions}>
-
           <ThemedView style={[styles.actionButton, { borderColor: theme.border.primary }]}>
-            <BookmarkIcon
+            <MaterialIcons
+              name="translate"
               size={SIZES.icon.xl}
               color={theme.icon.primary}
-              focused={true}
-              showBadge={true}
-              badgeSize="medium"
             />
           </ThemedView>
         </ThemedView>
       </ThemedCard>
 
-      {/* Chapters List */}
+      {/* Translations List */}
       <ScrollView
         style={styles.scrollView}
         contentContainerStyle={styles.scrollContent}
@@ -204,11 +149,11 @@ export default function ChaptersScreen() {
               fontFamily="mahinSameya"
               style={styles.sectionTitle}
             >
-              ভগবদগীতা অধ্যায়সমূহ
+              ভগবদগীতা অনুবাদসমূহ
             </ThemedBengaliText>
           </ThemedView>
-          <ThemedView style={styles.chaptersContainer}>
-            {chapters.map(renderChapterCard)}
+          <ThemedView style={styles.translationsContainer}>
+            {translations.map(renderTranslationCard)}
           </ThemedView>
         </ThemedView>
       </ScrollView>
@@ -280,20 +225,19 @@ const styles = StyleSheet.create({
     flex: 1,
     fontWeight: '600',
   },
-  chaptersContainer: {
+  translationsContainer: {
     paddingHorizontal: SIZES.spacing.lg,
-    // gap: SIZES.spacing.sm,
+    gap: SIZES.spacing.sm,
   },
-  chapterCardContainer: {
+  translationCardContainer: {
     // marginBottom: SIZES.spacing.sm,
   },
-  chapterCard: {
-  
+  translationCard: {
     alignItems: 'center',
     padding: SIZES.spacing.xl,
     borderRadius: SIZES.radius.xl,
     borderWidth: SIZES.borderSize.sm,
-    // marginBottom: SIZES.spacing.md,
+    marginBottom: SIZES.spacing.md,
     shadowOffset: {
       width: 0,
       height: SIZES.shadow.md,
@@ -304,25 +248,6 @@ const styles = StyleSheet.create({
   },
   chapterNumber: {
     // Font styling handled by ThemedBengaliText component
-  },
-  textContainer: {
-    flex: 1,
-    justifyContent: 'center',
-  },
-  chapterTitle: {
-    marginBottom: SIZES.spacing.xs,
-    lineHeight: 26,
-  },
-  chapterSubtitle: {
-    marginBottom: SIZES.spacing.sm,
-    lineHeight: 20,
-    opacity: 0.85,
-  },
-  chapterEnglishTitle: {
-    fontSize: SIZES.sm,
-    fontStyle: 'italic',
-    marginBottom: SIZES.spacing.sm,
-    lineHeight: SIZES.spacing.lg,
   },
   iconContainer: {
     width: SIZES.avatar.xl,
@@ -339,6 +264,15 @@ const styles = StyleSheet.create({
     shadowRadius: SIZES.shadow.md,
     elevation: 3,
   },
+  textContainer: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  chapterSubtitle: {
+    marginBottom: SIZES.spacing.sm,
+    lineHeight: 20,
+    opacity: 0.85,
+  },
   verseCount: {
     opacity: 0.9,
   },
@@ -346,21 +280,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: SIZES.spacing.md,
-  },
-  progressText: {
-    opacity: 0.9,
-    fontWeight: '600',
-    textAlign: 'center',
-  },
-  noProgressContainer: {
-    height: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  noProgressText: {
-    opacity: 0.6,
-    fontWeight: '600',
-    textAlign: 'center',
   },
   arrowContainer: {
     width: SIZES.avatar.md,

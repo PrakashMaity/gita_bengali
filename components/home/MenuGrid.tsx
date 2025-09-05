@@ -173,15 +173,13 @@ const styles = StyleSheet.create({
   },
   menuItemTitle: {
     fontSize: SIZES.xl,
-    fontWeight: '600',
-    fontFamily: 'BenSenHandwriting',
+    fontFamily: 'MahinDhakaItalic',
     marginBottom: SIZES.spacing.xs,
-    lineHeight: 24,
   },
   menuItemDescription: {
     fontSize: SIZES.md,
-    lineHeight: 20,
-    opacity: 0.85,
+    fontFamily: 'MahinDhakaItalic',
+  
   },
   arrowContainer: {
     width: 36,

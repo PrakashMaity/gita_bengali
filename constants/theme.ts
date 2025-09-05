@@ -8,9 +8,9 @@ export const generateTheme = (mode: ThemeMode): Theme => {
   if (mode === 'light') {
     return {
       background: {
-        primary: colors.primary50,       // Deep chocolate brown (main content area)
-        secondary: colors.primary100,    // Rich brown (secondary background)
-        card: colors.primary200,         // Medium brown (card backgrounds)
+        primary: colors.maroon50,       // Deep chocolate brown (main content area)
+        secondary: colors.maroon100,    // Rich brown (secondary background)
+        card: colors.maroon200,         // Medium brown (card backgrounds)
         tertiary: colors.secondary100,   // Rich teal (accent areas)
         quaternary: colors.accent100,    // Goldenrod (highlights and CTAs)
       },

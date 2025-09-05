@@ -3,20 +3,18 @@ import { SIZES } from '@/constants/sizes';
 import { useThemeColors } from '@/hooks/useTheme';
 import React from 'react';
 import {
-    Animated,
-    Dimensions,
-    Modal,
-    PanResponder,
-    StyleSheet,
-    TouchableOpacity,
-    View
+  Animated,
+  Dimensions,
+  Modal,
+  PanResponder,
+  StyleSheet,
+  TouchableOpacity,
+  View
 } from 'react-native';
-import {
-    AlbumArt,
-    AudioControls,
-    CircularProgress,
-    SongInfo
-} from './index';
+import { AlbumArt } from './AlbumArt';
+import { AudioControls } from './AudioControls';
+import { CircularProgress } from './CircularProgress';
+import { SongInfo } from './SongInfo';
 
 const { height } = Dimensions.get('window');
 

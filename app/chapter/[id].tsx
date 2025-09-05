@@ -11,14 +11,6 @@ import { router, useLocalSearchParams } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 
-interface Verse {
-  verseNumber: string;
-  bengali: string;
-  translation: string;
-  speaker: string;
-  id: string;
-}
-
 
 
 
@@ -28,7 +20,7 @@ export default function ChapterDetailScreen() {
   const { theme } = useTheme();
   const { id } = useLocalSearchParams<{ id: string }>();
   const { getChapterById, isLoading } = useChapterStore();
-  const { updateProgress, loadProgress, getLastReadVerseId, getProgress, markChapterCompleted } = useProgressStore();
+  const { updateProgress, loadProgress, getProgress, markChapterCompleted } = useProgressStore();
   const [currentVerse, setCurrentVerse] = useState(0);
   const [showTranslation, setShowTranslation] = useState(true);
   const [showBengali, setShowBengali] = useState(true);
@@ -60,7 +52,7 @@ export default function ChapterDetailScreen() {
 
 
   const handlePreviousVerse = () => {
-    if (currentVerse > 0 && chapterData && id) {
+    if (currentVerse > 0 && chapterData && chapterData.verses && id) {
       const newVerse = currentVerse - 1;
       setCurrentVerse(newVerse);
       // Update progress when going back
@@ -72,7 +64,7 @@ export default function ChapterDetailScreen() {
   };
 
   const handleNextVerse = () => {
-    if (chapterData && currentVerse < chapterData.verses.length - 1 && id) {
+    if (chapterData && chapterData.verses && currentVerse < chapterData.verses.length - 1 && id) {
       const newVerse = currentVerse + 1;
       setCurrentVerse(newVerse);
       // Update progress when going forward
@@ -85,7 +77,7 @@ export default function ChapterDetailScreen() {
           markChapterCompleted(id);
         }
       }
-    } else if (chapterData && currentVerse === 0 && id) {
+    } else if (chapterData && chapterData.verses && currentVerse === 0 && id) {
       // First time reading - start progress tracking
       const currentVerseData = chapterData.verses[0];
       if (currentVerseData) {
@@ -128,7 +120,7 @@ export default function ChapterDetailScreen() {
   }
 
   const { chapter, verses } = chapterData;
-  const currentVerseData = verses[currentVerse];
+  const currentVerseData = verses?.[currentVerse];
 
   return (
 
@@ -169,7 +161,7 @@ export default function ChapterDetailScreen() {
         <ReadingProgress
           chapterId={chapter.id}
           currentVerseIndex={currentVerse}
-          totalVerses={verses.length}
+          totalVerses={verses?.length || 0}
         />
       </ScrollView>
 
@@ -202,12 +194,12 @@ export default function ChapterDetailScreen() {
         />
         <TouchableOpacity
           onPress={handleNextVerse}
-          disabled={currentVerse >= verses.length - 1}
+          disabled={currentVerse >= (verses?.length || 0) - 1}
           style={[
             styles.verseNavButton,
             {
               backgroundColor: theme.background.secondary,
-              opacity: currentVerse >= verses.length - 1 ? 0.5 : 1
+              opacity: currentVerse >= (verses?.length || 0) - 1 ? 0.5 : 1
             }
           ]}
         >
