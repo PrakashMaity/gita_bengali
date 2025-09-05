@@ -227,7 +227,7 @@ const styles = StyleSheet.create({
   },
   translationsContainer: {
     paddingHorizontal: SIZES.spacing.lg,
-    gap: SIZES.spacing.sm,
+   
   },
   translationCardContainer: {
     // marginBottom: SIZES.spacing.sm,
@@ -237,7 +237,7 @@ const styles = StyleSheet.create({
     padding: SIZES.spacing.xl,
     borderRadius: SIZES.radius.xl,
     borderWidth: SIZES.borderSize.sm,
-    marginBottom: SIZES.spacing.md,
+    // marginBottom: SIZES.spacing.md,
     shadowOffset: {
       width: 0,
       height: SIZES.shadow.md,

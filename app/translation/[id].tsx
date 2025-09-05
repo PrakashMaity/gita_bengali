@@ -6,7 +6,7 @@ import { useTheme } from '@/hooks/useTheme';
 import { useTranslationStore } from '@/store';
 import { Ionicons } from '@expo/vector-icons';
 import { router, useLocalSearchParams } from 'expo-router';
-import React, { useState } from 'react';
+import React from 'react';
 import { Image, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 
 interface TranslationVerse {
@@ -20,21 +20,12 @@ export default function TranslationDetailScreen() {
   const { theme } = useTheme();
   const { id } = useLocalSearchParams<{ id: string }>();
   const { getTranslationById, isLoading } = useTranslationStore();
-  const [currentVerse, setCurrentVerse] = useState(0);
   
   const translationData = id ? getTranslationById(id) : null;
 
-  const handlePreviousVerse = () => {
-    if (currentVerse > 0 && translationData && translationData.verses) {
-      setCurrentVerse(currentVerse - 1);
-    }
-  };
 
-  const handleNextVerse = () => {
-    if (translationData && translationData.verses && currentVerse < translationData.verses.length - 1) {
-      setCurrentVerse(currentVerse + 1);
-    }
-  };
+
+
 
   if (isLoading) {
     return (
@@ -57,7 +48,6 @@ export default function TranslationDetailScreen() {
   }
 
   const { chapter, verses } = translationData;
-  const currentVerseData = verses?.[currentVerse];
 
   // Get speaker avatar based on speaker name
   const getSpeakerAvatar = (speaker: string) => {
@@ -208,7 +198,7 @@ const styles = StyleSheet.create({
     paddingBottom: SIZES.spacing.xl,
   },
   chatMessage: {
-    marginBottom: SIZES.spacing.lg,
+   
     padding: SIZES.spacing.lg,
     borderRadius: SIZES.radius.xl,
     borderWidth: SIZES.borderSize.sm,
