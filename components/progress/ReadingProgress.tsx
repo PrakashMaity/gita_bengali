@@ -3,95 +3,43 @@ import { ThemedCard } from '@/components/ui/ThemedCard/ThemedCard';
 import { ThemedView } from '@/components/ui/ThemedView/ThemedView';
 import { SIZES } from '@/constants/sizes';
 import { useTheme } from '@/hooks/useTheme';
+import { useProgressStore } from '@/store';
 import { Ionicons } from '@expo/vector-icons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Alert, StyleSheet, TouchableOpacity } from 'react-native';
 
-interface ReadingProgress {
-  chapterNumber: number;
-  lastReadVerse: number;
-  totalVerses: number;
-  lastReadDate: number;
-  isCompleted: boolean;
-}
-
 interface ReadingProgressProps {
-  chapterNumber: number;
-  currentVerse: number;
+  chapterId: string;
+  currentVerseIndex: number;
   totalVerses: number;
-  onProgressUpdate?: (progress: ReadingProgress) => void;
+  onProgressUpdate?: (progress: any) => void;
 }
-
-const PROGRESS_KEY = 'gita_reading_progress';
 
 export default function ReadingProgress({
-  chapterNumber,
-  currentVerse,
+  chapterId,
+  currentVerseIndex,
   totalVerses,
   onProgressUpdate,
 }: ReadingProgressProps) {
   const { theme } = useTheme();
-  const [progress, setProgress] = useState<ReadingProgress | null>(null);
-  const [loading, setLoading] = useState(true);
+  const { 
+    progress, 
+    isLoading, 
+    loadProgress, 
+    resetChapterProgress, 
+    getProgressPercentage 
+  } = useProgressStore();
 
   useEffect(() => {
     loadProgress();
-  }, [chapterNumber]);
+  }, [loadProgress]);
 
-  useEffect(() => {
-    if (currentVerse > 0) {
-      updateProgress();
-    }
-  }, [currentVerse]);
-
-  const loadProgress = async () => {
-    try {
-      const progressJson = await AsyncStorage.getItem(PROGRESS_KEY);
-      const allProgress = progressJson ? JSON.parse(progressJson) : {};
-      const chapterProgress = allProgress[chapterNumber] || null;
-      setProgress(chapterProgress);
-    } catch (error) {
-      console.error('Error loading reading progress:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const saveProgress = async (newProgress: ReadingProgress) => {
-    try {
-      const progressJson = await AsyncStorage.getItem(PROGRESS_KEY);
-      const allProgress = progressJson ? JSON.parse(progressJson) : {};
-      allProgress[chapterNumber] = newProgress;
-      await AsyncStorage.setItem(PROGRESS_KEY, JSON.stringify(allProgress));
-      setProgress(newProgress);
-      onProgressUpdate?.(newProgress);
-    } catch (error) {
-      console.error('Error saving reading progress:', error);
-    }
-  };
-
-  const updateProgress = async () => {
-    const isCompleted = currentVerse >= totalVerses;
-    const newProgress: ReadingProgress = {
-      chapterNumber,
-      lastReadVerse: currentVerse,
-      totalVerses,
-      lastReadDate: Date.now(),
-      isCompleted,
-    };
-
-    await saveProgress(newProgress);
-  };
+  const chapterProgress = progress[chapterId];
 
   const resetProgress = async () => {
     try {
-      const progressJson = await AsyncStorage.getItem(PROGRESS_KEY);
-      const allProgress = progressJson ? JSON.parse(progressJson) : {};
-      delete allProgress[chapterNumber];
-      await AsyncStorage.setItem(PROGRESS_KEY, JSON.stringify(allProgress));
-      setProgress(null);
-      onProgressUpdate?.(null as unknown as ReadingProgress);
+      await resetChapterProgress(chapterId);
+      onProgressUpdate?.(null);
       Alert.alert('প্রগতি রিসেট', 'এই অধ্যায়ের পড়ার প্রগতি রিসেট করা হয়েছে');
     } catch (error) {
       console.error('Error resetting progress:', error);
@@ -99,16 +47,15 @@ export default function ReadingProgress({
     }
   };
 
-  const getProgressPercentage = () => {
-    if (!progress) return 0;
-    return Math.round((progress.lastReadVerse / progress.totalVerses) * 100);
+  const getProgressPercentageValue = () => {
+    return getProgressPercentage(chapterId, currentVerseIndex, totalVerses);
   };
 
 
 
   const formatLastReadDate = () => {
-    if (!progress) return '';
-    const date = new Date(progress.lastReadDate);
+    if (!chapterProgress) return '';
+    const date = new Date(chapterProgress.lastReadDate);
     return date.toLocaleDateString('bn-BD', {
       year: 'numeric',
       month: 'short',
@@ -116,7 +63,7 @@ export default function ReadingProgress({
     });
   };
 
-  if (loading) {
+  if (isLoading) {
     return (
       <ThemedView style={styles.container}>
         <ThemedBengaliText variant="secondary" size="small">
@@ -126,7 +73,7 @@ export default function ReadingProgress({
     );
   }
 
-  if (!progress) {
+  if (!chapterProgress) {
     return (
       <ThemedView style={styles.container}>
         <ThemedBengaliText variant="tertiary" size="small">
@@ -157,17 +104,17 @@ export default function ReadingProgress({
             styles.progressFill,
             { 
               backgroundColor: theme.button.primary.background,
-              width: `${getProgressPercentage()}%` 
+              width: `${getProgressPercentageValue()}%` 
             }
           ]} />
         </ThemedView>
         
         <ThemedBengaliText variant="primary" size="small" style={styles.progressText}>
-          {progress.lastReadVerse}/{progress.totalVerses} ({getProgressPercentage()}%)
+          {currentVerseIndex + 1}/{totalVerses} ({getProgressPercentageValue()}%)
         </ThemedBengaliText>
       </ThemedView>
 
-      {progress.isCompleted && (
+      {chapterProgress.isCompleted && (
         <ThemedView style={styles.completionBadge}>
           <Ionicons name="checkmark-circle" size={SIZES.icon.sm} color={theme.icon.success} />
           <ThemedBengaliText variant="success" size="small" style={styles.completionText}>

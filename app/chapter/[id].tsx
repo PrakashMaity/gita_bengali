@@ -5,14 +5,11 @@ import { ThemedView } from '@/components/ui/ThemedView/ThemedView';
 import { VerseReader } from '@/components/verseReader';
 import { SIZES } from '@/constants/sizes';
 import { useTheme } from '@/hooks/useTheme';
-import {
-  getChapterNumberFromId,
-  isValidChapterId
-} from '@/utils/chapterUtils';
+import { useChapterStore, useProgressStore } from '@/store';
 import { Ionicons } from '@expo/vector-icons';
 import { router, useLocalSearchParams } from 'expo-router';
-import React, { useCallback, useEffect, useState } from 'react';
-import { Alert, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 
 interface Verse {
   verseNumber: string;
@@ -22,27 +19,6 @@ interface Verse {
   id: string;
 }
 
-interface ChapterData {
-  chapter: {
-    number: string;
-    title: string;
-    subtitle: string;
-    englishTitle: string;
-    totalVerses: string;
-    description: string;
-    id: string;
-  };
-  dedication?: {
-    bengali: string;
-    meaning: string;
-  };
-  verses: Verse[];
-  summary?: {
-    title: string;
-    description: string;
-    keyThemes: string[];
-  };
-}
 
 
 
@@ -51,144 +27,87 @@ interface ChapterData {
 export default function ChapterDetailScreen() {
   const { theme } = useTheme();
   const { id } = useLocalSearchParams<{ id: string }>();
-  const [chapterData, setChapterData] = useState<ChapterData | null>(null);
-  const [loading, setLoading] = useState(true);
+  const { getChapterById, isLoading } = useChapterStore();
+  const { updateProgress, loadProgress, getLastReadVerseId, getProgress, markChapterCompleted } = useProgressStore();
   const [currentVerse, setCurrentVerse] = useState(0);
   const [showTranslation, setShowTranslation] = useState(true);
   const [showBengali, setShowBengali] = useState(true);
-
-  const normalizeChapterData = (rawData: any): ChapterData => {
-    if (rawData.chapter) {
-      // Already in the correct format
-      return rawData as ChapterData;
-    } else {
-      // Convert from flat structure to nested structure
-      const summaryText = typeof rawData.summary === 'string' ? rawData.summary : rawData.summary?.description || '';
-      return {
-        chapter: {
-          number: rawData.chapterNumber || '0',
-          title: rawData.title || '',
-          subtitle: rawData.title || '',
-          englishTitle: rawData.titleEnglish || '',
-          totalVerses: rawData.totalVerses || '0',
-          description: summaryText,
-          id: rawData.id || '',
-        },
-        dedication: rawData.dedication,
-        verses: rawData.verses || [],
-        summary: {
-          title: rawData.title || '',
-          description: summaryText,
-          keyThemes: rawData.keyThemes || [],
-        },
-      };
-    }
-  };
-
-  const loadChapter = useCallback(async (chapterId: string) => {
-    try {
-      // Validate chapter ID
-      if (!isValidChapterId(chapterId)) {
-        throw new Error('Invalid chapter ID');
-      }
-
-      const chapterNumber = getChapterNumberFromId(chapterId);
-      if (!chapterNumber) {
-        throw new Error('Chapter not found');
-      }
-
-      let chapterModule;
-      switch (chapterNumber) {
-        case 1:
-          chapterModule = await import('@/Data/chapter1.json');
-          break;
-        case 2:
-          chapterModule = await import('@/Data/chapter2.json');
-          break;
-        case 3:
-          chapterModule = await import('@/Data/chapter3.json');
-          break;
-        case 4:
-          chapterModule = await import('@/Data/chapter4.json');
-          break;
-        case 5:
-          chapterModule = await import('@/Data/chapter5.json');
-          break;
-        case 6:
-          chapterModule = await import('@/Data/chapter6.json');
-          break;
-        case 7:
-          chapterModule = await import('@/Data/chapter7.json');
-          break;
-        case 8:
-          chapterModule = await import('@/Data/chapter8.json');
-          break;
-        case 9:
-          chapterModule = await import('@/Data/chapter9.json');
-          break;
-        case 10:
-          chapterModule = await import('@/Data/chapter10.json');
-          break;
-        case 11:
-          chapterModule = await import('@/Data/chapter11.json');
-          break;
-        case 12:
-          chapterModule = await import('@/Data/chapter12.json');
-          break;
-        case 13:
-          chapterModule = await import('@/Data/chapter13.json');
-          break;
-        case 14:
-          chapterModule = await import('@/Data/chapter14.json');
-          break;
-        case 15:
-          chapterModule = await import('@/Data/chapter15.json');
-          break;
-        case 16:
-          chapterModule = await import('@/Data/chapter16.json');
-          break;
-        case 17:
-          chapterModule = await import('@/Data/chapter17.json');
-          break;
-        case 18:
-          chapterModule = await import('@/Data/chapter18.json');
-          break;
-        default:
-          throw new Error('Invalid chapter number');
-      }
-      const normalizedData = normalizeChapterData(chapterModule.default);
-      setChapterData(normalizedData);
-    } catch (error) {
-      console.error('Error loading chapter:', error);
-      Alert.alert('ত্রুটি', 'অধ্যায় লোড করতে সমস্যা হয়েছে');
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+  const [isInitialized, setIsInitialized] = useState(false);
+  
+  const chapterData = id ? getChapterById(id) : null;
 
   useEffect(() => {
-    if (id) {
-      loadChapter(id);
-    }
-  }, [id, loadChapter]);
+    const initializeProgress = async () => {
+      await loadProgress();
+      if (chapterData && id) {
+        const chapterProgress = getProgress(id);
+        if (chapterProgress && chapterData.verses) {
+          // Find the index of the last read verse
+          const lastReadVerseIndex = chapterData.verses.findIndex(
+            verse => verse.id === chapterProgress.lastReadVerseId
+          );
+          if (lastReadVerseIndex !== -1) {
+            setCurrentVerse(lastReadVerseIndex);
+          }
+        }
+      }
+      setIsInitialized(true);
+    };
+    
+    initializeProgress();
+  }, [loadProgress, getProgress, chapterData, id]);
+
+
 
   const handlePreviousVerse = () => {
-    if (currentVerse > 0) {
-      setCurrentVerse(currentVerse - 1);
+    if (currentVerse > 0 && chapterData && id) {
+      const newVerse = currentVerse - 1;
+      setCurrentVerse(newVerse);
+      // Update progress when going back
+      const currentVerseData = chapterData.verses[newVerse];
+      if (currentVerseData) {
+        updateProgress(id, currentVerseData.id, chapterData.verses.length);
+      }
     }
   };
 
   const handleNextVerse = () => {
-    if (chapterData && currentVerse < chapterData.verses.length - 1) {
-      setCurrentVerse(currentVerse + 1);
+    if (chapterData && currentVerse < chapterData.verses.length - 1 && id) {
+      const newVerse = currentVerse + 1;
+      setCurrentVerse(newVerse);
+      // Update progress when going forward
+      const currentVerseData = chapterData.verses[newVerse];
+      if (currentVerseData) {
+        updateProgress(id, currentVerseData.id, chapterData.verses.length);
+        
+        // Mark chapter as completed if this is the last verse
+        if (newVerse === chapterData.verses.length - 1) {
+          markChapterCompleted(id);
+        }
+      }
+    } else if (chapterData && currentVerse === 0 && id) {
+      // First time reading - start progress tracking
+      const currentVerseData = chapterData.verses[0];
+      if (currentVerseData) {
+        updateProgress(id, currentVerseData.id, chapterData.verses.length);
+      }
     }
   };
+
+
+  // Handle first-time reading - only when user actually navigates
+  useEffect(() => {
+    if (isInitialized && chapterData) {
+      // Only start reading progress when user actually navigates to next verse
+      // Don't automatically start progress just by viewing the chapter
+    }
+  }, [isInitialized, chapterData]);
 
 
   const toggleTranslation = () => setShowTranslation(!showTranslation);
   const toggleBengali = () => setShowBengali(!showBengali);
 
-  if (loading) {
+  if (isLoading || !isInitialized) {
     return (
       <ThemedView style={styles.loadingContainer}>
         <ThemedBengaliText variant="secondary" size="medium">
@@ -248,8 +167,8 @@ export default function ChapterDetailScreen() {
 
         {/* Reading Progress */}
         <ReadingProgress
-          chapterNumber={parseInt(chapter.number)}
-          currentVerse={currentVerse + 1}
+          chapterId={chapter.id}
+          currentVerseIndex={currentVerse}
           totalVerses={verses.length}
         />
       </ScrollView>

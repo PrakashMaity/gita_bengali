@@ -4,9 +4,10 @@ import { ThemedText } from '@/components/ui/ThemedText/ThemedText';
 import { ThemedView } from '@/components/ui/ThemedView/ThemedView';
 import { SIZES } from '@/constants/sizes';
 import { useTheme } from '@/hooks/useTheme';
+import { useChapterStore } from '@/store';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 
 interface SearchResult {
@@ -20,73 +21,21 @@ interface SearchResult {
 
 export default function SearchScreen() {
   const { theme } = useTheme();
+  const { chapters, isLoading } = useChapterStore();
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [isSearching, setIsSearching] = useState(false);
-  const [allChapters, setAllChapters] = useState<any[]>([]);
 
-  const normalizeChapterData = (rawData: any) => {
-    if (rawData.chapter) {
-      // Already in the correct format
-      return rawData;
-    } else {
-      // Convert from flat structure to nested structure
-      return {
-        chapter: {
-          number: rawData.chapterNumber || 0,
-          title: rawData.title || '',
-          subtitle: rawData.title || '',
-          englishTitle: rawData.titleEnglish || '',
-          totalVerses: rawData.totalVerses || 0,
-          description: rawData.summary || '',
-        },
-        verses: rawData.verses || [],
-      };
-    }
-  };
-
-  const loadAllChapters = useCallback(async () => {
-    try {
-      const chapterPromises = [
-        import('@/Data/chapter1.json').then(module => module.default),
-        import('@/Data/chapter2.json').then(module => module.default),
-        import('@/Data/chapter3.json').then(module => module.default),
-        import('@/Data/chapter4.json').then(module => module.default),
-        import('@/Data/chapter5.json').then(module => module.default),
-        import('@/Data/chapter6.json').then(module => module.default),
-        import('@/Data/chapter7.json').then(module => module.default),
-        import('@/Data/chapter8.json').then(module => module.default),
-        import('@/Data/chapter9.json').then(module => module.default),
-        import('@/Data/chapter10.json').then(module => module.default),
-        import('@/Data/chapter11.json').then(module => module.default),
-        import('@/Data/chapter12.json').then(module => module.default),
-        import('@/Data/chapter13.json').then(module => module.default),
-        import('@/Data/chapter14.json').then(module => module.default),
-        import('@/Data/chapter15.json').then(module => module.default),
-        import('@/Data/chapter16.json').then(module => module.default),
-        import('@/Data/chapter17.json').then(module => module.default),
-      ];
-      const rawChapterData = await Promise.all(chapterPromises);
-      const normalizedData = rawChapterData.map(normalizeChapterData);
-      setAllChapters(normalizedData);
-    } catch (error) {
-      console.error('Error loading chapters for search:', error);
-    }
-  }, []);
-
-  useEffect(() => {
-    loadAllChapters();
-  }, [loadAllChapters]);
 
   const searchInChapters = (query: string): SearchResult[] => {
-    if (!query.trim() || allChapters.length === 0) {
+    if (!query.trim() || chapters.length === 0) {
       return [];
     }
 
     const results: SearchResult[] = [];
     const searchTerm = query.toLowerCase().trim();
 
-    allChapters.forEach((chapterData) => {
+    chapters.forEach((chapterData) => {
       const { chapter, verses } = chapterData;
       
       verses.forEach((verse: any) => {

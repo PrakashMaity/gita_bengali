@@ -1,121 +1,35 @@
 import { BookmarkIcon } from '@/components/ui/BookmarkIcon';
 import { ThemedBengaliText } from '@/components/ui/ThemedBengaliText';
 import { ThemedCard } from '@/components/ui/ThemedCard/ThemedCard';
+import { ThemedLinearProgress } from '@/components/ui/ThemedLinearProgress';
 import ThemedSafeAreaView from '@/components/ui/ThemedSafeAreaView/ThemedSafeAreaView';
+import { ThemedSpacer } from '@/components/ui/ThemedSpacer/ThemedSpacer';
 import { ThemedView } from '@/components/ui/ThemedView/ThemedView';
 import { SIZES } from '@/constants/sizes';
 import { useTheme } from '@/hooks/useTheme';
 import { WavePattern } from '@/illustration/cardBackground';
+import { ChapterData, useChapterStore, useProgressStore } from '@/store';
 import { MaterialIcons } from '@expo/vector-icons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from 'expo-router';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Dimensions, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 
-interface ChapterData {
-  chapter: {
-    number: string;
-    title: string;
-    subtitle: string;
-    englishTitle: string;
-    totalVerses: string;
-    description: string;
-    id: string;
-    verseNumber?: string;
-  };
-  summary?: {
-    title: string;
-    description: string;
-    keyThemes: string[];
-  };
-}
 
-
-interface ReadingProgress {
-  chapterNumber: number;
-  lastReadVerse: number;
-  totalVerses: number;
-  lastReadDate: number;
-  isCompleted: boolean;
-}
 
 export default function ChaptersScreen() {
   const { theme } = useTheme();
   const { width, height } = Dimensions.get('window');
-  const [chapters, setChapters] = useState<ChapterData[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [readingProgress, setReadingProgress] = useState<{ [key: number]: ReadingProgress }>({});
-
-  const normalizeChapterData = (rawData: any): ChapterData => {
-    if (rawData.chapter) {
-      return rawData as ChapterData;
-    } else {
-      const summaryText = typeof rawData.summary === 'string' ? rawData.summary : rawData.summary?.description || '';
-      return {
-        chapter: {
-          number: rawData.chapterNumber || '0',
-          title: rawData.title || '',
-          subtitle: rawData.title || '',
-          englishTitle: rawData.titleEnglish || '',
-          totalVerses: rawData.totalVerses || '0',
-          description: summaryText,
-          id: rawData.id || '',
-        },
-        summary: {
-          title: rawData.title || '',
-          description: summaryText,
-          keyThemes: rawData.keyThemes || [],
-        },
-      };
-    }
-  };
-
-  const loadChapters = useCallback(async () => {
-    try {
-      const chapterPromises = [
-        import('@/Data/chapter1.json').then(module => module.default),
-        import('@/Data/chapter2.json').then(module => module.default),
-        import('@/Data/chapter3.json').then(module => module.default),
-        import('@/Data/chapter4.json').then(module => module.default),
-        import('@/Data/chapter5.json').then(module => module.default),
-        import('@/Data/chapter6.json').then(module => module.default),
-        import('@/Data/chapter7.json').then(module => module.default),
-        import('@/Data/chapter8.json').then(module => module.default),
-        import('@/Data/chapter9.json').then(module => module.default),
-        import('@/Data/chapter10.json').then(module => module.default),
-        import('@/Data/chapter11.json').then(module => module.default),
-        import('@/Data/chapter12.json').then(module => module.default),
-        import('@/Data/chapter13.json').then(module => module.default),
-        import('@/Data/chapter14.json').then(module => module.default),
-        import('@/Data/chapter15.json').then(module => module.default),
-        import('@/Data/chapter16.json').then(module => module.default),
-        import('@/Data/chapter17.json').then(module => module.default),
-        import('@/Data/chapter18.json').then(module => module.default),
-      ];
-      const rawChapterData = await Promise.all(chapterPromises);
-      const normalizedData = rawChapterData.map(normalizeChapterData);
-      setChapters(normalizedData);
-    } catch (error) {
-      console.error('Error loading chapters:', error);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  const loadReadingProgress = useCallback(async () => {
-    try {
-      const progressJson = await AsyncStorage.getItem('gita_reading_progress');
-      const progress = progressJson ? JSON.parse(progressJson) : {};
-      setReadingProgress(progress);
-    } catch (error) {
-      console.error('Error loading reading progress:', error);
-    }
-  }, []);
+  const { chapters, isLoading } = useChapterStore();
+  const { 
+    progress, 
+    isLoading: progressLoading, 
+    loadProgress, 
+    getProgressPercentage 
+  } = useProgressStore();
 
   useEffect(() => {
-    loadChapters();
-    loadReadingProgress();
-  }, [loadChapters, loadReadingProgress]);
+    loadProgress();
+  }, [loadProgress]);
 
   const handleChapterPress = (chapterId: string) => {
     router.push(`/chapter/${chapterId}`);
@@ -123,27 +37,36 @@ export default function ChaptersScreen() {
 
   const renderChapterCard = (chapter: ChapterData) => {
     const { chapter: chapterInfo } = chapter;
-    const chapterNumber = parseInt(chapterInfo.number);
-    const progress = readingProgress[chapterNumber];
-    const progressPercentage = progress ? Math.round((progress.lastReadVerse / progress.totalVerses) * 100) : 0;
+    const chapterId = chapterInfo.id;
+    const chapterProgress = progress[chapterId];
+    
+    // Calculate progress percentage based on last read verse
+    let progressPercentage = 0;
+    if (chapterProgress && chapter.verses) {
+      const lastReadVerseIndex = chapter.verses.findIndex(
+        verse => verse.id === chapterProgress.lastReadVerseId
+      );
+      if (lastReadVerseIndex !== -1) {
+        progressPercentage = getProgressPercentage(chapterId, lastReadVerseIndex, chapter.verses.length);
+      }
+    }
 
     return (
       <TouchableOpacity
         key={chapterInfo.id}
         onPress={() => handleChapterPress(chapterInfo.id)}
         style={styles.chapterCardContainer}
-       
+
       >
-        <ThemedCard style={[styles.chapterCard, { 
-       
-        }]}>
-          <ThemedView style={[styles.iconContainer, { 
+        <ThemedCard style={[styles.chapterCard]}>
+          <ThemedView style={{flexDirection: 'row'}} >
+          <ThemedView style={[styles.iconContainer, {
             backgroundColor: theme.background.tertiary,
-           
+
           }]}>
-            <ThemedBengaliText 
-              variant="primary" 
-              size="large" 
+            <ThemedBengaliText
+              variant="primary"
+              size="large"
               fontFamily="begumZia"
               style={styles.chapterNumber}
             >
@@ -153,15 +76,7 @@ export default function ChaptersScreen() {
 
           {/* Text Content */}
           <ThemedView style={styles.textContainer}>
-            <ThemedBengaliText
-              variant="primary"
-              size="large"
-              fontFamily="begumZia"
-              style={styles.chapterTitle}
-              numberOfLines={2}
-            >
-              {chapterInfo.title}
-            </ThemedBengaliText>
+          
             {chapterInfo.subtitle && chapterInfo.subtitle !== chapterInfo.title && (
               <ThemedBengaliText
                 variant="secondary"
@@ -175,48 +90,75 @@ export default function ChaptersScreen() {
             )}
 
             <ThemedView style={styles.chapterInfo}>
-              <ThemedBengaliText 
-                variant="secondary" 
-                size="small" 
+              <ThemedBengaliText
+                variant="secondary"
+                size="small"
                 fontFamily="mahinSameya"
                 style={styles.verseCount}
               >
                 {chapterInfo.totalVerses} শ্লোক
               </ThemedBengaliText>
-              {progress && (
-                <ThemedBengaliText 
-                  variant="tertiary" 
-                  size="small" 
-                  fontFamily="spaceMono"
-                  style={styles.progressText}
-                >
-                  {progressPercentage}% সম্পূর্ণ
-                </ThemedBengaliText>
-              )}
+
             </ThemedView>
           </ThemedView>
 
           {/* Arrow Container */}
           <ThemedView style={[styles.arrowContainer, { backgroundColor: theme.background.quaternary }]}>
-            <MaterialIcons 
-              name="arrow-forward-ios" 
-              size={SIZES.icon.md} 
-              color={theme.icon.quaternary} 
+            <MaterialIcons
+              name="arrow-forward-ios"
+              size={SIZES.icon.md}
+              color={theme.icon.quaternary}
             />
           </ThemedView>
+          </ThemedView>
+         
+<ThemedSpacer size='md' />
+          <ThemedView>
+            {chapterProgress && progressPercentage > 0 && (
+              <ThemedLinearProgress
+                progress={progressPercentage / 100}
+                height={20}
+                variant="primary"
+                showPercentage={false}
+              >
+                <ThemedBengaliText
+                  variant="tertiary"
+                  size="xs"
+                  fontFamily="spaceMono"
+                  style={styles.progressText}
+                >
+                  {progressPercentage}%
+                </ThemedBengaliText>
+              </ThemedLinearProgress>
+            )}
+            {(!chapterProgress || progressPercentage === 0) && (
+              <ThemedView style={styles.noProgressContainer}>
+                <ThemedBengaliText
+                  variant="tertiary"
+                  size="xs"
+                  fontFamily="spaceMono"
+                  style={styles.noProgressText}
+                >
+                  0%
+                </ThemedBengaliText>
+              </ThemedView>
+            )}
+          </ThemedView> 
+
         </ThemedCard>
+
       </TouchableOpacity>
     );
   };
 
-  if (loading) {
+  if (isLoading || progressLoading) {
     return (
       <ThemedSafeAreaView>
         <View style={styles.loadingContainer}>
           <WavePattern width={200} height={200} opacity={0.1} />
-          <ThemedBengaliText 
-            variant="secondary" 
-            size="large" 
+          <ThemedBengaliText
+            variant="secondary"
+            size="large"
             fontFamily="begumZia"
             style={styles.loadingText}
           >
@@ -229,27 +171,27 @@ export default function ChaptersScreen() {
 
   return (
     <ThemedView variant="primary" style={styles.container}>
-      <WavePattern 
-        width={width} 
-        height={height} 
+      <WavePattern
+        width={width}
+        height={height}
       />
-      
+
       {/* Header Card */}
       <ThemedCard variant='transparent' style={styles.headerCard}>
-        <ThemedBengaliText 
-          variant="primary" 
-          size="title" 
+        <ThemedBengaliText
+          variant="primary"
+          size="title"
           fontFamily="begumZia"
           style={styles.title}
         >
           অধ্যায়সমূহ
         </ThemedBengaliText>
         <ThemedView style={styles.headerActions}>
-         
+
           <ThemedView style={[styles.actionButton, { borderColor: theme.border.primary }]}>
-            <BookmarkIcon 
-              size={SIZES.icon.xl} 
-              color={theme.icon.primary} 
+            <BookmarkIcon
+              size={SIZES.icon.xl}
+              color={theme.icon.primary}
               focused={true}
               showBadge={true}
               badgeSize="medium"
@@ -267,10 +209,10 @@ export default function ChaptersScreen() {
         <ThemedView style={styles.section}>
           <ThemedView style={styles.sectionHeader}>
             <ThemedView style={[styles.sectionIndicator, { backgroundColor: theme.background.quaternary }]} />
-            <ThemedBengaliText 
-              variant="primary" 
-              size="xxl" 
-              fontFamily="benSen"
+            <ThemedBengaliText
+              variant="primary"
+              size="xxl"
+              fontFamily="mahinSameya"
               style={styles.sectionTitle}
             >
               ভগবদগীতা অধ্যায়সমূহ
@@ -357,7 +299,7 @@ const styles = StyleSheet.create({
     // marginBottom: SIZES.spacing.sm,
   },
   chapterCard: {
-    flexDirection: 'row',
+  
     alignItems: 'center',
     padding: SIZES.spacing.xl,
     borderRadius: SIZES.radius.xl,
@@ -417,8 +359,19 @@ const styles = StyleSheet.create({
     gap: SIZES.spacing.md,
   },
   progressText: {
-    opacity: 0.8,
-    fontWeight: '500',
+    opacity: 0.9,
+    fontWeight: '600',
+    textAlign: 'center',
+  },
+  noProgressContainer: {
+    height: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  noProgressText: {
+    opacity: 0.6,
+    fontWeight: '600',
+    textAlign: 'center',
   },
   arrowContainer: {
     width: SIZES.avatar.md,
