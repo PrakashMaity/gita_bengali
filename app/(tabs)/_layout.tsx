@@ -55,7 +55,7 @@ export default function TabLayout() {
         }}
       />
   
-      <Tabs.Screen
+      {/* <Tabs.Screen
         name="audio"
         options={{
           title: 'অডিও',
@@ -67,7 +67,7 @@ export default function TabLayout() {
             />
           ),
         }}
-      />
+      /> */}
       <Tabs.Screen
         name="bookmarks"
         options={{
