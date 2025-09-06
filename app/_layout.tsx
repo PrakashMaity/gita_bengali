@@ -2,15 +2,19 @@ import { ErrorBoundary } from '@/components/ErrorBoundary';
 import ThemedSafeAreaView from '@/components/ui/ThemedSafeAreaView/ThemedSafeAreaView';
 import { ThemedView } from '@/components/ui/ThemedView/ThemedView';
 import { useChapterStore } from '@/store';
+import { useAudioPlayer } from 'expo-audio';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import { useEffect } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { ThemeProvider } from '../hooks/useTheme';
 
+const audioSource = require('../assets/music/bgm1.mp3');
+
 export default function RootLayout() {
   const isOnboardingComplete = true;
   const { loadAllChapters } = useChapterStore();
+  const player = useAudioPlayer(audioSource);
   const [loaded, error] = useFonts({
     'SpaceMono-Regular': require('../assets/fonts/SpaceMono-Regular.ttf'),
     'BenSenHandwriting': require('../assets/fonts/BenSenHandwriting.ttf'),
@@ -24,12 +28,18 @@ export default function RootLayout() {
     loadAllChapters();
   }, [loadAllChapters]);
 
+  useEffect(() => {
+    player.play();
+    player.loop = true;
+    player.volume = 0.1;
+  }, [player]);
+
   if (error) {
     console.error('Font loading error:', error);
   }
 
   if (!loaded) {
-    return null; 
+    return null;
   }
   return (
     <ErrorBoundary>
@@ -37,6 +47,7 @@ export default function RootLayout() {
         <ThemeProvider>
           <ThemedSafeAreaView>
             <ThemedView variant='secondary' style={{ flex: 1 }}>
+             
               <Stack screenOptions={{
                 headerShown: false,
               }}>

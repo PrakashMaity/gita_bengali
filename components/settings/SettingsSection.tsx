@@ -41,8 +41,8 @@ export const SettingsSection: React.FC<SettingsSectionProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    marginVertical: SIZES.spacing.md,
-    marginHorizontal: 0,
+    marginVertical: SIZES.spacing.sm,
+    marginHorizontal: SIZES.spacing.lg,
     padding: 0,
   },
   header: {
@@ -52,10 +52,10 @@ const styles = StyleSheet.create({
     borderBottomWidth: SIZES.borderSize.xs,
   },
   title: {
-    fontSize: TYPOGRAPHY.fontSize.xxl,
+    fontSize: TYPOGRAPHY.fontSize.xl,
     fontWeight: TYPOGRAPHY.fontWeight.bold,
     marginBottom: SIZES.spacing.xs,
-    lineHeight: TYPOGRAPHY.lineHeight.xxl,
+    lineHeight: TYPOGRAPHY.lineHeight.xl,
   },
   description: {
     fontSize: TYPOGRAPHY.fontSize.sm,

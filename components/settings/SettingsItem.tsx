@@ -10,7 +10,7 @@ interface SettingsItemProps {
   title: string;
   subtitle?: string;
   value?: string;
-  icon?: string;
+  icon?: string | React.ReactNode;
   onPress?: () => void;
   rightElement?: React.ReactNode;
   disabled?: boolean;
@@ -31,9 +31,15 @@ export const SettingsItem: React.FC<SettingsItemProps> = ({
     <ThemedView style={[styles.container, disabled && styles.disabledContainer]}>
       <View style={styles.leftContent}>
         {icon && (
-          <ThemedText style={[styles.icon, { color: theme.icon.primary }]}>
-            {icon}
-          </ThemedText>
+          <View style={styles.iconContainer}>
+            {typeof icon === 'string' ? (
+              <ThemedText style={[styles.icon, { color: theme.icon.primary }]}>
+                {icon}
+              </ThemedText>
+            ) : (
+              icon
+            )}
+          </View>
         )}
         <View style={styles.textContent}>
           <ThemedText style={[styles.title, { color: theme.text.primary }]}>
@@ -83,6 +89,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: SIZES.spacing.xl,
     marginVertical: SIZES.spacing.xs,
     minHeight: SIZES.button.lg,
+    borderRadius: SIZES.radius.md,
   },
   disabledContainer: {
     opacity: 0.5,
@@ -92,10 +99,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
   },
-  icon: {
-    fontSize: SIZES.icon.lg,
+  iconContainer: {
     marginRight: SIZES.spacing.lg,
     width: SIZES.icon.xl,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  icon: {
+    fontSize: SIZES.icon.lg,
     textAlign: 'center',
   },
   textContent: {
@@ -121,6 +132,7 @@ const styles = StyleSheet.create({
     marginRight: SIZES.spacing.md,
     lineHeight: TYPOGRAPHY.lineHeight.sm,
     opacity: 0.8,
+    fontWeight: TYPOGRAPHY.fontWeight.medium,
   },
   chevron: {
     fontSize: TYPOGRAPHY.fontSize.xl,
