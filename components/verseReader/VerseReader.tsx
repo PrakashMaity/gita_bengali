@@ -3,7 +3,6 @@ import { ThemedCard } from '@/components/ui/ThemedCard/ThemedCard';
 import { ThemedView } from '@/components/ui/ThemedView/ThemedView';
 import { SIZES } from '@/constants/sizes';
 import { useTheme } from '@/hooks/useTheme';
-import React from 'react';
 import { Image, StyleSheet } from 'react-native';
 import { FavoriteButton } from '../favorite';
 

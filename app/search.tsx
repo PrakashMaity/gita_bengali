@@ -21,7 +21,7 @@ interface SearchResult {
 
 export default function SearchScreen() {
   const { theme } = useTheme();
-  const { chapters, isLoading } = useChapterStore();
+  const { chapters } = useChapterStore();
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [isSearching, setIsSearching] = useState(false);

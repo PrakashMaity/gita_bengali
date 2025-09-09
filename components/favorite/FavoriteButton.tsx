@@ -26,7 +26,6 @@ export default function FavoriteButton({
 }: FavoriteButtonProps) {
   const { theme } = useTheme();
   const { 
-    favorites,
     isFavorite, 
     addFavorite, 
     removeFavorite, 

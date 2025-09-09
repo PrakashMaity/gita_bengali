@@ -80,7 +80,7 @@ export const LetterTracing = forwardRef<LetterTracingRef, LetterTracingProps>(({
   className,
 }, ref) => {
   // State for drawing paths (simplified for fallback)
-  const [drawingPaths] = useState<Array<{x: number, y: number}>>([]);
+  const [drawingPaths] = useState<{x: number, y: number}[]>([]);
 
   // Callbacks
   const resetDrawing = useCallback(() => {
@@ -98,7 +98,6 @@ export const LetterTracing = forwardRef<LetterTracingRef, LetterTracingProps>(({
   }), [drawingPaths]);
 
   const setLetterPath = useCallback((path: string) => {
-    console.log('Setting new letter path:', path);
   }, []);
 
   // Expose methods to parent component

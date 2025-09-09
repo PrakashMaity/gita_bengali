@@ -8,7 +8,6 @@ import { WavePattern } from '@/illustration/cardBackground';
 import { FontAwesome } from '@expo/vector-icons';
 import FontAwesome5 from '@expo/vector-icons/build/FontAwesome5';
 import FontAwesome6 from '@expo/vector-icons/build/FontAwesome6';
-import React from 'react';
 import { Dimensions, Image, ScrollView, StyleSheet } from 'react-native';
 import { ThemedButton } from '../ui/ThemedButton';
 import MenuGrid from './MenuGrid';

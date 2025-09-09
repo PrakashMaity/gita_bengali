@@ -1,7 +1,6 @@
 import { useTheme } from '@/hooks/useTheme';
 import { useBookmarkStore } from '@/store';
 import { Ionicons } from '@expo/vector-icons';
-import React from 'react';
 import { View } from 'react-native';
 import { Badge } from '../Badge';
 

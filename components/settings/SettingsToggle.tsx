@@ -1,7 +1,6 @@
 import { SIZES } from '@/constants/sizes';
 import { TYPOGRAPHY } from '@/constants/typography';
 import { useTheme } from '@/hooks/useTheme';
-import React from 'react';
 import { StyleSheet, Switch, View } from 'react-native';
 import { ThemedText } from '../ui/ThemedText/ThemedText';
 import { ThemedView } from '../ui/ThemedView/ThemedView';

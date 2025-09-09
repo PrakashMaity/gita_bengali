@@ -1,4 +1,3 @@
-import React from 'react';
 import { TouchableOpacity, ViewStyle } from 'react-native';
 import { SIZES } from '../../../constants/sizes';
 import { Z_INDEX } from '../../../constants/zIndex';

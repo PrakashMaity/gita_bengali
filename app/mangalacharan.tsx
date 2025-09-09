@@ -6,7 +6,6 @@ import { useTheme } from '@/hooks/useTheme';
 import { WavePattern } from '@/illustration/cardBackground';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
-import React from 'react';
 import { Dimensions, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 
 export default function MangalacharanScreen() {

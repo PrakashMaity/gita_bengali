@@ -9,7 +9,6 @@ import { useTheme, useThemeColors } from '@/hooks/useTheme';
 import { WavePattern } from '@/illustration/cardBackground';
 import { useSettingsStore } from '@/store';
 import Feather from '@expo/vector-icons/Feather';
-import React from 'react';
 import { Dimensions, ScrollView, StyleSheet } from 'react-native';
 
 export default function SettingsScreen() {

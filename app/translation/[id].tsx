@@ -6,7 +6,6 @@ import { useTheme } from '@/hooks/useTheme';
 import { useTranslationStore } from '@/store';
 import { Ionicons } from '@expo/vector-icons';
 import { router, useLocalSearchParams } from 'expo-router';
-import React from 'react';
 import { Image, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 
 interface TranslationVerse {

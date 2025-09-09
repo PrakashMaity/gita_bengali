@@ -4,7 +4,6 @@ import { ThemedView } from '@/components/ui/ThemedView/ThemedView';
 import { SIZES } from '@/constants/sizes';
 import { useTheme } from '@/hooks/useTheme';
 import { Ionicons } from '@expo/vector-icons';
-import React from 'react';
 import { ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 
 interface SearchResult {
@@ -77,7 +76,7 @@ export default function SearchResults({ results, query, onResultPress }: SearchR
           কোন ফলাফল পাওয়া যায়নি
         </ThemedText>
         <ThemedText style={{ ...styles.emptySubtitle, color: theme.text.secondary }}>
-          "{query}" এর জন্য কোন শ্লোক পাওয়া যায়নি
+          &ldquo;{query}&rdquo; এর জন্য কোন শ্লোক পাওয়া যায়নি
         </ThemedText>
       </ThemedView>
     );

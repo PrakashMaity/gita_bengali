@@ -9,7 +9,7 @@ interface ThemeToggleProps {
 }
 
 export const ThemeToggle: React.FC<ThemeToggleProps> = ({ style }) => {
-  const { theme, currentMode, toggleMode, isDark } = useTheme();
+  const { theme, toggleMode, isDark } = useTheme();
 
   return (
     <ThemedView style={[styles.container, style]}>

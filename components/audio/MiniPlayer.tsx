@@ -1,7 +1,6 @@
 import { ThemedText } from '@/components/ui/ThemedText/ThemedText';
 import { SIZES } from '@/constants/sizes';
 import { useThemeColors } from '@/hooks/useTheme';
-import React from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { AlbumArt } from './AlbumArt';
 import { NeumorphicButton } from './NeumorphicButton';

@@ -8,7 +8,6 @@ import { WavePattern } from '@/illustration/cardBackground';
 import { FavoriteVerse, useFavoriteStore } from '@/store';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
-import React from 'react';
 import { Alert, Dimensions, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 
 export default function FavoritesScreen() {

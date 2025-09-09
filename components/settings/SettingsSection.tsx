@@ -1,7 +1,6 @@
 import { SIZES } from '@/constants/sizes';
 import { TYPOGRAPHY } from '@/constants/typography';
 import { useTheme } from '@/hooks/useTheme';
-import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { ThemedCard } from '../ui/ThemedCard/ThemedCard';
 import { ThemedText } from '../ui/ThemedText/ThemedText';

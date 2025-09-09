@@ -3,13 +3,13 @@ import { SIZES } from '@/constants/sizes';
 import { useThemeColors } from '@/hooks/useTheme';
 import React from 'react';
 import {
-  Animated,
-  Dimensions,
-  Modal,
-  PanResponder,
-  StyleSheet,
-  TouchableOpacity,
-  View
+    Animated,
+    Dimensions,
+    Modal,
+    PanResponder,
+    StyleSheet,
+    TouchableOpacity,
+    View
 } from 'react-native';
 import { AlbumArt } from './AlbumArt';
 import { AudioControls } from './AudioControls';
@@ -74,7 +74,7 @@ export const AudioPlayerModal: React.FC<AudioPlayerModalProps> = ({
         useNativeDriver: true,
       }).start();
     }
-  }, [visible]);
+  }, [visible, translateY]);
 
   const panResponder = PanResponder.create({
     onMoveShouldSetPanResponder: (_, gestureState) => {

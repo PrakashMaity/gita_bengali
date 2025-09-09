@@ -5,7 +5,6 @@ import { MenuItem, menuSections } from '@/constants/menuData';
 import { SIZES } from '@/constants/sizes';
 import { useThemeColors } from '@/hooks/useTheme';
 import { FontAwesome5, FontAwesome6, Ionicons, MaterialIcons } from '@expo/vector-icons';
-import React from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 
 interface MenuGridProps {

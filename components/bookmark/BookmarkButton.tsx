@@ -28,7 +28,6 @@ export default function BookmarkButton({
 }: BookmarkButtonProps) {
   const { theme } = useTheme();
   const { 
-    bookmarks,
     isBookmarked, 
     addBookmark, 
     removeBookmark, 
