@@ -10,12 +10,14 @@ export interface Settings {
   audioQuality: 'low' | 'medium' | 'high';
   fontSize: 'small' | 'medium' | 'large';
   language: 'bengali' | 'english' | 'hindi';
+  onboardingCompleted: boolean;
 }
 
 interface SettingsStore {
   settings: Settings;
   updateSetting: <K extends keyof Settings>(key: K, value: Settings[K]) => void;
   resetSettings: () => void;
+  resetOnboarding: () => void;
   toggleBackgroundAudio: () => void;
   toggleNotifications: () => void;
   toggleAutoPlayNext: () => void;
@@ -29,6 +31,7 @@ const defaultSettings: Settings = {
   audioQuality: 'medium',
   fontSize: 'medium',
   language: 'bengali',
+  onboardingCompleted: false,
 };
 
 export const useSettingsStore = create<SettingsStore>()(
@@ -47,6 +50,14 @@ export const useSettingsStore = create<SettingsStore>()(
       resetSettings: () =>
         set(() => ({
           settings: defaultSettings,
+        })),
+      
+      resetOnboarding: () =>
+        set((state) => ({
+          settings: {
+            ...state.settings,
+            onboardingCompleted: false,
+          },
         })),
       
       toggleBackgroundAudio: () =>

@@ -9,6 +9,7 @@ import { useTheme, useThemeColors } from '@/hooks/useTheme';
 import { WavePattern } from '@/illustration/cardBackground';
 import { useSettingsStore } from '@/store';
 import Feather from '@expo/vector-icons/Feather';
+import { router } from 'expo-router';
 import { Dimensions, ScrollView, StyleSheet } from 'react-native';
 
 export default function SettingsScreen() {
@@ -42,6 +43,11 @@ export default function SettingsScreen() {
       case 'large': return 'Large';
       default: return 'Medium';
     }
+  };
+
+  const handleResetOnboarding = () => {
+    updateSetting('onboardingCompleted', false);
+    router.replace('onboarding' as any);
   };
 
 
@@ -109,6 +115,12 @@ export default function SettingsScreen() {
               subtitle="ভগবদ গীতা অ্যাপের বর্তমান ভার্সন"
               icon={<Feather name="info" size={SIZES.icon.lg} color={theme.icon.primary} />}
               value="1.0.0"
+            />
+            <SettingsItem
+              title="অনবোর্ডিং পুনরায় দেখুন"
+              subtitle="শুরু করার গাইড পুনরায় দেখুন"
+              icon={<Feather name="refresh-cw" size={SIZES.icon.lg} color={theme.icon.primary} />}
+              onPress={handleResetOnboarding}
             />
            
           </SettingsSection>

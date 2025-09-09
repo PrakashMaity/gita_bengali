@@ -10,8 +10,8 @@ import { ThemeProvider } from '../hooks/useTheme';
 
 
 export default function RootLayout() {
-  const isOnboardingComplete = true;
   const { loadAllChapters } = useChapterStore();
+  
   const [loaded, error] = useFonts({
     'SpaceMono-Regular': require('../assets/fonts/SpaceMono-Regular.ttf'),
     'BenSenHandwriting': require('../assets/fonts/BenSenHandwriting.ttf'),
@@ -43,23 +43,19 @@ export default function RootLayout() {
               <Stack screenOptions={{
                 headerShown: false,
               }}>
-                <Stack.Protected guard={!isOnboardingComplete} >
-                  <Stack.Screen name="index" />
-                </Stack.Protected>
-                <Stack.Protected guard={isOnboardingComplete} >
-                  <Stack.Screen name="(tabs)" />
-                  <Stack.Screen name="chapter/[id]" />
-                  <Stack.Screen name="translation/[id]" />
-                  <Stack.Screen name="search" />
-                  <Stack.Screen name="favorites" />
-                  <Stack.Screen name="gita-summary" />
-                  <Stack.Screen name="gita-mahatmya" />
-                  <Stack.Screen name="mangalacharan" />
-                  <Stack.Screen name="dhyana" />
-                  <Stack.Screen name="audio" />
-                  <Stack.Screen name="translations" />
-                  <Stack.Screen name="(drawing)/latterDrawingScreen" />
-                </Stack.Protected>
+                <Stack.Screen name="onboarding" />
+                <Stack.Screen name="(tabs)" />
+                <Stack.Screen name="chapter/[id]" />
+                <Stack.Screen name="translation/[id]" />
+                <Stack.Screen name="search" />
+                <Stack.Screen name="favorites" />
+                <Stack.Screen name="gita-summary" />
+                <Stack.Screen name="gita-mahatmya" />
+                <Stack.Screen name="mangalacharan" />
+                <Stack.Screen name="dhyana" />
+                <Stack.Screen name="audio" />
+                <Stack.Screen name="translations" />
+                <Stack.Screen name="(drawing)/latterDrawingScreen" />
               </Stack>
             </ThemedView>
           </ThemedSafeAreaView>
