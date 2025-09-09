@@ -5,7 +5,7 @@ import { useTheme } from '@/hooks/useTheme';
 import { useBookmarkStore } from '@/store';
 import { Ionicons } from '@expo/vector-icons';
 import React, { useEffect, useState } from 'react';
-import { Alert, StyleSheet, TouchableOpacity } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 
 interface BookmarkButtonProps {
   verseId: string;
@@ -14,6 +14,7 @@ interface BookmarkButtonProps {
   verseNumber: string;
   verseText: string;
   onBookmarkChange?: (isBookmarked: boolean) => void;
+  onAlert?: (title: string, message: string, type?: 'success' | 'error') => void;
 }
 
 
@@ -25,6 +26,7 @@ export default function BookmarkButton({
   verseNumber,
   verseText,
   onBookmarkChange,
+  onAlert,
 }: BookmarkButtonProps) {
   const { theme } = useTheme();
   const { 
@@ -55,15 +57,15 @@ export default function BookmarkButton({
       if (bookmarkStatus) {
         // Remove bookmark
         await removeBookmark(verseId);
-        Alert.alert('বুকমার্ক সরানো হয়েছে', 'এই শ্লোকটি বুকমার্ক থেকে সরানো হয়েছে');
+        onAlert?.('বুকমার্ক সরানো হয়েছে', 'এই শ্লোকটি বুকমার্ক থেকে সরানো হয়েছে', 'success');
       } else {
         // Add bookmark
         await addBookmark(verseId, chapterId, chapterNumber, verseNumber, verseText);
-        Alert.alert('বুকমার্ক যোগ করা হয়েছে', 'এই শ্লোকটি বুকমার্কে যোগ করা হয়েছে');
+        onAlert?.('বুকমার্ক যোগ করা হয়েছে', 'এই শ্লোকটি বুকমার্কে যোগ করা হয়েছে', 'success');
       }
     } catch (error) {
       console.error('Error toggling bookmark:', error);
-      Alert.alert('ত্রুটি', 'বুকমার্ক পরিবর্তন করতে সমস্যা হয়েছে');
+      onAlert?.('ত্রুটি', 'বুকমার্ক পরিবর্তন করতে সমস্যা হয়েছে', 'error');
     }
   };
 

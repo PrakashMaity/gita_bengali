@@ -4,17 +4,19 @@ import { ThemedCard } from '@/components/ui/ThemedCard/ThemedCard';
 import ThemedSafeAreaView from '@/components/ui/ThemedSafeAreaView/ThemedSafeAreaView';
 import { ThemedView } from '@/components/ui/ThemedView/ThemedView';
 import { SIZES } from '@/constants/sizes';
+import { createConfirmAlert, createErrorAlert, createSuccessAlert, useCustomAlert } from '@/hooks/useCustomAlert';
 import { useTheme } from '@/hooks/useTheme';
 import { WavePattern } from '@/illustration/cardBackground';
 import { Bookmark, useBookmarkStore } from '@/store';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
-import { Alert, Dimensions, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+import { Dimensions, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 
 export default function BookmarksScreen() {
   const { theme } = useTheme();
   const { width, height } = Dimensions.get('window');
   const { removeBookmark, clearAllBookmarks, isLoading, getBookmarksSortedByDate } = useBookmarkStore();
+  const { showAlert, AlertComponent } = useCustomAlert();
   
   // Get bookmarks sorted by date (newest first)
   const sortedBookmarks = getBookmarksSortedByDate();
@@ -22,10 +24,10 @@ export default function BookmarksScreen() {
   const handleRemoveBookmark = async (verseId: string) => {
     try {
       await removeBookmark(verseId);
-      Alert.alert('বুকমার্ক সরানো হয়েছে', 'এই শ্লোকটি বুকমার্ক থেকে সরানো হয়েছে');
+      showAlert(createSuccessAlert('বুকমার্ক সরানো হয়েছে', 'এই শ্লোকটি বুকমার্ক থেকে সরানো হয়েছে'));
     } catch (error) {
       console.error('Error removing bookmark:', error);
-      Alert.alert('ত্রুটি', 'বুকমার্ক সরাতে সমস্যা হয়েছে');
+      showAlert(createErrorAlert('ত্রুটি', 'বুকমার্ক সরাতে সমস্যা হয়েছে'));
     }
   };
 
@@ -42,29 +44,19 @@ export default function BookmarksScreen() {
   };
 
   const handleRemoveAllBookmarks = () => {
-    Alert.alert(
+    showAlert(createConfirmAlert(
       'সব বুকমার্ক সরান',
       'আপনি কি নিশ্চিত যে আপনি সব বুকমার্ক সরাতে চান?',
-      [
-        {
-          text: 'বাতিল',
-          style: 'cancel',
-        },
-        {
-          text: 'সরান',
-          style: 'destructive',
-          onPress: async () => {
-            try {
-              await clearAllBookmarks();
-              Alert.alert('সফল', 'সব বুকমার্ক সরানো হয়েছে');
-            } catch (error) {
-              console.error('Error clearing all bookmarks:', error);
-              Alert.alert('ত্রুটি', 'বুকমার্ক সরাতে সমস্যা হয়েছে');
-            }
-          },
-        },
-      ]
-    );
+      async () => {
+        try {
+          await clearAllBookmarks();
+          showAlert(createSuccessAlert('সফল', 'সব বুকমার্ক সরানো হয়েছে'));
+        } catch (error) {
+          console.error('Error clearing all bookmarks:', error);
+          showAlert(createErrorAlert('ত্রুটি', 'বুকমার্ক সরাতে সমস্যা হয়েছে'));
+        }
+      }
+    ));
   };
 
   const formatDate = (timestamp: number) => {
@@ -176,6 +168,7 @@ export default function BookmarksScreen() {
 
   return (
     <ThemedView variant="primary" style={styles.container}>
+      {AlertComponent}
       <WavePattern 
         width={width} 
         height={height} 

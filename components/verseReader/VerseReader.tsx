@@ -22,6 +22,7 @@ interface VerseReaderProps {
   onToggleTranslation: () => void;
   chapterId?: string;
   chapterNumber?: string;
+  onAlert?: (title: string, message: string, type?: 'success' | 'error') => void;
 }
 
 export default function VerseReader({
@@ -32,6 +33,7 @@ export default function VerseReader({
   onToggleTranslation,
   chapterId,
   chapterNumber,
+  onAlert,
 }: VerseReaderProps) {
   const { theme } = useTheme();
   const speakerImageMapper = (speaker: string) => {
@@ -61,7 +63,7 @@ export default function VerseReader({
           </ThemedView>
 
           <ThemedView style={[styles.verseNumberContainer, ]}>
-            <ThemedBengaliText style={{ color: theme.button.primary.text }} size="xl">
+            <ThemedBengaliText size="xl">
             শ্লোক - {verse.verseNumber}
             </ThemedBengaliText>
           
@@ -76,6 +78,7 @@ export default function VerseReader({
                     chapterNumber={chapterNumber}
                     verseNumber={verse.verseNumber}
                     verseText={verse.bengali}
+                    onAlert={onAlert}
                   />
                 </ThemedView>
               )}

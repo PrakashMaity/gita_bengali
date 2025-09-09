@@ -8,111 +8,111 @@ export const generateTheme = (mode: ThemeMode): Theme => {
   if (mode === 'light') {
     return {
       background: {
-        primary: colors.maroon50,       // Deep chocolate brown (main content area)
-        secondary: colors.maroon100,    // Rich brown (secondary background)
-        card: colors.maroon200,         // Medium brown (card backgrounds)
-        tertiary: colors.secondary100,   // Rich teal (accent areas)
-        quaternary: colors.accent100,    // Goldenrod (highlights and CTAs)
+        primary: '#FFF8E1',             // Saffron cream (main content area)
+        secondary: '#FFE0B2',           // Light saffron (secondary background)
+        card: '#FFCC80',                // Golden saffron (card backgrounds)
+        tertiary: '#FFAB40',            // Bright orange (accent areas)
+        quaternary: '#FF8A65',          // Light orange (highlights and CTAs)
       },
       text: {
-        primary: colors.white,           // White text on deep backgrounds
-        secondary: colors.white,         // White text for better contrast
-        disabled: colors.primary500,     // Very light brown (disabled text)
-        error: colors.maroon200,         // Medium warm red (error text)
-        success: colors.secondary200,    // Medium teal (success text)
-        warning: colors.accent200,       // Medium gold (warning text)
-        tertiary: colors.white,          // White text on dark backgrounds
-        quaternary: colors.white,        // White text on bright backgrounds
+        primary: '#1A0E0A',             // Very dark brown (main text - high contrast)
+        secondary: '#2E1B16',           // Dark brown (secondary text - better contrast)
+        disabled: '#8D6E63',            // Medium brown (disabled text - more visible)
+        error: '#B71C1C',               // Very deep red (error text - high contrast)
+        success: '#1B5E20',             // Very dark green (success text - high contrast)
+        warning: '#E65100',             // Dark orange (warning text - high contrast)
+        tertiary: '#BF360C',            // Very deep orange-red (tertiary text - high contrast)
+        quaternary: '#D84315',          // Deep orange-red (quaternary text - high contrast)
       },
       icon: {
-        primary: colors.accent200,       // Medium gold (primary icons)
-        secondary: colors.secondary200,  // Medium teal (secondary icons)
-        tertiary: colors.tertiary200,    // Medium purple (tertiary icons)
-        quaternary: colors.white,        // White (quaternary icons)
-        disabled: colors.primary500,     // Very light brown (disabled icons)
-        error: colors.maroon200,         // Medium warm red (error icons)
-        success: colors.secondary200,    // Medium teal (success icons)
-        warning: colors.accent200,       // Medium gold (warning icons)
+        primary: '#E65100',             // Dark orange (primary icons - high contrast)
+        secondary: '#BF360C',           // Very deep orange-red (secondary icons - high contrast)
+        tertiary: '#B71C1C',            // Very deep red (tertiary icons - high contrast)
+        quaternary: '#1B5E20',          // Very dark green (quaternary icons - high contrast)
+        disabled: '#FFAB40',            // Bright orange (disabled icons - more visible)
+        error: '#B71C1C',               // Very deep red (error icons - high contrast)
+        success: '#1B5E20',             // Very dark green (success icons - high contrast)
+        warning: '#E65100',             // Dark orange (warning icons - high contrast)
       },
       border: {
-        primary: colors.accent200,       // Medium gold (primary borders)
-        secondary: colors.secondary200,  // Medium teal (secondary borders)
-        error: colors.maroon200,         // Medium warm red (error borders)
-        tertiary: colors.primary300,     // Light brown (tertiary borders)
-        quaternary: colors.accent200,    // Medium gold (quaternary borders)
+        primary: '#E65100',             // Dark orange (primary borders - high contrast)
+        secondary: '#BF360C',           // Very deep orange-red (secondary borders - high contrast)
+        error: '#B71C1C',               // Very deep red (error borders - high contrast)
+        tertiary: '#5D4037',            // Dark brown (tertiary borders - better contrast)
+        quaternary: '#E65100',          // Dark orange (quaternary borders - high contrast)
       },
       button: {
         primary: {
-          background: colors.accent100,  // Goldenrod (main action buttons)
-          text: colors.white,            // White text
+          background: '#FF6F00',        // Deep orange (main action buttons)
+          text: colors.white,           // White text
         },
         secondary: {
-          background: colors.secondary100, // Rich teal (secondary buttons)
-          text: colors.white,            // White text
+          background: '#BF360C',        // Very deep orange-red (secondary buttons)
+          text: colors.white,           // White text
         },
         tertiary: {
-          background: colors.tertiary100, // Rich purple (tertiary buttons)
-          text: colors.white,            // White text
+          background: '#8D6E63',        // Rich brown (tertiary buttons)
+          text: colors.white,           // White text
         },
         quaternary: {
-          background: colors.quaternary100, // Rich orange (quaternary buttons)
-          text: colors.white,            // White text
+          background: '#D84315',        // Deep orange-red (quaternary buttons)
+          text: colors.white,           // White text
         },
         disabled: {
-          background: colors.primary300, // Light brown (disabled)
-          text: colors.primary500,       // Very light brown text
+          background: '#BCAAA4',        // Light brown (disabled)
+          text: '#A1887F',              // Medium brown text
         },
       },
       status: {
-        success: colors.secondary200,    // Medium teal (success status)
-        error: colors.maroon200,         // Medium warm red (error status)
-        warning: colors.accent200,       // Medium gold (warning status)
-        info: colors.quaternary200,      // Medium orange (info status)
+        success: '#1B5E20',             // Very dark green (success status - high contrast)
+        error: '#B71C1C',               // Very deep red (error status - high contrast)
+        warning: '#E65100',             // Dark orange (warning status - high contrast)
+        info: '#D84315',                // Deep orange-red (info status - high contrast)
       },
       data: {
         // Primary data colors (8 colors - perfect for most visualizations)
         primary: [
-          colors.dataLight.blue,
-          colors.dataLight.green,
-          colors.dataLight.orange,
-          colors.dataLight.red,
-          colors.dataLight.purple,
-          colors.dataLight.teal,
-          colors.dataLight.yellow,
-          colors.dataLight.pink,
+          '#E65100',  // Dark orange (high contrast)
+          '#BF360C',  // Very deep orange-red (high contrast)
+          '#B71C1C',  // Very deep red (high contrast)
+          '#1B5E20',  // Very dark green (high contrast)
+          '#FFAB40',  // Bright orange (high contrast)
+          '#D84315',  // Deep orange-red (high contrast)
+          '#FF6F00',  // Deep orange (high contrast)
+          '#FF8A65',  // Light orange (high contrast)
         ],
         // Extended data colors (16 colors - for complex visualizations)
         extended: [
-          colors.dataLight.blue,
-          colors.dataLight.green,
-          colors.dataLight.orange,
-          colors.dataLight.red,
-          colors.dataLight.purple,
-          colors.dataLight.teal,
-          colors.dataLight.yellow,
-          colors.dataLight.pink,
-          colors.dataLight.indigo,
-          colors.dataLight.emerald,
-          colors.dataLight.amber,
-          colors.dataLight.rose,
-          colors.dataLight.cyan,
-          colors.dataLight.lime,
-          colors.dataLight.violet,
-          colors.dataLight.fuchsia,
+          '#E65100',  // Dark orange (high contrast)
+          '#BF360C',  // Very deep orange-red (high contrast)
+          '#B71C1C',  // Very deep red (high contrast)
+          '#1B5E20',  // Very dark green (high contrast)
+          '#FFAB40',  // Bright orange (high contrast)
+          '#D84315',  // Deep orange-red (high contrast)
+          '#FF6F00',  // Deep orange (high contrast)
+          '#FF8A65',  // Light orange (high contrast)
+          '#FFF8E1',  // Saffron cream (background)
+          '#FFE0B2',  // Light saffron (background)
+          '#FFCC80',  // Golden saffron (background)
+          '#FFAB40',  // Bright orange (accent)
+          '#1A0E0A',  // Very dark brown (text only)
+          '#2E1B16',  // Dark brown (text only)
+          '#FF7043',  // Medium orange (high contrast)
+          '#FFB74D',  // Light orange (high contrast)
         ],
         // Semantic data colors
         semantic: {
-          positive: colors.dataLight.green,
-          negative: colors.dataLight.red,
-          neutral: colors.dataLight.gray,
-          highlight: colors.dataLight.blue,
+          positive: '#1B5E20',          // Very dark green (high contrast)
+          negative: '#B71C1C',          // Very deep red (high contrast)
+          neutral: '#FFAB40',           // Bright orange (high contrast)
+          highlight: '#E65100',         // Dark orange (high contrast)
         },
         // Data visualization background colors
         background: {
-          primary: colors.primary50,     // Deep chocolate brown (matches main theme)
-          secondary: colors.primary100,  // Rich brown
-          grid: colors.primary300,       // Light brown grid lines
-          axis: colors.primary400,       // Pale brown axis lines
+          primary: '#FFF8E1',           // Saffron cream (matches main theme)
+          secondary: '#FFE0B2',         // Light saffron
+          grid: '#FFCC80',              // Golden saffron grid lines
+          axis: '#8D6E63',              // Rich brown axis lines
         },
       },
     };

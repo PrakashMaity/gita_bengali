@@ -4,6 +4,7 @@ import { ThemedBengaliText } from '@/components/ui/ThemedBengaliText/ThemedBenga
 import { ThemedView } from '@/components/ui/ThemedView/ThemedView';
 import { VerseReader } from '@/components/verseReader';
 import { SIZES } from '@/constants/sizes';
+import { createErrorAlert, createSuccessAlert, useCustomAlert } from '@/hooks/useCustomAlert';
 import { useTheme } from '@/hooks/useTheme';
 import { useChapterStore, useProgressStore } from '@/store';
 import { Ionicons } from '@expo/vector-icons';
@@ -21,6 +22,7 @@ export default function ChapterDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { getChapterById, isLoading } = useChapterStore();
   const { updateProgress, loadProgress, getProgress, markChapterCompleted } = useProgressStore();
+  const { showAlert, AlertComponent } = useCustomAlert();
   const [currentVerse, setCurrentVerse] = useState(0);
   const [showTranslation, setShowTranslation] = useState(true);
   const [showBengali, setShowBengali] = useState(true);
@@ -125,6 +127,7 @@ export default function ChapterDetailScreen() {
   return (
 
     <ThemedView variant="primary" style={styles.container}>
+      {AlertComponent}
       {/* Header */}
       <ThemedView style={styles.header}>
         <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
@@ -155,6 +158,15 @@ export default function ChapterDetailScreen() {
           onToggleTranslation={toggleTranslation}
           chapterId={chapter.id}
           chapterNumber={chapter.number}
+          onAlert={(title, message, type) => {
+            if (type === 'success') {
+              showAlert(createSuccessAlert(title, message));
+            } else if (type === 'error') {
+              showAlert(createErrorAlert(title, message));
+            } else {
+              showAlert({ title, message });
+            }
+          }}
         />
 
         {/* Reading Progress */}
@@ -162,6 +174,15 @@ export default function ChapterDetailScreen() {
           chapterId={chapter.id}
           currentVerseIndex={currentVerse}
           totalVerses={verses?.length || 0}
+          onAlert={(title, message, type) => {
+            if (type === 'success') {
+              showAlert(createSuccessAlert(title, message));
+            } else if (type === 'error') {
+              showAlert(createErrorAlert(title, message));
+            } else {
+              showAlert({ title, message });
+            }
+          }}
         />
       </ScrollView>
 

@@ -6,7 +6,7 @@ import { SIZES } from '@/constants/sizes';
 import { useTheme } from '@/hooks/useTheme';
 import { WavePattern } from '@/illustration/cardBackground';
 import { TranslationData, useTranslationStore } from '@/store';
-import { MaterialIcons } from '@expo/vector-icons';
+import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import React, { useEffect } from 'react';
 import { Dimensions, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
@@ -115,6 +115,10 @@ export default function TranslationsScreen() {
 
       {/* Header Card */}
       <ThemedCard variant='transparent' style={styles.headerCard}>
+        <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+          <Ionicons name="arrow-back" size={SIZES.icon.xl} color={theme.icon.primary} />
+        </TouchableOpacity>
+
         <ThemedBengaliText
           variant="primary"
           size="title"
@@ -180,6 +184,15 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     margin: SIZES.spacing.lg,
     marginBottom: SIZES.spacing.md,
+  },
+  backButton: {
+    marginRight: SIZES.spacing.lg,
+    padding: SIZES.spacing.sm,
+    borderRadius: SIZES.radius.lg,
+    minWidth: 44,
+    minHeight: 44,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   title: {
     flex: 1,

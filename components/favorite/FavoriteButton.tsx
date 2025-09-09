@@ -5,7 +5,7 @@ import { useTheme } from '@/hooks/useTheme';
 import { useFavoriteStore } from '@/store';
 import { Ionicons } from '@expo/vector-icons';
 import React, { useEffect, useState } from 'react';
-import { Alert, StyleSheet, TouchableOpacity } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 
 interface FavoriteButtonProps {
   verseId: string;
@@ -14,6 +14,7 @@ interface FavoriteButtonProps {
   verseNumber: string;
   verseText: string;
   onFavoriteChange?: (isFavorite: boolean) => void;
+  onAlert?: (title: string, message: string, type?: 'success' | 'error') => void;
 }
 
 export default function FavoriteButton({
@@ -23,6 +24,7 @@ export default function FavoriteButton({
   verseNumber,
   verseText,
   onFavoriteChange,
+  onAlert,
 }: FavoriteButtonProps) {
   const { theme } = useTheme();
   const { 
@@ -51,15 +53,15 @@ export default function FavoriteButton({
       if (favoriteStatus) {
         // Remove favorite
         await removeFavorite(verseId);
-        Alert.alert('প্রিয় শ্লোক সরানো হয়েছে', 'এই শ্লোকটি প্রিয় শ্লোক থেকে সরানো হয়েছে');
+        onAlert?.('প্রিয় শ্লোক সরানো হয়েছে', 'এই শ্লোকটি প্রিয় শ্লোক থেকে সরানো হয়েছে', 'success');
       } else {
         // Add favorite
         await addFavorite(verseId, chapterId, chapterNumber, verseNumber, verseText);
-        Alert.alert('প্রিয় শ্লোক যোগ করা হয়েছে', 'এই শ্লোকটি প্রিয় শ্লোকে যোগ করা হয়েছে');
+        onAlert?.('প্রিয় শ্লোক যোগ করা হয়েছে', 'এই শ্লোকটি প্রিয় শ্লোকে যোগ করা হয়েছে', 'success');
       }
     } catch (error) {
       console.error('Error toggling favorite:', error);
-      Alert.alert('ত্রুটি', 'প্রিয় শ্লোক পরিবর্তন করতে সমস্যা হয়েছে');
+      onAlert?.('ত্রুটি', 'প্রিয় শ্লোক পরিবর্তন করতে সমস্যা হয়েছে', 'error');
     }
   };
 

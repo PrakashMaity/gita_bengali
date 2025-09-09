@@ -6,13 +6,14 @@ import { useTheme } from '@/hooks/useTheme';
 import { useProgressStore } from '@/store';
 import { Ionicons } from '@expo/vector-icons';
 import React, { useEffect } from 'react';
-import { Alert, StyleSheet, TouchableOpacity } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 
 interface ReadingProgressProps {
   chapterId: string;
   currentVerseIndex: number;
   totalVerses: number;
   onProgressUpdate?: (progress: any) => void;
+  onAlert?: (title: string, message: string, type?: 'success' | 'error') => void;
 }
 
 export default function ReadingProgress({
@@ -20,6 +21,7 @@ export default function ReadingProgress({
   currentVerseIndex,
   totalVerses,
   onProgressUpdate,
+  onAlert,
 }: ReadingProgressProps) {
   const { theme } = useTheme();
   const { 
@@ -40,10 +42,10 @@ export default function ReadingProgress({
     try {
       await resetChapterProgress(chapterId);
       onProgressUpdate?.(null);
-      Alert.alert('প্রগতি রিসেট', 'এই অধ্যায়ের পড়ার প্রগতি রিসেট করা হয়েছে');
+      onAlert?.('প্রগতি রিসেট', 'এই অধ্যায়ের পড়ার প্রগতি রিসেট করা হয়েছে', 'success');
     } catch (error) {
       console.error('Error resetting progress:', error);
-      Alert.alert('ত্রুটি', 'প্রগতি রিসেট করতে সমস্যা হয়েছে');
+      onAlert?.('ত্রুটি', 'প্রগতি রিসেট করতে সমস্যা হয়েছে', 'error');
     }
   };
 
