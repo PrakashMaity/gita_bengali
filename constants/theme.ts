@@ -2,7 +2,7 @@ import { Theme } from '../interface/color.interface';
 import { colors } from './tint';
 
 export type { Theme };
-export type ThemeMode = 'light' | 'dark';
+export type ThemeMode = 'light' | 'dark' | 'system';
 
 export const generateTheme = (mode: ThemeMode): Theme => {
   if (mode === 'light') {

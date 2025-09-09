@@ -1,5 +1,7 @@
 import React, { ReactNode, createContext, useContext, useEffect, useState } from 'react';
+import { Appearance } from 'react-native';
 import { Theme, ThemeMode, defaultTheme, generateTheme } from '../constants/theme';
+import { useSettingsStore } from '../store/settingsStore';
 
 // Theme Context Interface
 interface ThemeContextType {
@@ -20,8 +22,31 @@ interface ThemeProviderProps {
 
 // Theme Provider Component
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
-  const [currentMode, setCurrentMode] = useState<ThemeMode>('light');
+  const { settings, updateSetting } = useSettingsStore();
   const [theme, setTheme] = useState<Theme>(defaultTheme);
+  const [systemColorScheme, setSystemColorScheme] = useState<'light' | 'dark'>('light');
+
+  // Listen to system color scheme changes
+  useEffect(() => {
+    const subscription = Appearance.addChangeListener(({ colorScheme }) => {
+      setSystemColorScheme(colorScheme === 'dark' ? 'dark' : 'light');
+    });
+
+    // Set initial system color scheme
+    setSystemColorScheme(Appearance.getColorScheme() === 'dark' ? 'dark' : 'light');
+
+    return () => subscription?.remove();
+  }, []);
+
+  // Get current mode from settings, handle 'system' mode
+  const getCurrentMode = (): 'light' | 'dark' => {
+    if (settings.themeMode === 'system') {
+      return systemColorScheme;
+    }
+    return settings.themeMode;
+  };
+
+  const currentMode = getCurrentMode();
 
   // Update theme when mode changes
   useEffect(() => {
@@ -32,16 +57,21 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   // Toggle between light and dark mode
   const toggleMode = React.useCallback(() => {
     const newMode = currentMode === 'light' ? 'dark' : 'light';
-    setCurrentMode(newMode);
-  }, [currentMode]);
+    updateSetting('themeMode', newMode);
+  }, [currentMode, updateSetting]);
+
+  // Set mode function
+  const setMode = React.useCallback((mode: ThemeMode) => {
+    updateSetting('themeMode', mode);
+  }, [updateSetting]);
 
   const contextValue: ThemeContextType = React.useMemo(() => ({
     theme,
     currentMode,
-    setMode: setCurrentMode,
+    setMode,
     toggleMode,
     isDark: currentMode === 'dark',
-  }), [theme, currentMode, toggleMode]);
+  }), [theme, currentMode, setMode, toggleMode]);
 
   return (
     <ThemeContext.Provider value={contextValue}>

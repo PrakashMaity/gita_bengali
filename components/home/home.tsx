@@ -5,10 +5,9 @@ import { MenuItem } from '@/constants/menuData';
 import { SIZES } from '@/constants/sizes';
 import { useThemeColors } from '@/hooks/useTheme';
 import { WavePattern } from '@/illustration/cardBackground';
+import { FontAwesome } from '@expo/vector-icons';
 import FontAwesome5 from '@expo/vector-icons/build/FontAwesome5';
 import FontAwesome6 from '@expo/vector-icons/build/FontAwesome6';
-import Feather from '@expo/vector-icons/Feather';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
 import React from 'react';
 import { Dimensions, Image, ScrollView, StyleSheet } from 'react-native';
 import { ThemedButton } from '../ui/ThemedButton';
@@ -34,10 +33,16 @@ const Home = () => {
       
       <ThemedCard variant='transparent' style={styles.headerCard}>
         <Image source={require('@/assets/images/Home/logo.png')} style={styles.logo} />
+        <ThemedBengaliText
+          variant="primary"
+          size="title"
+          fontFamily="benSen"
+        >
+        শ্রীমদ্ভগবদ্গীতা
+        </ThemedBengaliText>
+       
         <ThemedView style={styles.headerActions}>
-          <ThemedView style={[styles.actionButton, { borderColor: theme.border.primary }]}>
-            <Feather name="volume-2" size={SIZES.icon.lg} color={theme.icon.primary} />
-          </ThemedView>
+        
           <ThemedView style={[styles.actionButton, { borderColor: theme.border.primary }]}>
             <FontAwesome name="bell-o" size={SIZES.icon.lg} color={theme.icon.primary} />
           </ThemedView>
