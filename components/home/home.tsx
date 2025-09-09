@@ -1,3 +1,4 @@
+import { DailySlokaNotification } from '@/components/notification';
 import { ThemedBengaliText } from '@/components/ui/ThemedBengaliText/ThemedBengaliText';
 import { ThemedCard } from '@/components/ui/ThemedCard/ThemedCard';
 import { ThemedView } from '@/components/ui/ThemedView/ThemedView';
@@ -5,10 +6,14 @@ import { MenuItem } from '@/constants/menuData';
 import { SIZES } from '@/constants/sizes';
 import { useThemeColors } from '@/hooks/useTheme';
 import { WavePattern } from '@/illustration/cardBackground';
+import { useChapterStore, useNotificationStore } from '@/store';
+import { getRandomSloka } from '@/store/utils/notificationUtils';
 import { FontAwesome } from '@expo/vector-icons';
 import FontAwesome5 from '@expo/vector-icons/build/FontAwesome5';
 import FontAwesome6 from '@expo/vector-icons/build/FontAwesome6';
-import { Dimensions, Image, ScrollView, StyleSheet } from 'react-native';
+import { router } from 'expo-router';
+import { useEffect } from 'react';
+import { Dimensions, Image, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import { ThemedButton } from '../ui/ThemedButton';
 import MenuGrid from './MenuGrid';
 import { getNavigationHandler } from './navigationHandlers';
@@ -17,10 +22,80 @@ import { getNavigationHandler } from './navigationHandlers';
 const Home = () => {
   const theme = useThemeColors();
   const { width, height } = Dimensions.get('window');
+  
+  const {
+    dailySloka,
+    isNotificationVisible,
+    shouldShowNewNotification,
+    hasNotification,
+    setDailySloka,
+    setNotificationVisible,
+  } = useNotificationStore();
+
+  const { loadAllChapters } = useChapterStore();
+
+  // Load chapters and check for daily sloka on component mount
+  useEffect(() => {
+    const initializeApp = async () => {
+      // Ensure chapters are loaded first
+      await loadAllChapters();
+      
+      if (shouldShowNewNotification()) {
+        const newSloka = getRandomSloka();
+        setDailySloka(newSloka);
+        // Auto-show notification for new daily sloka
+        setNotificationVisible(true);
+      }
+    };
+    
+    initializeApp();
+  }, [loadAllChapters, shouldShowNewNotification, setDailySloka, setNotificationVisible]);
 
   const handleMenuItemPress = (item: MenuItem) => {
     const handler = getNavigationHandler(item);
     handler();
+  };
+
+  const handleNotificationClose = () => {
+    setNotificationVisible(false);
+  };
+
+  const handleReadMore = () => {
+    setNotificationVisible(false);
+    
+    if (dailySloka?.chapterId && dailySloka.chapterId !== 'unknown') {
+      console.log('Navigating to chapter:', dailySloka.chapterId);
+      console.log('Full sloka data:', dailySloka);
+      try {
+        // Try the main navigation first
+        router.push(`/chapter/${dailySloka.chapterId}`);
+      } catch (error) {
+        console.error('Navigation error:', error);
+        // Fallback: try navigating to chapters tab first
+        try {
+          router.push('/(tabs)/chapters');
+        } catch (fallbackError) {
+          console.error('Fallback navigation error:', fallbackError);
+        }
+      }
+    } else {
+      console.error('No valid chapter ID available for navigation');
+      console.log('Daily sloka data:', dailySloka);
+      // Fallback: navigate to chapters tab
+      try {
+        router.push('/(tabs)/chapters');
+      } catch (error) {
+        console.error('Fallback navigation error:', error);
+      }
+    }
+  };
+
+  const handleBellPress = () => {
+    if (isNotificationVisible) {
+      setNotificationVisible(false);
+    } else if (hasNotification()) {
+      setNotificationVisible(true);
+    }
   };
 
   return (
@@ -41,10 +116,27 @@ const Home = () => {
         </ThemedBengaliText>
        
         <ThemedView style={styles.headerActions}>
-        
-          <ThemedView style={[styles.actionButton, { borderColor: theme.border.primary }]}>
-            <FontAwesome name="bell-o" size={SIZES.icon.lg} color={theme.icon.primary} />
-          </ThemedView>
+          <TouchableOpacity 
+            style={[
+              styles.actionButton, 
+              { 
+                borderColor: theme.border.primary,
+                backgroundColor: isNotificationVisible ? theme.button.primary.background : 'transparent'
+              }
+            ]}
+            onPress={handleBellPress}
+            activeOpacity={0.7}
+            testID="bell-icon"
+          >
+            <FontAwesome 
+              name={isNotificationVisible ? "bell" : "bell-o"} 
+              size={SIZES.icon.lg} 
+              color={isNotificationVisible ? theme.button.primary.text : (hasNotification() ? theme.status.warning : theme.icon.primary)} 
+            />
+            {hasNotification() && !isNotificationVisible && (
+              <ThemedView style={[styles.notificationDot, { backgroundColor: theme.status.error }]} />
+            )}
+          </TouchableOpacity>
         </ThemedView>
       </ThemedCard>
       <ScrollView 
@@ -96,6 +188,13 @@ const Home = () => {
       </ThemedCard>
         <MenuGrid onMenuItemPress={handleMenuItemPress} />
       </ScrollView>
+      
+      <DailySlokaNotification
+        visible={isNotificationVisible}
+        sloka={dailySloka}
+        onClose={handleNotificationClose}
+        onReadMore={handleReadMore}
+      />
     </ThemedView>
   );
 }
@@ -131,6 +230,15 @@ const styles = StyleSheet.create({
     minHeight: 44,
     alignItems: 'center',
     justifyContent: 'center',
+    position: 'relative',
+  },
+  notificationDot: {
+    position: 'absolute',
+    top: 8,
+    right: 8,
+    width: 8,
+    height: 8,
+    borderRadius: 4,
   },
   heroCard: {
     margin: 16,

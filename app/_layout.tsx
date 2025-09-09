@@ -48,6 +48,17 @@ export default function RootLayout() {
                 </Stack.Protected>
                 <Stack.Protected guard={isOnboardingComplete} >
                   <Stack.Screen name="(tabs)" />
+                  <Stack.Screen name="chapter/[id]" />
+                  <Stack.Screen name="translation/[id]" />
+                  <Stack.Screen name="search" />
+                  <Stack.Screen name="favorites" />
+                  <Stack.Screen name="gita-summary" />
+                  <Stack.Screen name="gita-mahatmya" />
+                  <Stack.Screen name="mangalacharan" />
+                  <Stack.Screen name="dhyana" />
+                  <Stack.Screen name="audio" />
+                  <Stack.Screen name="translations" />
+                  <Stack.Screen name="(drawing)/latterDrawingScreen" />
                 </Stack.Protected>
               </Stack>
             </ThemedView>
