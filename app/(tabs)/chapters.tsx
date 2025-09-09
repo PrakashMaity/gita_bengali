@@ -20,11 +20,11 @@ export default function ChaptersScreen() {
   const { theme } = useTheme();
   const { width, height } = Dimensions.get('window');
   const { chapters, isLoading } = useChapterStore();
-  const { 
-    progress, 
-    isLoading: progressLoading, 
-    loadProgress, 
-    getProgressPercentage 
+  const {
+    progress,
+    isLoading: progressLoading,
+    loadProgress,
+    getProgressPercentage
   } = useProgressStore();
 
   useEffect(() => {
@@ -39,7 +39,7 @@ export default function ChaptersScreen() {
     const { chapter: chapterInfo } = chapter;
     const chapterId = chapterInfo.id;
     const chapterProgress = progress[chapterId];
-    
+
     // Calculate progress percentage based on last read verse
     let progressPercentage = 0;
     if (chapterProgress && chapter.verses) {
@@ -58,81 +58,84 @@ export default function ChaptersScreen() {
         style={styles.chapterCardContainer}
 
       >
-        <ThemedCard style={[styles.chapterCard]}>
-          <ThemedView style={{flexDirection: 'row'}} >
-          <ThemedView style={[styles.iconContainer, {
-            backgroundColor: theme.background.tertiary,
+        <ThemedCard style={[styles.chapterCard]} pattern='hexagon' patternOpacity={0.05}>
+          <ThemedView style={{ flexDirection: 'row' }} >
+            <ThemedView style={[styles.iconContainer, {
+              backgroundColor: theme.background.tertiary,
 
-          }]}>
-            <ThemedBengaliText
-              variant="primary"
-              size="large"
-              fontFamily="begumZia"
-              style={styles.chapterNumber}
-            >
-              {chapterInfo.number}
-            </ThemedBengaliText>
-          </ThemedView>
-
-          {/* Text Content */}
-          <ThemedView style={styles.textContainer}>
-          
-            {chapterInfo.subtitle && chapterInfo.subtitle !== chapterInfo.title && (
+            }]}>
               <ThemedBengaliText
-                variant="secondary"
-                size="medium"
-                fontFamily="mahinSameya"
-                style={styles.chapterSubtitle}
-                numberOfLines={1}
+                variant="primary"
+                size="large"
+                fontFamily="begumZia"
+                style={styles.chapterNumber}
               >
-                {chapterInfo.subtitle}
+                {chapterInfo.number}
               </ThemedBengaliText>
-            )}
+            </ThemedView>
 
-            <ThemedView style={styles.chapterInfo}>
-              <ThemedBengaliText
-                variant="secondary"
-                size="small"
-                fontFamily="mahinSameya"
-                style={styles.verseCount}
-              >
-                {chapterInfo.totalVerses} শ্লোক
-              </ThemedBengaliText>
+            {/* Text Content */}
+            <ThemedView style={styles.textContainer}>
 
+              {chapterInfo.subtitle && chapterInfo.subtitle !== chapterInfo.title && (
+                <ThemedBengaliText
+                  variant="secondary"
+                  size="medium"
+                  fontFamily="mahinSameya"
+                  style={styles.chapterSubtitle}
+                  numberOfLines={1}
+                >
+                  {chapterInfo.subtitle}
+                </ThemedBengaliText>
+              )}
+
+              <ThemedView style={styles.chapterInfo}>
+                <ThemedBengaliText
+                  variant="secondary"
+                  size="small"
+                  fontFamily="mahinSameya"
+                  style={styles.verseCount}
+                >
+                  {chapterInfo.totalVerses} শ্লোক
+                </ThemedBengaliText>
+
+              </ThemedView>
+            </ThemedView>
+
+            {/* Arrow Container */}
+            <ThemedView style={[styles.arrowContainer, { backgroundColor: theme.background.quaternary }]}>
+              <MaterialIcons
+                name="arrow-forward-ios"
+                size={SIZES.icon.md}
+                color={theme.icon.quaternary}
+              />
             </ThemedView>
           </ThemedView>
 
-          {/* Arrow Container */}
-          <ThemedView style={[styles.arrowContainer, { backgroundColor: theme.background.quaternary }]}>
-            <MaterialIcons
-              name="arrow-forward-ios"
-              size={SIZES.icon.md}
-              color={theme.icon.quaternary}
-            />
-          </ThemedView>
-          </ThemedView>
-         
-<ThemedSpacer size='md' />
-          <ThemedView>
-            {chapterProgress && progressPercentage > 0 && (
-              <ThemedLinearProgress
-                progress={progressPercentage / 100}
-                height={20}
-                variant="primary"
-                showPercentage={false}
-              >
-                <ThemedBengaliText
-                  variant="tertiary"
-                  size="xs"
-                  fontFamily="spaceMono"
-                  style={styles.progressText}
+          {chapterProgress && progressPercentage > 0 && (
+            <>
+              <ThemedSpacer size='md' />
+              <ThemedView>
+                <ThemedLinearProgress
+                  progress={progressPercentage / 100}
+                  height={20}
+                  variant="primary"
+                  showPercentage={false}
                 >
-                  {progressPercentage}%
-                </ThemedBengaliText>
-              </ThemedLinearProgress>
-            )}
-           
-          </ThemedView> 
+                  <ThemedBengaliText
+                    variant="tertiary"
+                    size="xs"
+                    fontFamily="spaceMono"
+                    style={styles.progressText}
+                  >
+                    {progressPercentage}%
+                  </ThemedBengaliText>
+                </ThemedLinearProgress>
+
+              </ThemedView>
+            </>
+
+          )}
 
         </ThemedCard>
 
@@ -200,7 +203,7 @@ export default function ChaptersScreen() {
             <ThemedView style={[styles.sectionIndicator, { backgroundColor: theme.background.quaternary }]} />
             <ThemedBengaliText
               variant="primary"
-              size="xxl"
+              size="xl"
               fontFamily="mahinSameya"
               style={styles.sectionTitle}
             >
@@ -288,7 +291,7 @@ const styles = StyleSheet.create({
     // marginBottom: SIZES.spacing.sm,
   },
   chapterCard: {
-  
+
     alignItems: 'center',
     padding: SIZES.spacing.xl,
     borderRadius: SIZES.radius.xl,

@@ -3,13 +3,12 @@ import { SIZES } from '@/constants/sizes';
 import { useThemeColors } from '@/hooks/useTheme';
 import React, { useEffect, useRef } from 'react';
 import {
-    Animated,
-    Dimensions,
-    Modal,
-    StyleSheet,
-    TouchableOpacity,
-    TouchableWithoutFeedback,
-    View,
+  Animated,
+  Modal,
+  StyleSheet,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
 } from 'react-native';
 import { ThemedBengaliText } from '../ThemedBengaliText/ThemedBengaliText';
 import { ThemedButton } from '../ThemedButton/ThemedButton';
@@ -31,7 +30,6 @@ export interface CustomAlertProps {
   showCloseButton?: boolean;
 }
 
-const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
 export const CustomAlert: React.FC<CustomAlertProps> = ({
   visible,
@@ -254,10 +252,10 @@ export const CustomAlert: React.FC<CustomAlertProps> = ({
                         onPress={() => handleButtonPress(button)}
                         variant={getButtonVariant(button.style || 'default')}
                         size="md"
-                        style={[
+                        style={StyleSheet.flatten([
                           styles.button,
                           index > 0 && styles.buttonSpacing,
-                        ]}
+                        ])}
                       />
                     ))}
                   </View>

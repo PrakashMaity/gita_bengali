@@ -106,7 +106,7 @@ const Home = () => {
         height={height} 
       />
       
-      <ThemedCard variant='transparent' style={styles.headerCard}>
+      <ThemedCard variant='transparent' style={styles.headerCard} pattern="none">
         <Image source={require('@/assets/images/Home/logo.png')} style={styles.logo} />
         <ThemedBengaliText
           variant="primary"
@@ -145,7 +145,7 @@ const Home = () => {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollContent}
       >
-      <ThemedCard variant='primary' style={styles.heroCard}>
+      <ThemedCard variant='primary' style={styles.heroCard} pattern="sacredGeometry" patternOpacity={0.15}>
         <ThemedView style={styles.heroContainer}>
           <Image source={require('@/assets/images/Home/hero.png')} resizeMode='cover' style={styles.heroImage} />
           <ThemedView style={styles.textOverlay}>

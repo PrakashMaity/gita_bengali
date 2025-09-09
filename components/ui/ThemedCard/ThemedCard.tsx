@@ -3,6 +3,7 @@ import { SIZES } from '../../../constants/sizes';
 import { Z_INDEX } from '../../../constants/zIndex';
 import { useThemeColors } from '../../../hooks/useTheme';
 import { ThemedView } from '../ThemedView/ThemedView';
+import { patternComponents } from './patterns/SvgPatterns';
 import { ThemedCardProps } from './types';
 
 export type CardVariant = 'primary' | 'secondary' | 'card' | 'transparent';
@@ -16,6 +17,8 @@ export const ThemedCard: React.FC<ThemedCardProps> = ({
   borderVariant = 'none',
   onPress,
   activeOpacity = 0.7,
+  pattern = 'none',
+  patternOpacity = 0.1,
   ...props
 }) => {
   const theme = useThemeColors();
@@ -28,6 +31,7 @@ export const ThemedCard: React.FC<ThemedCardProps> = ({
       zIndex: Z_INDEX.card,
       borderWidth:borderVariant === 'none' ? 0 : SIZES.borderSize.lg,
       borderColor:borderVariant === 'none' ? 'transparent' : theme.border[borderVariant],
+      overflow: 'hidden', // Prevent pattern overflow
     };
 
     // Variant styles
@@ -67,21 +71,59 @@ export const ThemedCard: React.FC<ThemedCardProps> = ({
 
   const cardStyle = getCardStyle();
 
+  // Get pattern colors based on theme
+  const getPatternColors = () => {
+    const isDark = theme.background.primary === '#0A0E1A';
+    return {
+      color1: isDark ? theme.icon.primary : theme.icon.primary,
+      color2: isDark ? theme.icon.secondary : theme.icon.secondary,
+    };
+  };
+
+  // Only calculate pattern colors and component if pattern is needed
+  const shouldRenderPattern = pattern && pattern !== 'none';
+  const patternColors = shouldRenderPattern ? getPatternColors() : null;
+  const PatternComponent = shouldRenderPattern ? patternComponents[pattern] : null;
+
+  const renderPattern = () => {
+    // Only render pattern if explicitly requested and not 'none'
+    if (!shouldRenderPattern || !PatternComponent) return null;
+    
+    return (
+      <PatternComponent
+        width={400}
+        height={200}
+        color1={patternColors!.color1}
+        color2={patternColors!.color2}
+        opacity={patternOpacity}
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          zIndex: -1,
+          pointerEvents: 'none',
+        }}
+      />
+    );
+  };
+
   if (onPress) {
     return (
       <TouchableOpacity 
         onPress={onPress}
         activeOpacity={activeOpacity}
-        style={cardStyle}
+        style={[cardStyle, { position: 'relative' }]}
         {...props}
       >
+        {renderPattern()}
         {children}
       </TouchableOpacity>
     );
   }
 
   return (
-    <ThemedView variant='primary' style={cardStyle} {...props}>
+    <ThemedView variant='primary' style={[cardStyle, { position: 'relative' }]} {...props}>
+      {renderPattern()}
       {children}
     </ThemedView>
   );

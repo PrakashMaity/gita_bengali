@@ -84,7 +84,7 @@ export default function OnboardingScreen() {
 
   return (
     <ThemedView style={[styles.container, { backgroundColor: theme.background.primary }]}>
-      <StatusBar style="light" backgroundColor={theme.background.primary} />
+      <StatusBar style="light" />
       
       {/* Header with Skip button */}
       <ThemedView style={styles.header}>

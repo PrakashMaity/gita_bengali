@@ -41,7 +41,8 @@ export default function VerseReader({
       case 'ধৃতরাষ্ট্র': return require('@/assets/images/speaker/dhritarystra.png');
       case 'সঞ্জয়': return require('@/assets/images/speaker/sanjay.png');
       case 'অর্জুন': return require('@/assets/images/speaker/arjuna.png');
-      case 'পরমেশ্বর': return require('@/assets/images/speaker/shreekrishna.png');
+      case 'পরমেশ্বর':
+      case 'শ্রীভগবান': return require('@/assets/images/speaker/shreekrishna.png');
       case 'দুর্যোধন': return require('@/assets/images/speaker/duryadhona.png');
     }
   }

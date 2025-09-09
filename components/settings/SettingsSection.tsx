@@ -19,7 +19,7 @@ export const SettingsSection: React.FC<SettingsSectionProps> = ({
   const { theme } = useTheme();
 
   return (
-    <ThemedCard  style={styles.container}>
+    <ThemedCard  style={styles.container} pattern='mandala' patternOpacity={0.05}>
       <View style={[styles.header, { borderBottomColor: theme.border.tertiary }]}>
         <ThemedText style={{...styles.title, color: theme.text.primary }}>
           {title}

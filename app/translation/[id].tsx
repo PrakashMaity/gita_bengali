@@ -120,14 +120,14 @@ export default function TranslationDetailScreen() {
         </TouchableOpacity>
 
         <ThemedView style={styles.headerContent}>
-          <ThemedBengaliText variant="primary" size="title" style={styles.chapterTitle}>
-            {chapter.title}
+          <ThemedBengaliText variant="primary" size="xl" style={styles.chapterTitle}>
+            {chapter.title} || {chapter.subtitle}
           </ThemedBengaliText>
-          {chapter.subtitle && chapter.subtitle !== chapter.title && (
-            <ThemedBengaliText variant="secondary" size="large" style={styles.chapterSubtitle}>
+          {/* {chapter.subtitle && chapter.subtitle !== chapter.title && (
+            <ThemedBengaliText variant="secondary" size="medium" style={styles.chapterSubtitle}>
               {chapter.subtitle}
             </ThemedBengaliText>
-          )}
+          )} */}
         </ThemedView>
       </ThemedView>
 
@@ -181,12 +181,12 @@ const styles = StyleSheet.create({
     padding: SIZES.spacing.md,
   },
   chapterTitle: {
-    marginBottom: SIZES.spacing.xs,
-    lineHeight: 32,
+    // marginBottom: SIZES.spacing.xs,
+    // lineHeight: 32,
   },
   chapterSubtitle: {
     marginBottom: SIZES.spacing.sm,
-    lineHeight: 24,
+    // lineHeight: 24,
     opacity: 0.85,
   },
   chatContainer: {

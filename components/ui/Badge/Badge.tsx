@@ -100,7 +100,7 @@ export const Badge: React.FC<BadgeProps> = ({
           width: badgeSize.width,
           height: badgeSize.height,
           borderRadius: badgeSize.borderRadius,
-          backgroundColor: theme.status.error,
+          backgroundColor: theme.status.info,
           ...positionStyle,
         },
       ]}

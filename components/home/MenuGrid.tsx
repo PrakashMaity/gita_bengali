@@ -43,15 +43,21 @@ const MenuGrid: React.FC<MenuGridProps> = ({ onMenuItemPress }) => {
     }
   };
 
+
+
   const renderMenuItem = (item: MenuItem) => (
     <TouchableOpacity
       key={item.id}
       onPress={() => handleItemPress(item)}
       style={styles.menuItemContainer}
     >
-      <ThemedCard style={[styles.menuItem, { 
-        borderColor: theme.border.primary,
-      }]}>
+      <ThemedCard 
+        style={[styles.menuItem, { 
+          borderColor: theme.border.primary,
+        }]}
+        pattern={"dot"}
+        patternOpacity={0.06}
+      >
         <ThemedView style={[styles.iconContainer, { 
           backgroundColor: theme.background.tertiary,
         }]}>

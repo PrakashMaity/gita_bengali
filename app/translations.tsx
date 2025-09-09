@@ -33,7 +33,7 @@ export default function TranslationsScreen() {
         onPress={() => handleTranslationPress(chapter.id)}
         style={styles.translationCardContainer}
       >
-        <ThemedCard style={[styles.translationCard]}>
+        <ThemedCard style={[styles.translationCard]} pattern='hexagon' patternOpacity={0.05}>
           <ThemedView style={{flexDirection: 'row'}} >
             <ThemedView style={[styles.iconContainer, {
               backgroundColor: theme.background.tertiary,

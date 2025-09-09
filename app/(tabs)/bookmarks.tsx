@@ -79,6 +79,14 @@ export default function BookmarksScreen() {
        
         
       }]}>
+        {/* Delete Button - Top Right */}
+        <TouchableOpacity
+          onPress={() => handleRemoveBookmark(bookmark.verseId)}
+          style={[styles.deleteButton, { backgroundColor: theme.background.quaternary }]}
+        >
+          <Ionicons name="trash-outline" size={SIZES.icon.md} color={theme.icon.error} />
+        </TouchableOpacity>
+
         <ThemedView style={[styles.iconContainer, { 
           backgroundColor: theme.background.tertiary,
          
@@ -127,22 +135,13 @@ export default function BookmarksScreen() {
           </ThemedBengaliText>
         </ThemedView>
 
-        {/* Action Buttons Container */}
-        <ThemedView style={styles.actionContainer}>
-          <TouchableOpacity
-            onPress={() => handleRemoveBookmark(bookmark.verseId)}
-            style={[styles.removeButton, { backgroundColor: theme.background.quaternary }]}
-          >
-            <Ionicons name="trash-outline" size={SIZES.icon.md} color={theme.icon.error} />
-          </TouchableOpacity>
-          
-          <ThemedView style={[styles.arrowContainer, { backgroundColor: theme.background.quaternary }]}>
-            <MaterialIcons 
-              name="arrow-forward-ios" 
-              size={SIZES.icon.md} 
-              color={theme.icon.quaternary} 
-            />
-          </ThemedView>
+        {/* Arrow Button - Bottom Right */}
+        <ThemedView style={[styles.arrowContainer, { backgroundColor: theme.background.quaternary }]}>
+          <MaterialIcons 
+            name="arrow-forward-ios" 
+            size={SIZES.icon.md} 
+            color={theme.icon.quaternary} 
+          />
         </ThemedView>
       </ThemedCard>
     </TouchableOpacity>
@@ -351,6 +350,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.15,
     shadowRadius: SIZES.shadow.lg,
     elevation: 4,
+    position: 'relative',
   },
   iconContainer: {
     width: SIZES.avatar.xl,
@@ -390,17 +390,23 @@ const styles = StyleSheet.create({
     lineHeight: 22,
     opacity: 0.85,
   },
-  actionContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: SIZES.spacing.sm,
-  },
-  removeButton: {
+  deleteButton: {
+    position: 'absolute',
+    top: SIZES.spacing.sm,
+    right: SIZES.spacing.sm,
     width: SIZES.avatar.md,
     height: SIZES.avatar.md,
     borderRadius: SIZES.radius.round,
     alignItems: 'center',
     justifyContent: 'center',
+    zIndex: 10,
+    shadowOffset: {
+      width: 0,
+      height: SIZES.shadow.md,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: SIZES.shadow.md,
+    elevation: 4,
   },
   arrowContainer: {
     width: SIZES.avatar.md,
