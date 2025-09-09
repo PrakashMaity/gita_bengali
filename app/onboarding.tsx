@@ -10,7 +10,6 @@ import { router } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { Dimensions, Image, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 const { height } = Dimensions.get('window');
 
@@ -84,7 +83,7 @@ export default function OnboardingScreen() {
   const isFirstSlide = currentSlide === 0;
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: theme.background.primary }]}>
+    <ThemedView style={[styles.container, { backgroundColor: theme.background.primary }]}>
       <StatusBar style="light" backgroundColor={theme.background.primary} />
       
       {/* Header with Skip button */}
@@ -194,7 +193,7 @@ export default function OnboardingScreen() {
           />
         </ThemedView>
       </ThemedView>
-    </SafeAreaView>
+    </ThemedView>
   );
 }
 
