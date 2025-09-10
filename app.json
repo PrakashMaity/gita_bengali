@@ -46,7 +46,22 @@
           "microphonePermission": "Allow $(PRODUCT_NAME) to access your microphone."
         }
       ],
-      "expo-secure-store"
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "useFrameworks": "static"
+          }
+        }
+      ],
+      [
+        "react-native-google-mobile-ads",
+        {
+          "androidAppId": "ca-app-pub-3406043589920136~9029941389"
+        }
+      ],
+      "expo-secure-store",
+      "react-native-google-mobile-ads"
     ],
     "experiments": {
       "typedRoutes": true
