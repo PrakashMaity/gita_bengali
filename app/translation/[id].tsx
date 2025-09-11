@@ -1,3 +1,4 @@
+import { BannerAds } from '@/components/ads';
 import { ThemedBengaliText } from '@/components/ui/ThemedBengaliText/ThemedBengaliText';
 import { ThemedCard } from '@/components/ui/ThemedCard/ThemedCard';
 import { ThemedView } from '@/components/ui/ThemedView/ThemedView';
@@ -68,46 +69,55 @@ export default function TranslationDetailScreen() {
   };
 
   const renderChatMessage = (verse: TranslationVerse, index: number) => {
+    const shouldShowBanner = (index + 1) % 4 === 0; // Show banner after every 4 slokas
     
     return (
-      <ThemedCard 
-        key={verse.id} 
-        style={[
-          styles.chatMessage,
-        ]}
-      >
-        <ThemedView style={styles.messageHeader}>
-          <ThemedView style={styles.speakerInfo}>
-            <Image 
-              source={getSpeakerAvatar(verse.speaker)} 
-              style={styles.speakerAvatar}
-              resizeMode="cover"
-            />
-            <ThemedView style={styles.speakerDetails}>
-              <ThemedBengaliText
-                variant="primary"
-                size="medium"
-                fontFamily="mahinSameya"
-                style={styles.speakerName}
-              >
-                {verse.speaker} || শ্লোক {verse.verseNumber}
-              </ThemedBengaliText>
-           
+      <ThemedView key={verse.id}>
+        <ThemedCard 
+          style={[
+            styles.chatMessage,
+          ]}
+        >
+          <ThemedView style={styles.messageHeader}>
+            <ThemedView style={styles.speakerInfo}>
+              <Image 
+                source={getSpeakerAvatar(verse.speaker)} 
+                style={styles.speakerAvatar}
+                resizeMode="cover"
+              />
+              <ThemedView style={styles.speakerDetails}>
+                <ThemedBengaliText
+                  variant="primary"
+                  size="medium"
+                  fontFamily="mahinSameya"
+                  style={styles.speakerName}
+                >
+                  {verse.speaker} || শ্লোক {verse.verseNumber}
+                </ThemedBengaliText>
+             
+              </ThemedView>
             </ThemedView>
           </ThemedView>
-        </ThemedView>
+          
+          <ThemedView style={styles.messageContent}>
+            <ThemedBengaliText
+              variant="primary"
+              size="medium"
+              fontFamily="mahinSameya"
+              style={styles.translationText}
+            >
+              {verse.translation}
+            </ThemedBengaliText>
+          </ThemedView>
+        </ThemedCard>
         
-        <ThemedView style={styles.messageContent}>
-          <ThemedBengaliText
-            variant="primary"
-            size="medium"
-            fontFamily="mahinSameya"
-            style={styles.translationText}
-          >
-            {verse.translation}
-          </ThemedBengaliText>
-        </ThemedView>
-      </ThemedCard>
+        {/* Banner Ad after every 4 slokas */}
+        {shouldShowBanner && (
+          <BannerAds 
+            containerStyle={styles.bannerContainer}
+          />
+        )}
+      </ThemedView>
     );
   };
 
@@ -260,5 +270,9 @@ const styles = StyleSheet.create({
     paddingVertical: SIZES.spacing.sm,
     borderRadius: SIZES.radius.md,
     backgroundColor: 'rgba(0,0,0,0.05)',
+  },
+  bannerContainer: {
+    marginHorizontal: SIZES.spacing.lg,
+    marginVertical: SIZES.spacing.sm,
   },
 });

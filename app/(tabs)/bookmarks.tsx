@@ -1,3 +1,4 @@
+import { useAdFrequency } from '@/components/ads/hooks/useAdFrequency';
 import { BookmarkIcon } from '@/components/ui/BookmarkIcon';
 import { ThemedBengaliText } from '@/components/ui/ThemedBengaliText/ThemedBengaliText';
 import { ThemedCard } from '@/components/ui/ThemedCard/ThemedCard';
@@ -17,6 +18,9 @@ export default function BookmarksScreen() {
   const { width, height } = Dimensions.get('window');
   const { removeBookmark, clearAllBookmarks, isLoading, getBookmarksSortedByDate } = useBookmarkStore();
   const { showAlert, AlertComponent } = useCustomAlert();
+  const { incrementAction, showInterstitialIfReady } = useAdFrequency({
+    interstitialInterval: 2, // Show interstitial every 2 bookmark actions
+  });
   
   // Get bookmarks sorted by date (newest first)
   const sortedBookmarks = getBookmarksSortedByDate();
@@ -32,6 +36,8 @@ export default function BookmarksScreen() {
   };
 
   const handleBookmarkPress = (chapterId: string, verseNumber: string) => {
+    incrementAction();
+    
     // Convert Bengali numerals to English for verse parameter
     const convertBengaliToEnglish = (bengaliNum: string) => {
       return bengaliNum.replace(/[০-৯]/g, (match) => 
@@ -41,6 +47,11 @@ export default function BookmarksScreen() {
     
     const englishVerse = convertBengaliToEnglish(verseNumber);
     router.push(`/chapter/${chapterId}?verse=${englishVerse}`);
+    
+    // Show interstitial after navigation
+    setTimeout(() => {
+      showInterstitialIfReady();
+    }, 500);
   };
 
   const handleRemoveAllBookmarks = () => {
@@ -203,6 +214,7 @@ export default function BookmarksScreen() {
           </ThemedView>
         </ThemedView>
       </ThemedCard>
+
 
       {/* Bookmarks List */}
       {sortedBookmarks.length === 0 ? (

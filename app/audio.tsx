@@ -1,6 +1,7 @@
+import { useAdFrequency } from '@/components/ads/hooks/useAdFrequency';
 import {
-  AudioPlayerModal,
-  PlaylistItem,
+    AudioPlayerModal,
+    PlaylistItem,
 } from '@/components/audio';
 import { ThemedView } from '@/components/ui/ThemedView/ThemedView';
 import { SIZES } from '@/constants/sizes';
@@ -55,6 +56,10 @@ export default function AudioScreen() {
   const [isRepeated, setIsRepeated] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const [showPlayerModal, setShowPlayerModal] = useState(false);
+  const { incrementAction, showInterstitialIfReady, showRewardedIfReady } = useAdFrequency({
+    interstitialInterval: 2, // Show interstitial every 2 audio actions
+    rewardedCooldown: 5, // 5 minutes cooldown for rewarded ads
+  });
 
   const currentSong = mockSongs[currentSongIndex];
 
@@ -83,8 +88,14 @@ export default function AudioScreen() {
   };
 
   const handleSongSelect = (index: number) => {
+    incrementAction();
     setCurrentSongIndex(index);
     setShowPlayerModal(true);
+    
+    // Show interstitial after song selection
+    setTimeout(() => {
+      showInterstitialIfReady();
+    }, 500);
   };
 
   const handleCloseModal = () => {
@@ -95,6 +106,7 @@ export default function AudioScreen() {
       <ThemedView variant='primary' style={styles.container}>
         {/* Header */}
       
+
 
         {/* Audio List */}
         <ScrollView style={styles.playlistContainer} showsVerticalScrollIndicator={false}>

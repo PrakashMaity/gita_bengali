@@ -1,3 +1,4 @@
+import { useAdFrequency } from '@/components/ads/hooks/useAdFrequency';
 import { BookmarkButton } from '@/components/bookmark';
 import { ReadingProgress } from '@/components/progress';
 import { ThemedBengaliText } from '@/components/ui/ThemedBengaliText/ThemedBengaliText';
@@ -27,6 +28,10 @@ export default function ChapterDetailScreen() {
   const [showTranslation, setShowTranslation] = useState(true);
   const [showBengali, setShowBengali] = useState(true);
   const [isInitialized, setIsInitialized] = useState(false);
+  const { incrementAction, showInterstitialIfReady, showRewardedIfReady } = useAdFrequency({
+    interstitialInterval: 2, // Show interstitial every 2-3 slokas
+    rewardedCooldown: 3, // 3 minutes cooldown for rewarded ads
+  });
   
   const chapterData = id ? getChapterById(id) : null;
 
@@ -69,6 +74,8 @@ export default function ChapterDetailScreen() {
     if (chapterData && chapterData.verses && currentVerse < chapterData.verses.length - 1 && id) {
       const newVerse = currentVerse + 1;
       setCurrentVerse(newVerse);
+      incrementAction(); // Track verse navigation for ads
+      
       // Update progress when going forward
       const currentVerseData = chapterData.verses[newVerse];
       if (currentVerseData) {
@@ -79,6 +86,11 @@ export default function ChapterDetailScreen() {
           markChapterCompleted(id);
         }
       }
+      
+      // Show interstitial after verse transitions
+      setTimeout(() => {
+        showInterstitialIfReady();
+      }, 1000);
     } else if (chapterData && chapterData.verses && currentVerse === 0 && id) {
       // First time reading - start progress tracking
       const currentVerseData = chapterData.verses[0];
@@ -182,10 +194,9 @@ export default function ChapterDetailScreen() {
         />
       </ScrollView>
 
+
       {/* Bottom Navigation */}
       <ThemedView style={styles.bottomNavigation}>
-      
-
         <TouchableOpacity
           onPress={handlePreviousVerse}
           disabled={currentVerse <= 0}

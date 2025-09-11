@@ -1,3 +1,4 @@
+import { useAdFrequency } from '@/components/ads/hooks/useAdFrequency';
 import { SearchBar, SearchResults } from '@/components/search';
 import ThemedSafeAreaView from '@/components/ui/ThemedSafeAreaView/ThemedSafeAreaView';
 import { ThemedText } from '@/components/ui/ThemedText/ThemedText';
@@ -25,6 +26,9 @@ export default function SearchScreen() {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [isSearching, setIsSearching] = useState(false);
+  const { incrementAction, showInterstitialIfReady } = useAdFrequency({
+    interstitialInterval: 2, // Show interstitial every 2 search actions
+  });
 
 
   const searchInChapters = (query: string): SearchResult[] => {
@@ -122,7 +126,13 @@ export default function SearchScreen() {
   };
 
   const handleResultPress = (chapterNumber: number, verseNumber: number) => {
+    incrementAction();
     router.push(`/chapter/${chapterNumber}?verse=${verseNumber}`);
+    
+    // Show interstitial after navigation
+    setTimeout(() => {
+      showInterstitialIfReady();
+    }, 500);
   };
 
   return (
@@ -151,6 +161,7 @@ export default function SearchScreen() {
           placeholder="শ্লোক, অনুবাদ বা সংস্কৃত অনুসন্ধান করুন..."
           value={searchQuery}
         />
+
 
         {/* Search Results */}
         {isSearching ? (

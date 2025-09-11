@@ -1,3 +1,5 @@
+import AdDebugger from '@/components/ads/AdDebugger';
+import { useAdFrequency } from '@/components/ads/hooks/useAdFrequency';
 import { DailySlokaNotification } from '@/components/notification';
 import { ThemedBengaliText } from '@/components/ui/ThemedBengaliText/ThemedBengaliText';
 import { ThemedCard } from '@/components/ui/ThemedCard/ThemedCard';
@@ -33,6 +35,9 @@ const Home = () => {
   } = useNotificationStore();
 
   const { loadAllChapters } = useChapterStore();
+  const { incrementAction, showInterstitialIfReady } = useAdFrequency({
+    interstitialInterval: 2, // Show interstitial every 2 actions on home
+  });
 
   // Load chapters and check for daily sloka on component mount
   useEffect(() => {
@@ -52,8 +57,14 @@ const Home = () => {
   }, [loadAllChapters, shouldShowNewNotification, setDailySloka, setNotificationVisible]);
 
   const handleMenuItemPress = (item: MenuItem) => {
+    incrementAction();
     const handler = getNavigationHandler(item);
     handler();
+    
+    // Show interstitial after navigation
+    setTimeout(() => {
+      showInterstitialIfReady();
+    }, 500);
   };
 
   const handleNotificationClose = () => {
@@ -105,6 +116,9 @@ const Home = () => {
         width={width} 
         height={height} 
       />
+      
+      {/* Ad Debugger - Only in development */}
+      <AdDebugger />
       
       <ThemedCard variant='transparent' style={styles.headerCard} pattern="none">
         <Image source={require('@/assets/images/Home/logo.png')} style={styles.logo} />
@@ -172,7 +186,11 @@ const Home = () => {
       <ThemedCard variant='transparent' style={styles.quickActionsCard}>
         <ThemedButton
           title="গীতার সারাংশ"
-          onPress={() => getNavigationHandler({ id: 'gita-summary' } as MenuItem)()}
+          onPress={() => {
+            incrementAction();
+            getNavigationHandler({ id: 'gita-summary' } as MenuItem)();
+            setTimeout(() => showInterstitialIfReady(), 500);
+          }}
           variant="primary"
           size="md"
           fullWidth
@@ -180,13 +198,19 @@ const Home = () => {
         />
         <ThemedButton
           title="গীতার মাহাত্ম্য"
-          onPress={() => getNavigationHandler({ id: 'gita-mahatmya' } as MenuItem)()}
+          onPress={() => {
+            incrementAction();
+            getNavigationHandler({ id: 'gita-mahatmya' } as MenuItem)();
+            setTimeout(() => showInterstitialIfReady(), 500);
+          }}
           variant="secondary"
           size="md"
           fullWidth
           icon={<FontAwesome5 name="book" size={SIZES.icon.lg} color={theme.button.secondary.text} />}
         />
       </ThemedCard>
+
+
         <MenuGrid onMenuItemPress={handleMenuItemPress} />
       </ScrollView>
       

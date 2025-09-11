@@ -77,6 +77,7 @@ export default function SettingsScreen() {
      
       </ThemedCard>
 
+
       <ScrollView 
         style={styles.scrollView}
         showsVerticalScrollIndicator={false}

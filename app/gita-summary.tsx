@@ -153,6 +153,7 @@ export default function GitaSummaryScreen() {
           </ThemedBengaliText>
         </ThemedCard>
 
+
         {/* Summary Cards */}
         {summaryData.map((item, index) => (
           <ThemedCard key={index} style={styles.summaryCard}>
